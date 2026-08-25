@@ -10,9 +10,11 @@ type VerticalMarqueeProps = {
 /**
  * Carrossel vertical do wordmark Safe Group.
  *
- * O wordmark ocupa quase toda a largura da coluna e o espaco entre copias é
- * maior do que a altura de cada uma, por isso a janela mostra um de cada vez,
- * em vez de uma coluna de logotipos pequenos.
+ * O wordmark ocupa a largura toda da coluna e o espaco entre copias é maior do
+ * que a altura de cada uma, por isso a janela mostra um de cada vez, em vez de
+ * uma coluna de logotipos pequenos. Entra a branco cheio, o mesmo peso do
+ * exemplo aprovado: quem suaviza a entrada e a saida sao os dois gradientes,
+ * nao a opacidade da imagem.
  *
  * O ciclo fecha porque o array é duplicado e o keyframe desloca exatamente
  * metade da coluna, de 0 a -50%: quando a primeira metade sai de cena, a
@@ -43,7 +45,7 @@ export function VerticalMarquee({
             aria-hidden
             loading="lazy"
             decoding="async"
-            className="block w-full py-16 opacity-[.13]"
+            className="block w-full py-16"
           />
         ))}
       </div>
