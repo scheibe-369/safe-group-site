@@ -29,7 +29,7 @@ export function SiteHeader() {
 
   return (
     <header className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${scrolled || open ? "border-b border-white/10 bg-black/90 backdrop-blur-xl" : "bg-gradient-to-b from-black/80 to-transparent"}`}>
-      <div className="safe-edge flex min-h-20 items-center justify-between gap-6">
+      <div className="safe-edge flex min-h-24 items-center justify-between gap-6">
         <SiteLogo priority />
         <nav aria-label="Navegação principal" className="hidden items-center gap-8 lg:flex">
           {links.map((link) => (
