@@ -123,6 +123,15 @@ textarea:focus-visible {
   box-shadow: 0 0 22px rgba(227, 6, 36, .72);
 }
 
+/* A assinatura inferior da Hero so aparece quando ha altura para nao colidir
+   com os botoes. Abaixo de 900 pixels de altura o bloco de texto ocupa quase
+   todo o espaco util e a assinatura tocava no par de botoes. */
+.hero-signature { display: none; }
+
+@media (min-width: 1024px) and (min-height: 900px) {
+  .hero-signature { display: block; }
+}
+
 .hero-poster { display: none; }
 
 @media (prefers-reduced-motion: reduce) {

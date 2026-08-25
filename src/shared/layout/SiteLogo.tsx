@@ -1,14 +1,22 @@
 import Image from "next/image";
 import Link from "next/link";
 
+/**
+ * Lockup oficial da marca, recortado do banner e com o fundo preto convertido
+ * em transparência. Substitui a versão anterior, que recompunha o wordmark com
+ * texto em CSS e por isso nunca batia certo com o lettering real.
+ */
 export function SiteLogo({ priority = false }: { priority?: boolean }) {
   return (
-    <Link href="/" className="flex min-h-11 items-center gap-3" aria-label="Safe Group, página inicial">
-      <Image src="/brand/safe-mark.png" alt="" width={48} height={48} priority={priority} className="h-10 w-10 object-contain" />
-      <span className="font-display leading-none tracking-[.22em] text-white">
-        <span className="block text-lg font-semibold">SAFE</span>
-        <span className="mt-1 block text-[9px] font-medium tracking-[.55em] text-white/65">GROUP</span>
-      </span>
+    <Link href="/" className="flex min-h-11 items-center" aria-label="Safe Group, página inicial">
+      <Image
+        src="/brand/safe-lockup.webp"
+        alt=""
+        width={1064}
+        height={314}
+        priority={priority}
+        className="h-11 w-auto sm:h-12 lg:h-[3.25rem]"
+      />
     </Link>
   );
 }
