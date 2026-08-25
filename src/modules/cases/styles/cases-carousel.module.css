@@ -1,0 +1,288 @@
+/* ===========================================================================
+   Cases Carousel
+   Mecanica portada do carrossel de referencia (Swiper + Webflow IX2 reescrito
+   em CSS puro). As duracoes de 500ms e as duas curvas de easing sao as do
+   original. A identidade visual e a da Safe: tokens --safe-*, sem fonte
+   propria, herdando a tipografia do site.
+
+   O eixo de margem nao mora aqui. O carrossel vive dentro de .safe-container
+   e herda a margem do site. Ver .track para como o trilho sangra a direita.
+   =========================================================================== */
+
+.root {
+  /* swingTo (easeOutBack) e outCirc, as duas curvas do original */
+  --cases-ease-swing: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --cases-ease-circ: cubic-bezier(0.075, 0.82, 0.165, 1);
+  --cases-duration: 500ms;
+  --cases-gap: 1.25rem;
+
+  display: flex;
+  flex-flow: column;
+  align-items: flex-start;
+  width: 100%;
+  gap: 2.5rem;
+  color: var(--safe-white);
+}
+
+/* ---------------------------------------------------------------------------
+   Trilho
+   O 100vw estoura o container de proposito. Como o elemento nasce na borda
+   esquerda do conteudo do .safe-container, ele arranca exatamente no eixo de
+   margem do site e corre 100vw para a direita, sangrando para fora do ecra.
+   Quem corta o excesso e o overflow-x: clip da seccao que envolve o widget,
+   que precisa de ser um elemento de largura total. Sem isso, ha scroll
+   horizontal na pagina.
+   --------------------------------------------------------------------------- */
+.track {
+  flex: none;
+  width: 100vw;
+  max-width: 100vw;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+
+.slide {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  position: relative;
+  width: 19rem;
+  row-gap: 0.9rem;
+}
+
+/* ---------------------------------------------------------------------------
+   Capa
+   O padding-top de 125% trava o slot em 4:5. A imagem entra em cover, entao a
+   proporcao do ficheiro de origem e indiferente.
+   --------------------------------------------------------------------------- */
+.imgWrapper {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding-top: 125%;
+  position: relative;
+  overflow: hidden;
+  background-color: var(--safe-graphite);
+}
+
+.img {
+  object-fit: cover;
+  transition: transform var(--cases-duration) var(--cases-ease-circ);
+}
+
+/* ---------------------------------------------------------------------------
+   Legenda: cliente a esquerda, meta a direita.
+   No hover a meta sobe para fora da mascara e o CTA entra por baixo.
+   --------------------------------------------------------------------------- */
+.info {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 1rem;
+}
+
+.title {
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.mask {
+  display: flex;
+  flex: none;
+  justify-content: flex-end;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  min-width: 5.5rem;
+  height: 0.8125rem;
+}
+
+.meta,
+.hoverLabel {
+  font-size: 0.6875rem;
+  line-height: 0.8125rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: transform var(--cases-duration) var(--cases-ease-swing);
+}
+
+.meta {
+  color: rgba(245, 245, 243, 0.45);
+}
+
+.hoverLabel {
+  position: absolute;
+  bottom: -100%;
+  right: 0;
+  color: var(--safe-red);
+}
+
+.openLink {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+@media (hover: hover) {
+  .slide:hover .img {
+    transform: scale(1.03);
+  }
+
+  .slide:hover .meta,
+  .slide:hover .hoverLabel {
+    transform: translateY(-100%);
+  }
+}
+
+/* Paridade de teclado: o foco no link revela o mesmo estado do hover. */
+.slide:focus-within .img {
+  transform: scale(1.03);
+}
+
+.slide:focus-within .meta,
+.slide:focus-within .hoverLabel {
+  transform: translateY(-100%);
+}
+
+.openLink:focus-visible {
+  outline: 2px solid var(--safe-red);
+  outline-offset: 4px;
+}
+
+/* ---------------------------------------------------------------------------
+   Controlos: setas e barra de progresso arrastavel
+   --------------------------------------------------------------------------- */
+.bottom {
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+  align-items: flex-end;
+  width: 100%;
+  gap: 0.75rem;
+}
+
+.arrows {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.arrowBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  position: relative;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--safe-white);
+  cursor: pointer;
+  transition: color var(--cases-duration) ease, opacity 300ms ease;
+}
+
+.arrowBtn:focus-visible {
+  outline: 2px solid var(--safe-red);
+  outline-offset: 2px;
+}
+
+/* Estado que o Swiper aplica no inicio e no fim do trilho. */
+.arrowBtn:global(.swiper-button-disabled) {
+  opacity: 0.3;
+  cursor: default;
+}
+
+/* Quando os slides cabem todos no ecra o Swiper marca a navegacao e a barra
+   como trancadas. Sem nada para navegar, a linha de controlos so ocupa
+   espaco, entao sai. Acontece nos setores com poucos cases em ecra grande. */
+.bottom:has(.arrowBtn:global(.swiper-button-lock)) {
+  display: none;
+}
+
+.arrowIcon {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  width: 0.9rem;
+}
+
+@media (hover: hover) {
+  .arrowBtn:hover {
+    color: var(--safe-red);
+  }
+
+  .arrowBtn:global(.swiper-button-disabled):hover {
+    color: var(--safe-white);
+  }
+}
+
+.scrollbar {
+  width: 100%;
+  max-width: 100%;
+  height: 1px;
+  background-color: var(--safe-border);
+  cursor: grab;
+}
+
+.scrollbar:active {
+  cursor: grabbing;
+}
+
+.drag {
+  width: 7rem;
+  height: 100%;
+  background-color: var(--safe-white);
+}
+
+/* ---------------------------------------------------------------------------
+   Breakpoints
+   So a largura de arranque do slide muda. O Swiper reescreve a largura por
+   inline style depois de montar, entao isto governa o render do servidor e o
+   instante antes da hidratacao.
+   --------------------------------------------------------------------------- */
+@media screen and (max-width: 1023px) {
+  .slide {
+    width: 17rem;
+  }
+}
+
+@media screen and (max-width: 639px) {
+  .root {
+    gap: 2rem;
+  }
+
+  .slide {
+    width: 76vw;
+  }
+
+  .drag {
+    width: 4rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .img,
+  .meta,
+  .hoverLabel,
+  .arrowBtn {
+    transition-duration: 1ms;
+  }
+}
