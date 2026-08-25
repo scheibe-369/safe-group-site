@@ -14,7 +14,8 @@ type VerticalMarqueeProps = {
  * que a altura de cada uma, por isso a janela mostra um de cada vez, em vez de
  * uma coluna de logotipos pequenos. Entra a branco cheio, o mesmo peso do
  * exemplo aprovado: quem suaviza a entrada e a saida sao os dois gradientes,
- * nao a opacidade da imagem.
+ * nao a opacidade da imagem. As fitas de fade ficam curtas de proposito: a 80
+ * pixels comiam mais de metade da janela e apanhavam as letras quase sempre.
  *
  * O ciclo fecha porque o array é duplicado e o keyframe desloca exatamente
  * metade da coluna, de 0 a -50%: quando a primeira metade sai de cena, a
@@ -30,8 +31,8 @@ export function VerticalMarquee({
 
   return (
     <div aria-hidden className="pointer-events-none absolute inset-0 select-none overflow-hidden">
-      <div className="absolute inset-x-0 top-0 z-10 h-20 bg-gradient-to-b from-[#070707] to-transparent" />
-      <div className="absolute inset-x-0 bottom-0 z-10 h-20 bg-gradient-to-t from-[#070707] to-transparent" />
+      <div className="absolute inset-x-0 top-0 z-10 h-14 bg-gradient-to-b from-[#070707] to-transparent" />
+      <div className="absolute inset-x-0 bottom-0 z-10 h-14 bg-gradient-to-t from-[#070707] to-transparent" />
       <div
         className="safe-marquee absolute inset-x-0 top-0 flex flex-col items-center"
         style={{ ["--safe-marquee-duration" as string]: `${speed}s` }}
