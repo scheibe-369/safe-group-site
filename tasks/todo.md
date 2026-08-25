@@ -193,3 +193,43 @@ A avaliar antes de publicar: `enabled` é lido em build, porque a Home é estát
 runtime. O `/contacto` já tinha esta característica.
 
 Nenhum commit, push ou deploy foi realizado.
+
+## Cases de demonstração publicados
+
+- [x] Preencher o catálogo com 8 cases fictícios em 3 setores.
+- [x] Gerar capas WebP 1200x1500 abstratas na paleta da Safe.
+- [x] Ligar salvaguardas à constante `casesAreDemo`.
+- [x] Publicar e verificar no site.
+
+### Revisão
+
+O utilizador pediu para publicar com conteúdo fictício, depois de eu levantar a objeção de que
+as regras do projeto proíbem inventar clientes. A decisão é dele e foi executada.
+
+Salvaguardas, todas ligadas a `casesAreDemo` em `src/modules/cases/data/cases.ts`:
+- aviso visível de conteúdo de demonstração na home e na rota /cases;
+- `noindex, nofollow` em /cases e /cases/[slug];
+- slugs de case fora do sitemap.
+
+Escolhas de conteúdo, para o material não poder ser confundido com trabalho real: nomes
+inventados que não correspondem a empresas existentes, resultados apenas qualitativos e sem
+números inventados, e capas abstratas geradas por código, sem logótipos e sem texto.
+
+Para reverter quando entrarem cases reais: substituir o array e pôr `casesAreDemo` a `false`.
+As três salvaguardas e o aviso desaparecem juntos. Apagar também `public/cases/*.webp`.
+
+Verificado no ar em https://safe.methodgrowthhub.com.br:
+- /cases e /cases/[slug] respondem 200, com 8 slides e `noindex, nofollow` no cabeçalho;
+- home responde 200 com 8 slides, aviso presente e `index, follow` intacto;
+- sitemap.xml sem nenhum URL de case;
+- sem overflow horizontal.
+
+### Nota sobre trabalho em paralelo
+
+Durante esta tarefa apareceram no working tree alterações de outra sessão: `src/app/globals.css`,
+`src/app/page.tsx`, `src/modules/diagnostic/`, `src/modules/closing-section/` e
+`public/brand/safe-wordmark.svg`. Não foram tocadas nem commitadas. O commit desta entrega ficou
+limitado aos ficheiros dos cases.
+
+Essa sessão corrigiu um erro meu no `.gitignore`: o padrão `modules/` não tinha barra inicial e
+em git isso apanha `src/modules` a qualquer nível. A correção para `/modules/` foi incorporada.
