@@ -233,3 +233,23 @@ limitado aos ficheiros dos cases.
 
 Essa sessão corrigiu um erro meu no `.gitignore`: o padrão `modules/` não tinha barra inicial e
 em git isso apanha `src/modules` a qualquer nível. A correção para `/modules/` foi incorporada.
+
+### Ajuste: compactar a secção de fecho
+
+O fluxo natural deixou a secção com 1471 pixels a 1280, quase dois ecrãs, quando a versão de
+origem fechava tudo numa altura de ecrã. Comprimida para 979 pixels, menos 33 por cento, sem
+lhe tirar conteúdo:
+
+- Ritmo vertical próprio em vez do `safe-section`, que é generoso de mais para um bloco com
+  formulário. `py-16 lg:py-20` contra os 128 pixels do clamp.
+- Coluna do carrossel de 20 para 14 rem em `xl` e de 14 para 11 rem em `lg`. A largura que
+  sobra faz o título caber em duas linhas em vez de três.
+- Campo de contexto passou para dentro da coluna da operação, por baixo das três listas. Ficava
+  numa linha própria a ocupar a largura toda enquanto a coluna direita acabava vazia. As duas
+  colunas passaram a terminar à mesma altura e a secção poupou perto de 130 pixels.
+- Espaçamento interno do formulário mais curto: `space-y-5` nos campos, `pt-5 pb-1.5` nos
+  inputs, cabeçalhos de grupo com `mb-6`, textarea de 4 para 3 linhas.
+- Descrição e benefícios reescritos mais curtos, para cada benefício caber numa linha.
+
+Alturas por largura: 375 com 1508, 768 com 947, 1024 com 1122 e 1280 com 979 pixels. Sem
+overflow horizontal em nenhuma, um só rodapé e o carrossel apenas a partir de `lg`.

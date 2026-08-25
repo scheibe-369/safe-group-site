@@ -39,7 +39,7 @@ export function VerticalMarquee({
             aria-hidden
             loading="lazy"
             decoding="async"
-            className="block w-[min(70%,12rem)] py-9 opacity-[.11]"
+            className="block w-[min(76%,10rem)] py-7 opacity-[.11]"
           />
         ))}
       </div>

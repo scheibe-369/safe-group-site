@@ -25,8 +25,9 @@ export type ClosingSectionProps = {
  * vertical do wordmark.
  *
  * O rodape do site continua a ser o `SiteFooter` global do layout, por isso
- * esta seccao nao traz rodape proprio. As margens saem do eixo unico do site
- * (`safe-section` e `safe-container`), nunca de uma escala interna.
+ * esta seccao nao traz rodape proprio. A margem horizontal sai do eixo unico do
+ * site (`safe-container`), nunca de uma escala interna. O ritmo vertical e mais
+ * apertado do que o `safe-section` porque a seccao carrega um formulario.
  */
 export function ClosingSection({ enabled, content = closingSectionContent }: ClosingSectionProps) {
   const [status, setStatus] = useState<Status>("idle");
@@ -63,13 +64,13 @@ export function ClosingSection({ enabled, content = closingSectionContent }: Clo
   }
 
   return (
-    <section className="safe-section relative overflow-hidden border-t border-white/10 bg-[#070707]">
+    <section className="relative overflow-hidden border-t border-white/10 bg-[#070707] py-16 lg:py-20">
       <div aria-hidden className="safe-red-line absolute inset-x-0 top-0 h-px" />
       <div aria-hidden className="pointer-events-none absolute -bottom-40 -left-40 h-[520px] w-[720px] rounded-full bg-[rgba(227,6,36,.09)] blur-[150px]" />
 
       <div className="safe-container relative z-10">
-        <div className="grid lg:grid-cols-[minmax(0,1fr)_14rem] xl:grid-cols-[minmax(0,1fr)_20rem]">
-          <div className="lg:pr-12 xl:pr-16">
+        <div className="grid lg:grid-cols-[minmax(0,1fr)_11rem] xl:grid-cols-[minmax(0,1fr)_14rem]">
+          <div className="lg:pr-10 xl:pr-14">
             <Reveal>
               <p className="safe-kicker">{content.kicker}</p>
             </Reveal>
@@ -89,7 +90,7 @@ export function ClosingSection({ enabled, content = closingSectionContent }: Clo
               </h2>
             </Reveal>
 
-            <div className="mt-9 grid gap-8 md:grid-cols-2 md:gap-12">
+            <div className="mt-8 grid gap-7 md:grid-cols-2 md:gap-12">
               <Reveal delay={0.1}>
                 <p className="max-w-xl text-base leading-7 text-white/55">
                   {content.descA}
@@ -98,10 +99,10 @@ export function ClosingSection({ enabled, content = closingSectionContent }: Clo
                 </p>
               </Reveal>
               <Reveal delay={0.15}>
-                <ul className="flex flex-col gap-2.5">
+                <ul className="flex flex-col gap-2">
                   {content.benefits.map((benefit) => (
                     <li key={benefit} className="flex items-start gap-2.5">
-                      <Check className="mt-1 h-3.5 w-3.5 shrink-0 text-[var(--safe-red)]" strokeWidth={2.5} aria-hidden />
+                      <Check className="mt-[.3rem] h-3.5 w-3.5 shrink-0 text-[var(--safe-red)]" strokeWidth={2.5} aria-hidden />
                       <span className="text-sm leading-6 text-white/55">{benefit}</span>
                     </li>
                   ))}
@@ -109,24 +110,24 @@ export function ClosingSection({ enabled, content = closingSectionContent }: Clo
               </Reveal>
             </div>
 
-            <div className="mt-16 lg:mt-20">
+            <div className="mt-12">
               {status === "success" ? (
                 <Reveal>
-                  <div className="flex min-h-[280px] flex-col items-start justify-center border-t border-white/10 pt-12">
+                  <div className="flex min-h-[200px] flex-col items-start justify-center border-t border-white/10 pt-10">
                     <span className="flex h-12 w-12 items-center justify-center border border-[rgba(227,6,36,.45)] bg-[rgba(227,6,36,.08)]">
                       <Check className="h-5 w-5 text-[var(--safe-red)]" strokeWidth={2} aria-hidden />
                     </span>
-                    <h3 className="mt-7 text-3xl font-semibold tracking-[-.03em] text-white sm:text-4xl">{content.form.successTitle}</h3>
+                    <h3 className="mt-6 text-3xl font-semibold tracking-[-.03em] text-white sm:text-4xl">{content.form.successTitle}</h3>
                     <p className="mt-3 max-w-md leading-7 text-white/55">{content.form.successDesc}</p>
                   </div>
                 </Reveal>
               ) : (
                 <Reveal delay={0.2}>
                   <form onSubmit={onSubmit} noValidate aria-describedby="closing-form-status">
-                    <div className="grid gap-x-12 gap-y-12 md:grid-cols-2">
+                    <div className="grid gap-x-10 gap-y-10 md:grid-cols-2">
                       <div>
                         <h3 className={groupHeader}>{content.contactHeader}</h3>
-                        <div className="space-y-8">
+                        <div className="space-y-5">
                           <FloatingField id="closing-name" name="name" type="text" autoComplete="name" label={labels.name} error={errors.name} disabled={sending} />
                           <FloatingField id="closing-email" name="email" type="email" autoComplete="email" label={labels.email} error={errors.email} disabled={sending} />
                           <FloatingField id="closing-phone" name="phone" type="tel" autoComplete="tel" label={labels.phone} error={errors.phone} disabled={sending} />
@@ -136,23 +137,22 @@ export function ClosingSection({ enabled, content = closingSectionContent }: Clo
 
                       <div>
                         <h3 className={groupHeader}>{content.operationHeader}</h3>
-                        <div className="space-y-8">
+                        <div className="space-y-5">
                           <FloatingSelect id="closing-sector" name="sector" label={labels.sector} options={sectorOptions} placeholder={content.form.selectPlaceholder} error={errors.sector} disabled={sending} />
                           <FloatingSelect id="closing-size" name="operationSize" label={labels.operationSize} options={operationSizeOptions} placeholder={content.form.selectPlaceholder} error={errors.operationSize} disabled={sending} />
                           <FloatingSelect id="closing-priority" name="priority" label={labels.priority} options={priorityOptions} placeholder={content.form.selectPlaceholder} error={errors.priority} disabled={sending} />
+                          {/* O contexto vive nesta coluna, e nao numa linha propria, para
+                              equilibrar as duas alturas e nao alongar a seccao. */}
+                          <FloatingTextarea id="closing-message" name="message" label={labels.message} error={errors.message} disabled={sending} />
                         </div>
                       </div>
-                    </div>
-
-                    <div className="mt-12">
-                      <FloatingTextarea id="closing-message" name="message" label={labels.message} error={errors.message} disabled={sending} />
                     </div>
 
                     <label className="absolute -left-[9999px]" aria-hidden="true">
                       Website<input name="website" tabIndex={-1} autoComplete="off" />
                     </label>
 
-                    <div className="mt-12 flex flex-wrap items-center gap-x-6 gap-y-4">
+                    <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-4">
                       <button
                         type="submit"
                         disabled={!enabled || sending}
@@ -163,7 +163,7 @@ export function ClosingSection({ enabled, content = closingSectionContent }: Clo
                       <span className="text-xs text-white/40">{content.submitHint}</span>
                     </div>
 
-                    <p id="closing-form-status" aria-live="polite" className="mt-5 min-h-6 text-sm text-white/55">
+                    <p id="closing-form-status" aria-live="polite" className="mt-4 min-h-6 text-sm text-white/55">
                       {!enabled && content.form.disabledNotice}
                       {enabled && status === "error" && content.form.errorMessage}
                     </p>

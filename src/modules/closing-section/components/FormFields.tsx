@@ -6,18 +6,18 @@
  */
 
 const fieldBase =
-  "peer block w-full border-b border-white/15 bg-transparent pt-6 pb-2 text-base text-white placeholder-transparent transition-colors duration-300 hover:border-white/30 focus:border-[var(--safe-red)] disabled:opacity-50";
+  "peer block w-full border-b border-white/15 bg-transparent pt-5 pb-1.5 text-base text-white placeholder-transparent transition-colors duration-300 hover:border-white/30 focus:border-[var(--safe-red)] disabled:opacity-50";
 
 const labelBase =
   "pointer-events-none absolute left-0 top-0 text-[10px] uppercase tracking-[.2em] text-white/40 transition-all duration-300 " +
-  "peer-placeholder-shown:top-6 peer-placeholder-shown:text-base peer-placeholder-shown:normal-case peer-placeholder-shown:tracking-normal peer-placeholder-shown:text-white/35 " +
+  "peer-placeholder-shown:top-5 peer-placeholder-shown:text-base peer-placeholder-shown:normal-case peer-placeholder-shown:tracking-normal peer-placeholder-shown:text-white/35 " +
   "peer-focus:top-0 peer-focus:text-[10px] peer-focus:uppercase peer-focus:tracking-[.2em] peer-focus:text-[var(--safe-red)]";
 
 const staticLabel =
   "pointer-events-none absolute left-0 top-0 text-[10px] uppercase tracking-[.2em] text-white/40";
 
 export const groupHeader =
-  "mb-8 border-b border-white/10 pb-3 text-[11px] uppercase tracking-[.18em] text-white/45";
+  "mb-6 border-b border-white/10 pb-2.5 text-[11px] uppercase tracking-[.18em] text-white/45";
 
 type BaseProps = {
   id: string;
@@ -30,7 +30,7 @@ type BaseProps = {
 function FieldError({ id, error }: { id: string; error?: string }) {
   if (!error) return null;
   return (
-    <p id={`${id}-error`} className="mt-2 text-xs text-[#ff6b7a]">
+    <p id={`${id}-error`} className="mt-1.5 text-xs text-[#ff6b7a]">
       {error}
     </p>
   );
@@ -56,7 +56,7 @@ export function FloatingField({ id, name, label, type, autoComplete, error, disa
   );
 }
 
-export function FloatingTextarea({ id, name, label, rows = 4, error, disabled }: BaseProps & { rows?: number }) {
+export function FloatingTextarea({ id, name, label, rows = 3, error, disabled }: BaseProps & { rows?: number }) {
   return (
     <div className="relative">
       <textarea
@@ -95,7 +95,7 @@ export function FloatingSelect({ id, name, label, options, placeholder, error, d
       </select>
       {/* O select nao tem :placeholder-shown, por isso o rotulo fica sempre em cima. */}
       <label htmlFor={id} className={staticLabel}>{label}</label>
-      <svg aria-hidden viewBox="0 0 20 20" fill="none" className="pointer-events-none absolute right-1 bottom-3 h-4 w-4 text-white/40">
+      <svg aria-hidden viewBox="0 0 20 20" fill="none" className="pointer-events-none absolute right-1 bottom-2.5 h-4 w-4 text-white/40">
         <path d="M5 8l5 5 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
       <FieldError id={id} error={error} />
