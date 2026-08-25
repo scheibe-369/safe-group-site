@@ -253,3 +253,30 @@ lhe tirar conteúdo:
 
 Alturas por largura: 375 com 1508, 768 com 947, 1024 com 1122 e 1280 com 979 pixels. Sem
 overflow horizontal em nenhuma, um só rodapé e o carrossel apenas a partir de `lg`.
+
+### Ajuste: estrutura em duas colunas, com o rodapé na direita
+
+Referência visual enviada pelo utilizador. A secção passou a duas colunas separadas por uma
+vertical, e a da direita fechou de vez a página:
+
+- Coluna esquerda: sobretítulo, título, descrição, benefícios em grelha de dois por dois, uma
+  linha horizontal e o formulário em duas colunas.
+- Coluna direita: wordmark grande em carrossel, a ocupar a largura toda da coluna e com o
+  espaço entre cópias maior do que a altura de cada uma, por isso vê-se um de cada vez. Por
+  baixo, Redes e Navegação, e a barra legal com copyright, crédito de produção e voltar ao topo.
+- O título divide em duas sub-colunas apenas a partir de `2xl`. Abaixo disso a coluna esquerda
+  não dá largura para isso e o título partia em cinco linhas.
+- Redes preenchidas com Instagram e LinkedIn, sem ligação, à espera dos perfis reais. No
+  conteúdo é `href: null`, que mostra o nome sem link. Assim que houver perfil, é preencher.
+
+Como a secção passou a trazer rodapé, o `SiteFooter` global fica escondido na Home pelo
+`SiteFooterSlot`, um client component de três linhas que recebe o rodapé como `children` para
+ele continuar a ser server component. As restantes páginas mantêm o rodapé de sempre. O crédito
+de produção continua presente nas duas.
+
+O ano do copyright vem do servidor, por prop. Calculá-lo dentro de um client component daria
+anos diferentes no servidor e no cliente na viragem do ano.
+
+Alturas por largura, já com o rodapé incluído: 375 com 1930, 768 com 1361, 1024 com 1152 e 1280
+com 1091 pixels. Antes deste ajuste a secção pesava 979 mais um rodapé de perto de 300, ou seja,
+o fecho da página ficou mais curto e não mais longo.

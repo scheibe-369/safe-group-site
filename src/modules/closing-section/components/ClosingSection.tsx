@@ -8,6 +8,7 @@ import { diagnosticSchema } from "@/modules/diagnostic/schemas/diagnostic-schema
 import { ArrowIcon } from "@/shared/ui/ArrowIcon";
 import { closingSectionContent } from "../data/content";
 import type { ClosingSectionContent, ClosingSectionField } from "../types";
+import { ClosingFooter } from "./ClosingFooter";
 import { FloatingField, FloatingSelect, FloatingTextarea, groupHeader } from "./FormFields";
 import { Reveal } from "./Reveal";
 import { VerticalMarquee } from "./VerticalMarquee";
@@ -17,19 +18,33 @@ type Status = "idle" | "sending" | "success" | "error";
 export type ClosingSectionProps = {
   /** Falso enquanto SAFE_DIAGNOSTIC_WEBHOOK_URL nao estiver definido. */
   enabled: boolean;
+  /** Ano do copyright. Vem do servidor para nao divergir na hidratacao. */
+  year: number;
   content?: ClosingSectionContent;
 };
 
 /**
- * Fecho da Home: titulo, beneficios, formulario de diagnostico e carrossel
- * vertical do wordmark.
+ * Fecho da Home, em duas colunas separadas por uma vertical.
  *
- * O rodape do site continua a ser o `SiteFooter` global do layout, por isso
- * esta seccao nao traz rodape proprio. A margem horizontal sai do eixo unico do
- * site (`safe-container`), nunca de uma escala interna. O ritmo vertical e mais
- * apertado do que o `safe-section` porque a seccao carrega um formulario.
+ *   +---------------------------+------------------+
+ *   | sobretitulo               |                  |
+ *   | titulo      | descricao   |  wordmark grande |
+ *   |---------------------------|                  |
+ *   | formulario em duas colunas|------------------|
+ *   |                           | redes | navegacao|
+ *   |                           |------------------|
+ *   |                           | barra legal      |
+ *   +---------------------------+------------------+
+ *
+ * A coluna direita faz o trabalho do rodape nesta pagina, por isso o
+ * `SiteFooter` global fica escondido na Home pelo `SiteFooterSlot`. O carrossel
+ * so aparece a partir de `lg`: em coluna estreita seria ruido.
+ *
+ * A margem horizontal sai do eixo unico do site (`safe-container`), nunca de
+ * uma escala interna. O ritmo vertical e mais apertado do que o `safe-section`
+ * porque a seccao carrega um formulario.
  */
-export function ClosingSection({ enabled, content = closingSectionContent }: ClosingSectionProps) {
+export function ClosingSection({ enabled, year, content = closingSectionContent }: ClosingSectionProps) {
   const [status, setStatus] = useState<Status>("idle");
   const [errors, setErrors] = useState<Partial<Record<ClosingSectionField, string>>>({});
   const labels = content.form.labels;
@@ -69,51 +84,57 @@ export function ClosingSection({ enabled, content = closingSectionContent }: Clo
       <div aria-hidden className="pointer-events-none absolute -bottom-40 -left-40 h-[520px] w-[720px] rounded-full bg-[rgba(227,6,36,.09)] blur-[150px]" />
 
       <div className="safe-container relative z-10">
-        <div className="grid lg:grid-cols-[minmax(0,1fr)_11rem] xl:grid-cols-[minmax(0,1fr)_14rem]">
-          <div className="lg:pr-10 xl:pr-14">
+        <div className="grid lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)]">
+          {/* Coluna esquerda: discurso e formulario */}
+          <div className="lg:pr-12 xl:pr-16">
             <Reveal>
               <p className="safe-kicker">{content.kicker}</p>
             </Reveal>
-            <Reveal delay={0.05}>
-              <h2 className="mt-5 max-w-3xl text-4xl font-semibold leading-[.98] tracking-[-.045em] text-white sm:text-5xl">
-                {content.titleLine1}
-                <br />
-                <span className="relative inline-block">
-                  {/* Halo vermelho por tras do texto metalico. Vive numa camada propria
-                      porque aplicar blur sobre o proprio bg-clip-text mataria o gradiente. */}
-                  <span aria-hidden className="absolute inset-0 -z-10 blur-2xl" style={{ color: "rgba(227,6,36,.45)" }}>
-                    {content.titleAccent}
-                  </span>
-                  <span className="safe-metallic">{content.titleAccent}</span>
-                </span>{" "}
-                {content.titleLine3}
-              </h2>
-            </Reveal>
 
-            <div className="mt-8 grid gap-7 md:grid-cols-2 md:gap-12">
-              <Reveal delay={0.1}>
-                <p className="max-w-xl text-base leading-7 text-white/55">
-                  {content.descA}
-                  <strong className="font-medium text-white">{content.descStrong}</strong>
-                  {content.descB}
-                </p>
+            <div className="mt-6 grid gap-7 2xl:grid-cols-2 2xl:gap-12">
+              <Reveal delay={0.05}>
+                <h2 className="text-3xl font-semibold leading-[1.02] tracking-[-.04em] text-white sm:text-4xl 2xl:text-5xl">
+                  {content.titleLine1}
+                  <br />
+                  <span className="relative inline-block">
+                    {/* Halo vermelho por tras do texto metalico. Vive numa camada propria
+                        porque aplicar blur sobre o proprio bg-clip-text mataria o gradiente. */}
+                    <span aria-hidden className="absolute inset-0 -z-10 blur-2xl" style={{ color: "rgba(227,6,36,.45)" }}>
+                      {content.titleAccent}
+                    </span>
+                    <span className="safe-metallic">{content.titleAccent}</span>
+                  </span>{" "}
+                  {content.titleLine3}
+                </h2>
               </Reveal>
-              <Reveal delay={0.15}>
-                <ul className="flex flex-col gap-2">
-                  {content.benefits.map((benefit) => (
-                    <li key={benefit} className="flex items-start gap-2.5">
-                      <Check className="mt-[.3rem] h-3.5 w-3.5 shrink-0 text-[var(--safe-red)]" strokeWidth={2.5} aria-hidden />
-                      <span className="text-sm leading-6 text-white/55">{benefit}</span>
-                    </li>
-                  ))}
-                </ul>
-              </Reveal>
+
+              <div>
+                <Reveal delay={0.1}>
+                  <p className="max-w-xl text-sm leading-7 text-white/55 lg:text-base">
+                    {content.descA}
+                    <strong className="font-medium text-white">{content.descStrong}</strong>
+                    {content.descB}
+                  </p>
+                </Reveal>
+                <Reveal delay={0.15}>
+                  <ul className="mt-5 flex flex-col gap-2 sm:grid sm:grid-cols-2 sm:gap-x-8 2xl:flex 2xl:flex-col">
+                    {content.benefits.map((benefit) => (
+                      <li key={benefit} className="flex items-start gap-2.5">
+                        <Check className="mt-[.3rem] h-3.5 w-3.5 shrink-0 text-[var(--safe-red)]" strokeWidth={2.5} aria-hidden />
+                        <span className="text-sm leading-6 text-white/55">{benefit}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </Reveal>
+              </div>
             </div>
 
-            <div className="mt-12">
+            <div className="mt-10 border-t border-white/10 lg:mt-12" />
+
+            <div className="mt-10 lg:mt-12">
               {status === "success" ? (
                 <Reveal>
-                  <div className="flex min-h-[200px] flex-col items-start justify-center border-t border-white/10 pt-10">
+                  <div className="flex min-h-[200px] flex-col items-start justify-center">
                     <span className="flex h-12 w-12 items-center justify-center border border-[rgba(227,6,36,.45)] bg-[rgba(227,6,36,.08)]">
                       <Check className="h-5 w-5 text-[var(--safe-red)]" strokeWidth={2} aria-hidden />
                     </span>
@@ -129,8 +150,8 @@ export function ClosingSection({ enabled, content = closingSectionContent }: Clo
                         <h3 className={groupHeader}>{content.contactHeader}</h3>
                         <div className="space-y-5">
                           <FloatingField id="closing-name" name="name" type="text" autoComplete="name" label={labels.name} error={errors.name} disabled={sending} />
-                          <FloatingField id="closing-email" name="email" type="email" autoComplete="email" label={labels.email} error={errors.email} disabled={sending} />
                           <FloatingField id="closing-phone" name="phone" type="tel" autoComplete="tel" label={labels.phone} error={errors.phone} disabled={sending} />
+                          <FloatingField id="closing-email" name="email" type="email" autoComplete="email" label={labels.email} error={errors.email} disabled={sending} />
                           <FloatingField id="closing-company" name="company" type="text" autoComplete="organization" label={labels.company} error={errors.company} disabled={sending} />
                         </div>
                       </div>
@@ -173,8 +194,14 @@ export function ClosingSection({ enabled, content = closingSectionContent }: Clo
             </div>
           </div>
 
-          <div className="relative hidden lg:block lg:border-l lg:border-white/10">
-            <VerticalMarquee />
+          {/* Coluna direita: wordmark e rodape da pagina */}
+          <div className="mt-14 flex flex-col border-t border-white/10 pt-12 lg:mt-0 lg:border-l lg:border-t-0 lg:pl-12 lg:pt-0 xl:pl-16">
+            <div className="relative hidden h-72 overflow-hidden lg:block xl:h-80 2xl:h-96">
+              <VerticalMarquee />
+            </div>
+            <div className="lg:mt-auto lg:pt-16">
+              <ClosingFooter content={content} year={year} />
+            </div>
           </div>
         </div>
       </div>

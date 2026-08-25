@@ -11,5 +11,5 @@ import { MarketsSection } from "@/modules/markets/components/MarketsSection";
 
 export default function HomePage() {
   const diagnosticEnabled = Boolean(process.env.SAFE_DIAGNOSTIC_WEBHOOK_URL);
-  return <><Hero /><PositioningSection /><MarketsSection /><DiagnosticSection /><SolutionsSection /><MethodSection /><CasesRail /><AboutSection /><FaqSection /><ClosingSection enabled={diagnosticEnabled} /></>;
+  return <><Hero /><PositioningSection /><MarketsSection /><DiagnosticSection /><SolutionsSection /><MethodSection /><CasesRail /><AboutSection /><FaqSection /><ClosingSection enabled={diagnosticEnabled} year={new Date().getFullYear()} /></>;
 }

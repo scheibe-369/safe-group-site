@@ -55,4 +55,26 @@ export const closingSectionContent: ClosingSectionContent = {
       message: "O contexto excede o limite de caracteres.",
     },
   },
+
+  footer: {
+    socialHeader: "Redes",
+    socials: [
+      { label: "Instagram", href: null },
+      { label: "LinkedIn", href: null },
+    ],
+    navHeader: "Navegação",
+    navLinks: [
+      { href: "/solucoes", label: "Soluções" },
+      { href: "/metodo", label: "Método" },
+      { href: "/cases", label: "Cases" },
+      { href: "/sobre", label: "Sobre" },
+      { href: "/contacto", label: "Contacto" },
+    ],
+    copyright: "Safe Group. Todos os direitos reservados.",
+    producedBy: {
+      label: "Desenvolvido por Method Growth Hub",
+      href: "https://methodgrowthhub.com.br",
+    },
+    backToTop: "Voltar ao topo",
+  },
 };
