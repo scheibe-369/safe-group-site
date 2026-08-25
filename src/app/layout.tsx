@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { SiteFooter } from "@/shared/layout/SiteFooter";
 import { SiteFooterSlot } from "@/shared/layout/SiteFooterSlot";
 import { SiteHeader } from "@/shared/layout/SiteHeader";
+import { SocialDock } from "@/modules/social-dock";
 import { variant } from "@/shared/typography/active";
 import "./globals.css";
 
@@ -33,6 +34,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <SiteFooterSlot>
           <SiteFooter />
         </SiteFooterSlot>
+        <SocialDock />
       </body>
     </html>
   );

@@ -280,3 +280,46 @@ anos diferentes no servidor e no cliente na viragem do ano.
 Alturas por largura, já com o rodapé incluído: 375 com 1930, 768 com 1361, 1024 com 1152 e 1280
 com 1091 pixels. Antes deste ajuste a secção pesava 979 mais um rodapé de perto de 300, ou seja,
 o fecho da página ficou mais curto e não mais longo.
+
+## Dock de redes no canto do ecra e remocao da seccao "Uma visao, varias alavancas"
+
+- [x] Retirar a seccao `AboutSection` da Home e apagar o componente.
+- [x] Gerar um icone circular do selo em WebP para o botao flutuante.
+- [x] Criar o modulo `social-dock` com dados, tipos, marcas e componente.
+- [x] Montar o dock no `layout`, para ficar presente em todas as paginas.
+- [x] Impedir que o dock tape a barra legal do rodape.
+- [x] Verificar em 375, 768, 1024 e 1440, na Home e numa pagina interna.
+
+### Revisao
+
+A seccao "Uma visao, varias alavancas" saiu da Home. Era o unico sitio onde o
+`AboutSection` era usado, por isso o ficheiro foi apagado em vez de ficar orfao.
+A tese que ela contava continua em `/sobre`, na seccao "A tese", com o mesmo selo.
+
+O selo passou a ser o botao fixo no canto inferior direito, presente em todas as
+paginas. Fechado mostra so o selo, com um halo vermelho lento por baixo, no
+registo dos botoes de conversa que ficam sempre visiveis. Aberto levanta tres
+atalhos numa coluna: Instagram, LinkedIn e WhatsApp, este ultimo encostado ao
+selo por ser o mais perto do polegar e o primeiro a entrar na animacao.
+
+O icone do botao nao usa o `safe-seal.png` de 908 KB. Foi gerado o
+`public/brand/safe-seal-icon.webp`, com o fundo aparado, mascara circular e 256
+pixels de lado, que pesa 15 KB. O PNG grande fica para `/sobre`, onde e mostrado
+em tamanho real.
+
+Os tres destinos ficam por confirmar, por indicacao do cliente, por isso o `href`
+esta a `null` no `data/networks.ts` e cada atalho sai como `<span>` em vez de
+`<a>`. E o mesmo criterio que ja regia as redes do rodape: uma ligacao vazia
+anuncia-se como ligacao e nao leva a lado nenhum. Assim que houver perfil, e
+preencher o `href` nesse ficheiro, sem tocar em componentes.
+
+O dock desaparece no fim da pagina. Uma sentinela de um pixel, ultimo elemento
+do `body`, avisa por `IntersectionObserver` que o fim do documento se aproxima, e
+o botao sai com uma transicao. Sem isto tapava o "Voltar ao topo" na Home e o
+credito de producao nas restantes paginas, confirmado a 375 e a 768. O teste de
+`elementFromPoint` sobre o credito passou nas quatro larguras depois da correcao.
+
+Acessibilidade: o gatilho leva `aria-expanded` e `aria-controls`, a lista fica
+`inert` enquanto esta fechada, a tecla Escape fecha e devolve o foco ao botao, um
+clique fora fecha, e a navegacao entre paginas fecha tambem. O halo respeita
+`prefers-reduced-motion`.

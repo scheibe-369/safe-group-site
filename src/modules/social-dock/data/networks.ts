@@ -1,0 +1,20 @@
+import type { SocialNetwork } from "../types/social-network";
+
+/**
+ * Ordem visual de cima para baixo. O WhatsApp fica em ultimo porque e o que
+ * encosta ao selo, a posicao mais perto do polegar e a primeira a abrir.
+ *
+ * Os tres destinos estao por confirmar, por indicacao do cliente. Assim que
+ * houver perfil, basta preencher o `href` aqui: nenhum componente muda.
+ */
+export const socialNetworks: SocialNetwork[] = [
+  { id: "instagram", label: "Instagram", href: null, accent: "#e1306c" },
+  { id: "linkedin", label: "LinkedIn", href: null, accent: "#0a66c2" },
+  { id: "whatsapp", label: "WhatsApp", href: null, accent: "#25d366" },
+];
+
+export const socialDockCopy = {
+  open: "Abrir redes da Safe",
+  close: "Fechar redes da Safe",
+  listLabel: "Redes da Safe",
+};
