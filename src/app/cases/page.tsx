@@ -1,0 +1,9 @@
+import type { Metadata } from "next";
+import { CaseGrid } from "@/modules/cases/components/CaseGrid";
+import { PageHero } from "@/shared/layout/PageHero";
+
+export const metadata: Metadata = { title: "Cases", description: "Cases multissetoriais da Safe Group com contexto, intervenção e resultados verificáveis." };
+
+export default function CasesPage() {
+  return <><PageHero kicker="Cases" title="A estrutura por trás do resultado." copy="Automóvel, financeiro, software e SaaS: cada case será apresentado com contexto, desafio, intervenção e prova. Sem métricas soltas e sem promessas sem fonte." /><section className="safe-section bg-[var(--safe-black)]"><div className="safe-container"><CaseGrid /></div></section></>;
+}

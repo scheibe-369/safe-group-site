@@ -1,0 +1,25 @@
+node_modules/
+.next/
+out/
+.open-next/
+.wrangler/
+.env
+.env.local
+.env.*.local
+playwright-report/
+test-results/
+audit-artifacts/
+artifacts/
+.chrome-audit/
+.edge-audit/
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.tsbuildinfo
+
+# Trabalho paralelo fora do site institucional
+cases-carousel/
+
+# Capturas e ficheiros de apoio soltos na raiz
+image.png

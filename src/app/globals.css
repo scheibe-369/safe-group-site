@@ -1,0 +1,118 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap");
+@import "tailwindcss";
+
+:root {
+  --safe-black: #050505;
+  --safe-graphite: #111214;
+  --safe-panel: #17181b;
+  --safe-steel: #a7a9ad;
+  --safe-white: #f5f5f3;
+  --safe-red: #e30624;
+  --safe-red-dark: #8e0014;
+  --safe-border: rgba(255, 255, 255, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--safe-black);
+}
+
+body {
+  margin: 0;
+  background: var(--safe-black);
+  color: var(--safe-white);
+  font-family: "Inter", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+.font-display {
+  font-family: "Space Grotesk", Arial, sans-serif;
+}
+
+a,
+button,
+input,
+select,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--safe-red);
+  outline-offset: 4px;
+}
+
+::selection {
+  background: var(--safe-red);
+  color: white;
+}
+
+/* Eixo de margem unico do site. Ate 1024px mantem a caixa centrada de 80rem.
+   A partir dai o conteudo deixa de ser uma ilha ao centro e ancora numa margem
+   proporcional de 9.4vw, a mesma da referencia visual aprovada. O segundo termo
+   do max() trava a largura util em 106rem para o texto nao esticar em ecra
+   ultralargo. Cabecalho, Hero e seccoes partilham este eixo. */
+.safe-container,
+.safe-edge {
+  width: min(100% - 2rem, 80rem);
+  margin-inline: auto;
+}
+
+@media (min-width: 1024px) {
+  .safe-container,
+  .safe-edge {
+    width: 100%;
+    max-width: none;
+    margin-inline: 0;
+    padding-inline: max(clamp(3.5rem, 9.4vw, 15rem), calc((100vw - 106rem) / 2));
+  }
+}
+
+.safe-grid {
+  background-image:
+    linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+.safe-section {
+  padding-block: clamp(5rem, 10vw, 9rem);
+}
+
+.safe-kicker {
+  color: var(--safe-red);
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+
+.safe-red-line {
+  background: linear-gradient(90deg, transparent, var(--safe-red), transparent);
+  box-shadow: 0 0 22px rgba(227, 6, 36, .72);
+}
+
+.hero-poster { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .hero-video { display: none; }
+  .hero-poster { display: block; }
+}
