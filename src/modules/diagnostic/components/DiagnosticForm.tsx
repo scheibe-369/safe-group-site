@@ -1,7 +1,9 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import { submitDiagnostic } from "../api/submit-diagnostic";
 import { operationSizeOptions, priorityOptions, sectorOptions } from "../data/options";
+import type { DiagnosticFormPayload } from "../types/diagnostic";
 
 type Status = "idle" | "sending" | "success" | "error";
 
@@ -13,13 +15,11 @@ export function DiagnosticForm({ enabled }: { enabled: boolean }) {
     if (!enabled || status === "sending") return;
     setStatus("sending");
     const form = event.currentTarget;
-    const payload = Object.fromEntries(new FormData(form).entries());
-    try {
-      const response = await fetch("/api/diagnostic", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
-      if (!response.ok) throw new Error("Falha no envio");
+    const payload = Object.fromEntries(new FormData(form).entries()) as unknown as DiagnosticFormPayload;
+    if (await submitDiagnostic(payload)) {
       form.reset();
       setStatus("success");
-    } catch {
+    } else {
       setStatus("error");
     }
   }

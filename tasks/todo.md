@@ -130,3 +130,66 @@ Nota para quando chegarem as capas reais: mínimo de 1200x1500 e em WebP. O slid
 o `CaseDetail` corta a mesma imagem em 16/9, então uma capa apertada perde composição num dos dois.
 
 Nenhum commit, push ou deploy foi realizado.
+
+## Secção de fecho da Home com o módulo `closing-section`
+
+- [x] Adotar `modules/closing-section` da raiz para `src/modules/closing-section`.
+- [x] Limpar o que pertencia ao projeto de origem: rodapé próprio, envio por WhatsApp, paleta roxa.
+- [x] Repintar na identidade Safe e remover o eixo de margem interno.
+- [x] Extrair o wordmark SAFE GROUP do banner, sem símbolo e sem traço divisor.
+- [x] Ligar o formulário ao pipeline de diagnóstico que já existe.
+- [x] Substituir o `ClosingCta` apenas na Home.
+- [x] Corrigir o padrão do `.gitignore` que escondia `src/modules` do Tailwind.
+- [x] Verificar typecheck, guard de copy, build de produção e as quatro larguras.
+
+### Revisão
+
+Módulo adotado em `src/modules/closing-section` com quatro componentes, contrato de conteúdo,
+copy pt-PT e um ficheiro de CSS com os dois keyframes. Não transitaram o handler de WhatsApp
+(apontava para um número de outra empresa), o rodapé embutido, o `ShinyText` e o `cn`.
+
+Zero dependências novas. O módulo pedia `react-hook-form`, `@hookform/resolvers`, `clsx` e
+`tailwind-merge`. Os rótulos flutuantes são CSS puro (`peer` e `placeholder-shown`) e a
+validação passou a ser um `safeParse` do zod, que já estava instalado, com as mensagens em
+pt-PT no `data/content.ts`.
+
+Formulário sem endpoint próprio: usa `POST /api/diagnostic`, o mesmo esquema e as mesmas opções
+do painel do `/contacto`. O `fetch` saiu dos dois componentes para
+`src/modules/diagnostic/api/submit-diagnostic.ts`.
+
+Rodapé: o `SiteFooter` global manteve-se e a secção não traz rodapé próprio. O `ClosingCta`
+continua a fechar `/metodo`, `/sobre` e `/solucoes`, só a Home trocou.
+
+Wordmark: `public/brand/safe-wordmark.svg` extraído do traçado do banner. Dos 13 subcaminhos
+ficaram os 9 das letras mais as 4 contra-formas, com `fill-rule="evenodd"` para as contra-formas
+voltarem a ser buracos. Fora o retângulo de fundo, os dois subcaminhos do símbolo e o traço
+divisor de 25 por 2730 unidades.
+
+Bug encontrado pelo caminho, anterior a esta entrega: a linha `modules/` do `.gitignore`, sem
+barra inicial, apanhava também `src/modules`. Como o Tailwind respeita o `.gitignore`, a camada
+de domínio inteira ficava fora da varredura e qualquer utilitário usado só lá dentro nunca era
+gerado. O `mt-16` do `PositioningSection` e o `mt-14` de cinco secções estavam em falta no CSS
+publicado. Corrigido para `/modules/`, o CSS passou de 50 para 75 kilobytes.
+
+Verificação:
+- `npm run lint` aprovado, inclui TypeScript, regra do travessão e 10 skills.
+- `npm run build` com 22 rotas geradas. Home em 22.2 kB e 158 kB de primeiro carregamento.
+- `next start` com 200 em `/`, `/contacto`, `/solucoes`, `/metodo`, `/cases`, `/sobre` e no
+  wordmark. O HTML de produção traz a secção, as 20 imagens do carrossel e o estado desligado.
+- Larguras 375, 768, 1024 e 1280 conferidas em iframes de largura fixa, porque o ambiente não
+  permite redimensionar a janela. O carrossel só aparece a partir de `lg`, tudo empilha abaixo
+  disso e não há segundo eixo de margem contra o `.safe-container`. 1440 não foi capturado: o
+  ecrã disponível não chega lá. Acima de 1024 a única variação é a margem proporcional, já
+  validada a 1280.
+- Sem webhook: botão desligado, aviso visível, igual ao `/contacto`.
+- Com webhook de teste local: submissão vazia devolveu os 7 erros por campo em pt-PT, e a
+  submissão completa chegou ao destino com os oito campos, o honeypot vazio, `source` e
+  `submittedAt`, com o estado de sucesso a substituir o formulário. O painel do `/contacto`
+  repetiu o mesmo resultado depois do refactor.
+- `prefers-reduced-motion` desliga o carrossel, o metálico e a entrada do `Reveal`.
+
+A avaliar antes de publicar: `enabled` é lido em build, porque a Home é estática. A variável
+`SAFE_DIAGNOSTIC_WEBHOOK_URL` tem de existir no momento do build, não só como segredo de
+runtime. O `/contacto` já tinha esta característica.
+
+Nenhum commit, push ou deploy foi realizado.

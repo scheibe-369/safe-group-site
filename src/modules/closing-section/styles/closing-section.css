@@ -1,0 +1,56 @@
+/* =============================================================================
+ * Seccao de fecho, animacoes proprias do modulo.
+ *
+ * Importado uma vez em `src/app/globals.css`, logo a seguir a
+ * `@import "tailwindcss"`. Cor, espacamento e tipografia continuam a sair dos
+ * tokens do site, por isso aqui vivem apenas os dois gestos que o Tailwind nao
+ * consegue exprimir em utilitarios.
+ * ========================================================================== */
+
+/* Carrossel vertical. O componente duplica a lista de imagens, por isso ir de 0
+   a -50% desloca exatamente uma metade e o ciclo fecha sem costura. Anima so
+   `transform`, logo corre no compositor e nao forca layout. */
+@keyframes safe-marquee {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-50%); }
+}
+
+.safe-marquee {
+  animation: safe-marquee var(--safe-marquee-duration, 34s) linear infinite;
+  will-change: transform;
+}
+
+/* Varredura metalica da linha de destaque do titulo, em vermelho Safe com um
+   clarao branco ao centro. `will-change` mais `translateZ(0)` promovem o
+   elemento a camada propria, para o repaint do gradiente nao sujar os vizinhos. */
+.safe-metallic {
+  background: linear-gradient(
+    120deg,
+    var(--safe-red-dark) 38%,
+    var(--safe-red) 47%,
+    var(--safe-white) 50%,
+    var(--safe-red) 53%,
+    var(--safe-red-dark) 62%
+  );
+  background-size: 200% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: safe-metallic-shine 5s linear infinite;
+  will-change: background-position;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+@keyframes safe-metallic-shine {
+  0% { background-position: 100% 0%; }
+  100% { background-position: -100% 0%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .safe-marquee,
+  .safe-metallic {
+    animation: none;
+  }
+}

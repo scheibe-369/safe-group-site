@@ -1,5 +1,5 @@
 import { AboutSection } from "@/modules/home/components/AboutSection";
-import { ClosingCta } from "@/modules/home/components/ClosingCta";
+import { ClosingSection } from "@/modules/closing-section";
 import { DiagnosticSection } from "@/modules/home/components/DiagnosticSection";
 import { FaqSection } from "@/modules/home/components/FaqSection";
 import { Hero } from "@/modules/home/components/Hero";
@@ -10,5 +10,6 @@ import { SolutionsSection } from "@/modules/solutions/components/SolutionsSectio
 import { MarketsSection } from "@/modules/markets/components/MarketsSection";
 
 export default function HomePage() {
-  return <><Hero /><PositioningSection /><MarketsSection /><DiagnosticSection /><SolutionsSection /><MethodSection /><CasesRail /><AboutSection /><FaqSection /><ClosingCta /></>;
+  const diagnosticEnabled = Boolean(process.env.SAFE_DIAGNOSTIC_WEBHOOK_URL);
+  return <><Hero /><PositioningSection /><MarketsSection /><DiagnosticSection /><SolutionsSection /><MethodSection /><CasesRail /><AboutSection /><FaqSection /><ClosingSection enabled={diagnosticEnabled} /></>;
 }
