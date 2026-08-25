@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { SiteFooter } from "@/shared/layout/SiteFooter";
+import { SiteFooterSlot } from "@/shared/layout/SiteFooterSlot";
 import { SiteHeader } from "@/shared/layout/SiteHeader";
+import { variant } from "@/shared/typography/active";
 import "./globals.css";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://safegroup.pt";
@@ -23,12 +25,14 @@ export const viewport: Viewport = { themeColor: "#050505", colorScheme: "dark" }
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="pt-PT">
+    <html lang="pt-PT" data-type={variant.id} className={variant.variableClass}>
       <body>
         <a href="#main-content" className="fixed left-4 top-3 z-[100] -translate-y-20 bg-white px-4 py-3 text-sm text-black transition-transform focus:translate-y-0">Saltar para o conteúdo</a>
         <SiteHeader />
         <main id="main-content">{children}</main>
-        <SiteFooter />
+        <SiteFooterSlot>
+          <SiteFooter />
+        </SiteFooterSlot>
       </body>
     </html>
   );

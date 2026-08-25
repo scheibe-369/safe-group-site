@@ -1,0 +1,13 @@
+# Deploy de comparacao tipografica. Temporario, remover depois da decisao.
+name = "safe-tipo-a"
+main = ".open-next/worker.js"
+compatibility_date = "2026-08-24"
+compatibility_flags = ["nodejs_compat"]
+
+routes = [
+  { pattern = "safe-a.methodgrowthhub.com.br", custom_domain = true }
+]
+
+[assets]
+directory = ".open-next/assets"
+binding = "ASSETS"

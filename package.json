@@ -7,6 +7,7 @@
     "dev:sandbox": "node scripts/dev-server.mjs",
     "build": "next build",
     "build:cloudflare": "opennextjs-cloudflare build",
+    "type:set": "node scripts/set-typography.mjs",
     "deploy:cloudflare": "wrangler deploy",
     "preview:cloudflare": "opennextjs-cloudflare preview",
     "start": "next start",
