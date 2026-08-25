@@ -39,7 +39,7 @@ export function DiagnosticForm({ enabled }: { enabled: boolean }) {
       </div>
       <label className="text-sm text-white/65">Contexto da operação<textarea className={`${fieldClass} min-h-32 resize-y py-3`} name="message" maxLength={1500} /></label>
       <label className="absolute -left-[9999px]" aria-hidden="true">Website<input name="website" tabIndex={-1} autoComplete="off" /></label>
-      <button type="submit" disabled={!enabled || status === "sending"} className="min-h-11 justify-self-start border border-[var(--safe-red)] bg-[var(--safe-red)] px-[1.15rem] text-[0.8125rem] font-semibold uppercase tracking-[.1em] text-white transition-colors enabled:hover:bg-[#ff1734] disabled:cursor-not-allowed disabled:border-white/15 disabled:bg-white/5 disabled:text-white/35">
+      <button type="submit" disabled={!enabled || status === "sending"} className="min-h-[2.875rem] justify-self-start border border-[var(--safe-red)] bg-[var(--safe-red)] px-5 text-sm font-semibold uppercase tracking-[.1em] text-white transition-colors enabled:hover:bg-[#ff1734] disabled:cursor-not-allowed disabled:border-white/15 disabled:bg-white/5 disabled:text-white/35">
         {!enabled ? "Envio disponível em breve" : status === "sending" ? "A enviar" : "Solicitar diagnóstico"}
       </button>
       <p id="form-status" aria-live="polite" className="min-h-6 text-sm text-white/55">

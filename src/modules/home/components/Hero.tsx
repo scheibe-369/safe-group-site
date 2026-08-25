@@ -2,7 +2,7 @@ import { ButtonLink } from "@/shared/ui/ButtonLink";
 
 export function Hero() {
   return (
-    <section className="relative flex min-h-[760px] items-end overflow-hidden bg-black pb-16 pt-28 sm:min-h-[820px] lg:h-dvh lg:min-h-[760px] lg:items-start lg:pb-0 lg:pt-[clamp(8.5rem,15vh,12rem)]">
+    <section className="relative flex min-h-[760px] items-end overflow-hidden bg-black pb-16 pt-28 sm:min-h-[820px] lg:h-dvh lg:min-h-[760px] lg:items-start lg:pb-0 lg:pt-[clamp(10rem,20vh,15rem)]">
       <video
         className="hero-video absolute inset-0 h-full w-full object-cover object-[67%_center] sm:object-center"
         autoPlay
