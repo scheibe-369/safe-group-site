@@ -2,7 +2,7 @@ import { ButtonLink } from "@/shared/ui/ButtonLink";
 
 export function Hero() {
   return (
-    <section className="relative flex min-h-[760px] items-end overflow-hidden bg-black pb-16 pt-28 sm:min-h-[820px] lg:h-dvh lg:min-h-[760px] lg:items-center lg:pb-0">
+    <section className="relative flex min-h-[760px] items-end overflow-hidden bg-black pb-16 pt-28 sm:min-h-[820px] lg:h-dvh lg:max-h-[880px] lg:min-h-[760px] lg:items-center lg:pb-0 lg:pt-8">
       <video
         className="hero-video absolute inset-0 h-full w-full object-cover object-[67%_center] sm:object-center"
         autoPlay
@@ -25,7 +25,7 @@ export function Hero() {
             <span>Estratégia</span><span className="h-1 w-1 shrink-0 rounded-full bg-[var(--safe-red)]" /><span>Sistemas</span><span className="h-1 w-1 shrink-0 rounded-full bg-[var(--safe-red)]" /><span>Crescimento</span>
           </p>
           <span aria-hidden className="mt-6 block h-[3px] w-[4.5rem] bg-[var(--safe-red)]" />
-          <h1 className="mt-7 text-[clamp(3.5rem,7vw,7.2rem)] font-semibold uppercase leading-[.95] tracking-[-.055em] text-white">
+          <h1 className="mt-7 text-[clamp(2.75rem,6vw,6rem)] font-semibold uppercase leading-[1.14] tracking-[-.02em] text-white">
             Crescimento<br />não é acaso.<br />É sistema.
           </h1>
           <p className="mt-8 max-w-xl text-base leading-7 text-white/75 sm:text-lg">Integramos marketing, vendas e tecnologia para transformar operações em estruturas previsíveis de crescimento.</p>
