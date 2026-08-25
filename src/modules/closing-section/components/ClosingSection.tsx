@@ -84,9 +84,9 @@ export function ClosingSection({ enabled, year, content = closingSectionContent 
       <div aria-hidden className="pointer-events-none absolute -bottom-40 -left-40 h-[520px] w-[720px] rounded-full bg-[rgba(227,6,36,.09)] blur-[150px]" />
 
       <div className="safe-container relative z-10">
-        <div className="grid lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)]">
+        <div className="grid lg:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)]">
           {/* Coluna esquerda: discurso e formulario */}
-          <div className="lg:pr-12 xl:pr-16">
+          <div className="lg:pr-10 xl:pr-12">
             <Reveal>
               <p className="safe-kicker">{content.kicker}</p>
             </Reveal>
@@ -195,7 +195,7 @@ export function ClosingSection({ enabled, year, content = closingSectionContent 
           </div>
 
           {/* Coluna direita: wordmark e rodape da pagina */}
-          <div className="mt-14 flex flex-col border-t border-white/10 pt-12 lg:mt-0 lg:border-l lg:border-t-0 lg:pl-12 lg:pt-0 xl:pl-16">
+          <div className="mt-14 flex flex-col border-t border-white/10 pt-12 lg:mt-0 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0 xl:pl-12">
             <div className="relative hidden h-72 overflow-hidden lg:block xl:h-80 2xl:h-96">
               <VerticalMarquee />
             </div>
