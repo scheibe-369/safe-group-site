@@ -18,8 +18,10 @@ Thumbs.db
 .idea/
 *.tsbuildinfo
 
-# Trabalho paralelo fora do site institucional
-cases-carousel/
+# Trabalho paralelo fora do site institucional.
+# Pastas de referencia largadas na raiz, fora da app Next e sem import no codigo.
+# Ficam no disco para trabalho futuro, mas nao entram no repositorio.
+modules/
 
 # Capturas e ficheiros de apoio soltos na raiz
 image.png
