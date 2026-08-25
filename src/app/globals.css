@@ -36,18 +36,23 @@ h3,
   font-family: var(--font-heading), Arial, sans-serif;
 }
 
+/* A direcao Manrope usa uma so familia, declarada uma vez como --font-heading. */
+[data-type="manrope"] {
+  --font-body: var(--font-heading);
+}
+
 /* A direcao B usa serifa. Caixa alta e tracking negativo, que servem os
    grotescos, destroem o desenho dela. Estas regras ficam fora de layer para
    ganharem as utilidades do Tailwind sem tocar em cada componente. */
-[data-type="b"] h1,
-[data-type="b"] h2,
-[data-type="b"] h3,
-[data-type="b"] .font-display {
+[data-type="instrument"] h1,
+[data-type="instrument"] h2,
+[data-type="instrument"] h3,
+[data-type="instrument"] .font-display {
   letter-spacing: -.02em;
   text-transform: none;
 }
 
-[data-type="b"] h1 {
+[data-type="instrument"] h1 {
   line-height: .95;
 }
 

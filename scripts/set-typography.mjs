@@ -1,13 +1,18 @@
 import { readFile, writeFile } from "node:fs/promises";
 
+// Manrope e a direcao aprovada. Os restantes nomes servem os builds de comparacao.
 const variants = {
-  atual: "space-grotesk",
-  a: "archivo",
-  b: "instrument",
+  manrope: "manrope",
   c: "manrope",
+  archivo: "archivo",
+  a: "archivo",
+  instrument: "instrument",
+  b: "instrument",
+  "space-grotesk": "space-grotesk",
+  atual: "space-grotesk",
 };
 
-const choice = process.argv[2] ?? process.env.SAFE_TYPE ?? "atual";
+const choice = process.argv[2] ?? process.env.SAFE_TYPE ?? "manrope";
 const file = variants[choice];
 
 if (!file) {

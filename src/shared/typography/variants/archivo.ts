@@ -5,7 +5,7 @@ const heading = Archivo({ subsets: ["latin", "latin-ext"], display: "swap", vari
 const body = Inter({ subsets: ["latin", "latin-ext"], display: "swap", variable: "--font-body" });
 
 export const variant: TypographyVariant = {
-  id: "a",
+  id: "archivo",
   label: "Archivo e Inter",
   variableClass: `${heading.variable} ${body.variable}`,
 };
