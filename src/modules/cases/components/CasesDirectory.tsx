@@ -2,6 +2,7 @@ import { caseStudies } from "../data/cases";
 import { groupBySector } from "../utils/group-by-sector";
 import { CaseIndex } from "./CaseIndex";
 import { CasesBySector } from "./CasesBySector";
+import { CasesDemoNotice } from "./CasesDemoNotice";
 import { CasesEmptyState } from "./CasesEmptyState";
 import { CasesSectorNav } from "./CasesSectorNav";
 
@@ -29,6 +30,7 @@ export function CasesDirectory() {
   return (
     <section className="safe-section overflow-x-clip bg-[var(--safe-black)]">
       <div className="safe-container">
+        <CasesDemoNotice className="mb-6" />
         <CasesSectorNav sectors={sectors} />
       </div>
 

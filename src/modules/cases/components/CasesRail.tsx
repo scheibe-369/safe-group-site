@@ -2,6 +2,7 @@ import { ButtonLink } from "@/shared/ui/ButtonLink";
 import { SectionHeading } from "@/shared/ui/SectionHeading";
 import { caseStudies } from "../data/cases";
 import { CasesCarousel } from "./carousel/CasesCarousel";
+import { CasesDemoNotice } from "./CasesDemoNotice";
 import { CasesEmptyState } from "./CasesEmptyState";
 
 /**
@@ -23,7 +24,9 @@ export function CasesRail() {
         </ButtonLink>
       </div>
 
-      <div className="safe-container mt-14">
+      <CasesDemoNotice className="safe-container mt-10" />
+
+      <div className="safe-container mt-8">
         {caseStudies.length ? (
           <CasesCarousel items={caseStudies} label="cases Safe" />
         ) : (

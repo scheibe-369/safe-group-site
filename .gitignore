@@ -21,7 +21,9 @@ Thumbs.db
 # Trabalho paralelo fora do site institucional.
 # Pastas de referencia largadas na raiz, fora da app Next e sem import no codigo.
 # Ficam no disco para trabalho futuro, mas nao entram no repositorio.
-modules/
+# A barra inicial e obrigatoria: sem ela o padrao apanha tambem src/modules, o
+# Tailwind deixa de varrer a camada de dominio e o site perde utilitarios.
+/modules/
 
 # Capturas e ficheiros de apoio soltos na raiz
 image.png
