@@ -4,7 +4,7 @@ const disciplines = ["Marketing", "Inteligência comercial", "Tecnologia", "Dado
 
 export function PositioningSection() {
   return (
-    <section className="relative overflow-hidden bg-[var(--safe-black)] pb-[clamp(5rem,10vw,9rem)] pt-[clamp(3.5rem,6vw,6rem)]">
+    <section className="safe-section relative overflow-hidden bg-[var(--safe-black)]">
       <div className="safe-container">
         <div className="grid gap-12 lg:grid-cols-[.75fr_1.25fr] lg:gap-20">
           <SectionHeading kicker="O ponto de partida" title={<>Não começamos por serviços. <span className="text-white/35">Começamos pelo bloqueio.</span></>} />

@@ -79,9 +79,10 @@ textarea:focus-visible {
 }
 
 /* Eixo de margem unico do site. Ate 1024px mantem a caixa centrada de 80rem.
-   A partir dai ancora o conteudo numa margem proporcional curta, para preservar
-   area editorial na Hero. A largura de leitura e controlada pelos blocos de
-   conteudo, sem deslocar o inicio da pagina em ecras ultralargos. */
+   A partir dai o conteudo deixa de ser uma ilha ao centro e ancora numa margem
+   proporcional de 9.4vw, a mesma da referencia visual aprovada. O segundo termo
+   do max() trava a largura util em 106rem para o texto nao esticar em ecra
+   ultralargo. Cabecalho, Hero e seccoes partilham este eixo. */
 .safe-container,
 .safe-edge {
   width: min(100% - 2rem, 80rem);
@@ -94,7 +95,7 @@ textarea:focus-visible {
     width: 100%;
     max-width: none;
     margin-inline: 0;
-    padding-inline: clamp(1.5rem, 4vw, 7.5rem);
+    padding-inline: max(clamp(3.5rem, 9.4vw, 15rem), calc((100vw - 106rem) / 2));
   }
 }
 
