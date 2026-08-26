@@ -40,11 +40,11 @@ export function DiagnosticForm({ enabled }: { enabled: boolean }) {
       <label className="text-sm text-white/65">Contexto da operação<textarea className={`${fieldClass} min-h-32 resize-y py-3`} name="message" maxLength={1500} /></label>
       <label className="absolute -left-[9999px]" aria-hidden="true">Website<input name="website" tabIndex={-1} autoComplete="off" /></label>
       <button type="submit" disabled={!enabled || status === "sending"} className="min-h-[2.875rem] justify-self-start border border-[var(--safe-red)] bg-[var(--safe-red)] px-5 text-sm font-semibold uppercase tracking-[.1em] text-white transition-colors enabled:hover:bg-[#ff1734] disabled:cursor-not-allowed disabled:border-white/15 disabled:bg-white/5 disabled:text-white/35">
-        {!enabled ? "Envio disponível em breve" : status === "sending" ? "A enviar" : "Solicitar diagnóstico"}
+        {!enabled ? "Envio disponível em breve" : status === "sending" ? "A enviar" : "Começar diagnóstico"}
       </button>
       <p id="form-status" aria-live="polite" className="min-h-6 text-sm text-white/55">
         {!enabled && "A integração do formulário está em preparação. Os dados preenchidos não serão enviados."}
-        {status === "success" && "Diagnóstico enviado. A equipa Safe entrará em contacto."}
+        {status === "success" && "Pedido recebido. A equipa Safe entrará em contacto."}
         {status === "error" && "Não foi possível enviar. Reveja a ligação e tente novamente."}
       </p>
     </form>

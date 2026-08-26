@@ -7,8 +7,8 @@ export function SolutionsSection() {
     <section className="safe-section bg-[var(--safe-black)]" id="solucoes">
       <div className="safe-container">
         <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
-          <SectionHeading kicker="Frentes de crescimento" title={<>A estrutura adapta-se ao <span className="text-white/35">ponto de alavancagem.</span></>} copy="Não começamos por um pacote. Começamos pela decisão que mais pode mudar a operação." />
-          <ButtonLink href="/solucoes" variant="secondary" className="shrink-0">Ver todas as frentes</ButtonLink>
+          <SectionHeading kicker="Frentes de execução" title={<>Cada frente existe para <span className="text-white/35">mover uma prioridade.</span></>} copy="Não há pacotes fechados. Há uma estrutura desenhada para tratar a decisão que mais pode mudar a operação." />
+          <ButtonLink href="/solucoes" variant="secondary" className="shrink-0">Ver como intervimos</ButtonLink>
         </div>
         <div className="mt-14"><SolutionsGrid /></div>
       </div>

@@ -39,7 +39,7 @@ export function SiteHeader() {
           ))}
         </nav>
         <Link href="/contacto" className="hidden min-h-[2.875rem] items-center border border-white/55 px-5 text-sm font-semibold uppercase tracking-[.1em] text-white transition-colors hover:border-[var(--safe-red)] hover:bg-[var(--safe-red)] lg:inline-flex">
-          Fale com a Safe
+          Começar diagnóstico
         </Link>
         <button type="button" onClick={() => setOpen((value) => !value)} className="flex h-11 w-11 items-center justify-center border border-white/25 text-white lg:hidden" aria-expanded={open} aria-label={open ? "Fechar menu" : "Abrir menu"}>
           {open ? <X size={20} /> : <Menu size={20} />}

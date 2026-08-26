@@ -7,21 +7,21 @@ import type { ClosingSectionContent } from "../types";
  */
 export const closingSectionContent: ClosingSectionContent = {
   kicker: "Próximo passo",
-  titleLine1: "Antes de escolher a ferramenta,",
-  titleAccent: "descubra",
-  titleLine3: "a alavanca.",
-  descA: "Partilhe o contexto da operação para identificarmos onde existe ",
-  descStrong: "maior potencial de crescimento, lucro ou eficiência",
+  titleLine1: "Antes de investir mais,",
+  titleAccent: "encontre",
+  titleLine3: "o ponto que muda a operação.",
+  descA: "Partilhe o contexto da operação para avaliarmos onde existe ",
+  descStrong: "maior potencial de impacto",
   descB: ".",
   benefits: [
-    "Leitura da operação antes da ferramenta",
-    "Estrutura para uma oportunidade concreta",
-    "Frentes isoladas ou em conjunto",
-    "Responsáveis e métricas definidos",
+    "Leitura da operação antes da solução",
+    "Uma prioridade concreta para tratar",
+    "Frentes ligadas ao mesmo objectivo",
+    "Responsáveis e métricas claros",
   ],
   contactHeader: "Contacto",
   operationHeader: "Operação",
-  submitHint: "Os dados servem apenas para preparar a conversa.",
+  submitHint: "Os dados servem apenas para preparar a primeira conversa.",
 
   form: {
     labels: {
@@ -35,12 +35,12 @@ export const closingSectionContent: ClosingSectionContent = {
       message: "Contexto da operação",
     },
     selectPlaceholder: "Selecione",
-    submit: "Solicitar diagnóstico",
+    submit: "Começar diagnóstico",
     submitting: "A enviar",
     disabled: "Envio disponível em breve",
     disabledNotice:
       "A integração do formulário está em preparação. Os dados preenchidos não serão enviados.",
-    successTitle: "Diagnóstico enviado.",
+    successTitle: "Pedido recebido.",
     successDesc:
       "A equipa Safe entrará em contacto para marcar a primeira conversa.",
     errorMessage: "Não foi possível enviar. Reveja a ligação e tente novamente.",

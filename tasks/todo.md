@@ -1,3 +1,77 @@
+# Reestruturação de copy e conversão
+
+- [x] Analisar a estrutura de conversão de Kyon Med, NYO, Tyvo e G4.
+- [x] Definir a direcção de copy da Safe sem importar promessas, métricas ou prova social sem fonte.
+- [x] Reescrever a copy pública da Home e das páginas institucionais.
+- [x] Consolidar a análise e o inventário de copy em `copy.md`.
+- [x] Executar validações de conteúdo, tipos, lint e build.
+- [x] Iniciar o site em localhost e confirmar as rotas principais.
+
+## Correção da Hero em portáteis e ecrãs amplos
+
+- [x] Identificar a causa: margem lateral excessiva, headline demasiado alta e altura de ecrã sem limite.
+- [x] Reequilibrar espaçamento, escala tipográfica, texto explicativo e CTAs da Hero.
+- [x] Confirmar a Hero em 375, 768, 1024 e 1440 pixels e registar a revisão.
+
+## Correção da compressão vertical da Hero
+
+- [x] Identificar a regressão: altura máxima baixa, alinhamento vertical ao centro e mapa de áreas a competir pelo mesmo espaço.
+- [x] Restaurar a cadência vertical da Hero sem reintroduzir os CTAs fora do primeiro ecrã.
+- [x] Validar a rota Home no localhost depois da correção.
+
+## Correção visual baseada em captura
+
+- [x] Inspecionar `image copy 5.png` e separar o corte do vídeo do vão da secção seguinte.
+- [x] Mostrar o vídeo completo em desktop e reduzir o espaço de transição para o posicionamento.
+- [x] Validar a Home no localhost com a nova composição.
+
+## Composição da Hero a partir da quebra observada
+
+- [x] Identificar a headline em quatro linhas e a sobreposição demasiado escura sobre a arquitectura do vídeo.
+- [x] Usar uma headline que mantenha duas linhas e preencher a transição visual entre conteúdo e símbolo.
+- [x] Validar a Home no localhost.
+
+### Revisão da composição
+
+- Headline curta em duas linhas: "Encontre a prioridade." Evita a quebra de quatro linhas que dominava a coluna de texto.
+- O gradiente revela mais da arquitectura do fundo a partir do centro da Hero, sem perder contraste sobre a copy.
+- O método Diagnóstico, Prioridade e Execução ocupa a faixa visual entre a copy e o símbolo em ecrãs a partir de 1280px. Não aparece em larguras menores para não sobrepor os CTAs.
+- `npm run lint` aprovou typecheck, conteúdo e skills. A Home responde HTTP 200 no localhost.
+
+### Revisão baseada na captura
+
+- A captura mostrou que a Hero usava `object-cover` para um vídeo 16:9 dentro de um ecrã ultralargo. Em desktop, passou para `object-contain object-right`, preservando todo o enquadramento do vídeo à direita.
+- Em telemóvel mantém `cover`, porque `contain` criaria uma área vazia vertical excessiva num ecrã estreito.
+- A secção "O ponto de partida" deixa de usar o `safe-section` genérico no topo. O espaço entre a Hero e o título é reduzido de até 9rem para no máximo 6rem, sem encurtar o conteúdo seguinte.
+- `npm run lint` aprovou typecheck, conteúdo e skills. A Home responde HTTP 200 no localhost.
+- A captura automática foi tentada pelo navegador integrado e por Edge headless. Ambos foram bloqueados por permissões do Windows neste ambiente, por isso não foi produzida uma imagem enganosa como se fosse uma renderização real.
+
+### Revisão da correção de compressão
+
+- A Hero volta a iniciar pelo topo em desktop, com mínimo de 760px e máximo de 860px. O bloco deixa de ser centrado verticalmente.
+- O mapa em grelha foi removido. Procura, Comercial e Tecnologia ficam numa única linha leve, sem roubar altura aos CTAs.
+- A escala menor do título e a margem lateral reduzida mantêm-se, pois tratam os problemas originais sem alterar a cadência vertical.
+- `npm run lint` aprovou typecheck, conteúdo e skills. A Home responde HTTP 200 em `http://127.0.0.1:3000`.
+
+### Revisão da Hero
+
+- Espaço lateral: 16px em 375 e 768, 41px em 1024, 58px em 1440 e máximo de 120px em ecrãs maiores. A margem deixa de crescer com a área vazia de monitores ultralargos.
+- Título: passa de um máximo de 96px para 76px, com 40px em telemóvel e portátil estreito. A frase ocupa duas linhas e não expulsa os CTAs do primeiro ecrã.
+- Altura: a Hero deixa de usar altura de ecrã ilimitada. Em desktop tem no máximo 740px, mínimo de 640px e alinha o bloco de conversão ao centro.
+- Clareza: o kicker identifica operações high ticket, o texto nomeia estratégia comercial, marketing, dados e tecnologia, e a grelha mostra as três áreas lidas no diagnóstico.
+- Ação: os CTAs foram aproximados do texto, com intervalo de 12px em mobile e 24px em desktop. A assinatura inferior continua escondida abaixo de 900px de altura, sem competir com os botões.
+- Validação: HTML local confirma título, explicação, mapa de áreas e ambos os CTAs. A instalação local perdeu dependências transitivas durante a sessão, foi reparada com `npm install --ignore-scripts --no-audit --no-fund`, e `npm run lint` voltou a aprovar typecheck, conteúdo e skills. A construção do Next continua bloqueada externamente por `spawn EPERM`. Playwright continua bloqueado pelo Windows com `PermissionError`.
+
+## Revisão da reestruturação de copy
+
+- Pesquisa: Kyon Med, NYO, Tyvo e G4 foram analisados pela mecânica de conversão. A síntese e os links estão em `copy.md`.
+- Copy: Home, Sobre, Soluções, Método, Contacto, formulário, metadados, cabeçalho, rodapé, FAQ, frentes, sectores e fechos agora usam a mesma narrativa: tensão, diagnóstico, prioridade, execução e CTA.
+- Segurança editorial: não foram introduzidas promessas, métricas, clientes, testemunhos ou escassez artificial. IA, marketing e tecnologia permanecem meios dentro da estrutura Safe.
+- Validação: `npm run typecheck` e `npm run lint` aprovados. O guard de conteúdo confirmou a regra de copy e o crédito de produção.
+- Build: `npm run build` chegou à compilação optimizada, mas o sandbox bloqueou a criação do subprocesso do Next com `spawn EPERM`.
+- Localhost: servidor de desenvolvimento activo em `http://127.0.0.1:3000`. As rotas `/`, `/sobre`, `/solucoes`, `/metodo`, `/cases` e `/contacto` responderam HTTP 200.
+- Teste visual: o Playwright não pode abrir o browser no sandbox, por erro de permissão do Windows. A validação HTTP foi concluída; a conferência responsiva visual continua dependente de um ambiente com browser autorizado.
+
 # Implementação inicial
 
 ## Publicação Cloudflare

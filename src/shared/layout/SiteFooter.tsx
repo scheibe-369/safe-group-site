@@ -13,7 +13,7 @@ export function SiteFooter() {
         <div className="grid gap-12 border-b border-white/10 pb-12 md:grid-cols-[1.2fr_.8fr]">
           <div>
             <SiteLogo />
-            <p className="mt-5 max-w-md text-sm leading-6 text-white/55">Crescimento, inteligência comercial e tecnologia para operações high ticket.</p>
+            <p className="mt-5 max-w-md text-sm leading-6 text-white/55">Estratégia, inteligência comercial e tecnologia para decisões que movem operações high ticket.</p>
           </div>
           <nav aria-label="Navegação do rodapé" className="grid grid-cols-2 gap-3 text-sm sm:grid-cols-3">
             {links.map(([label, href]) => <Link key={href} href={href} className="min-h-11 content-center text-white/60 transition-colors hover:text-white">{label}</Link>)}

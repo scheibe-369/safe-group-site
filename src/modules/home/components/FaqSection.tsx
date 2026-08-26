@@ -1,11 +1,13 @@
 import { SectionHeading } from "@/shared/ui/SectionHeading";
 
 const faqs = [
-  ["A Safe é uma agência de marketing?", "Não. Marketing pode ser uma das frentes da intervenção, mas a Safe parte do diagnóstico da operação e combina as disciplinas necessárias para resolver o ponto prioritário."],
+  ["A Safe é uma agência de marketing?", "Não. Marketing pode entrar na execução, mas a Safe começa pela leitura da operação e reúne apenas as disciplinas necessárias para resolver a prioridade real."],
   ["Em que setores a Safe atua?", "A Safe trabalha com operações high ticket e reúne experiência nos setores automóvel, financeiro e de software/SaaS. O diagnóstico e a estrutura adaptam-se ao modelo de negócio."],
-  ["A Safe é uma software house?", "Não. Desenvolvimento de software, SaaS e integrações podem fazer parte da intervenção quando a tecnologia é necessária para resolver o bloqueio ou criar uma nova alavanca."],
+  ["A Safe é uma software house?", "Não. Software, SaaS e integrações podem fazer parte da estrutura quando a tecnologia resolve um bloqueio ou cria capacidade nova para a operação."],
   ["Qual é o papel da IA?", "A IA é uma ferramenta dentro da estrutura. É aplicada quando melhora velocidade, qualidade, eficiência ou capacidade de decisão, nunca como produto isolado."],
-  ["Como é definida a prioridade?", "A Safe analisa a operação de forma 360 e identifica o ponto com maior potencial de crescimento, lucro ou eficiência. A intervenção começa por essa alavanca."],
+  ["Como é definida a prioridade?", "A Safe lê a operação de forma 360 e avalia onde há maior potencial de impacto em crescimento, margem ou eficiência. A intervenção começa por essa decisão."],
+  ["O que acontece depois do diagnóstico?", "Recebe uma leitura do ponto prioritário e da estrutura que faria sentido para o tratar. Só depois decide se quer avançar e em que ritmo."],
+  ["É preciso avançar com todas as frentes?", "Não. A estrutura pode começar por uma frente ou ligar várias, conforme a prioridade identificada e a capacidade da operação."],
 ];
 
 export function FaqSection() {

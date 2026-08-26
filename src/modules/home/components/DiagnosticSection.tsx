@@ -2,17 +2,17 @@ import { ChartNoAxesCombined, PanelsTopLeft, Search, Timer } from "lucide-react"
 import { SectionHeading } from "@/shared/ui/SectionHeading";
 
 const scenarios = [
-  { icon: Search, title: "Pouca procura", copy: "A operação precisa de campanhas, canais próprios ou uma nova estratégia de geração de oportunidades." },
-  { icon: Timer, title: "Leads sem resposta", copy: "Existe procura, mas a velocidade, qualificação ou cadência comercial deixa receita pelo caminho." },
-  { icon: ChartNoAxesCombined, title: "Decisão sem visibilidade", copy: "A atividade existe, mas dados fragmentados impedem a equipa de perceber o que protege margem e eficiência." },
-  { icon: PanelsTopLeft, title: "Tecnologia que não acompanha", copy: "Processos manuais, sistemas desconectados ou um produto digital limitado travam a capacidade de crescer." },
+  { icon: Search, title: "Procura que não chega", copy: "A operação precisa de canais, mensagem ou oferta capazes de gerar oportunidades com consistência." },
+  { icon: Timer, title: "Oportunidades que arrefecem", copy: "A procura existe, mas a resposta, qualificação ou cadência comercial deixa valor pelo caminho." },
+  { icon: ChartNoAxesCombined, title: "Decisões sem leitura", copy: "Há atividade, mas a informação fragmentada impede a equipa de perceber o que protege margem e eficiência." },
+  { icon: PanelsTopLeft, title: "Capacidade que não escala", copy: "Processos manuais, sistemas desligados ou tecnologia limitada travam a evolução da operação." },
 ];
 
 export function DiagnosticSection() {
   return (
     <section className="safe-section safe-grid border-y border-white/10 bg-[#090909]">
       <div className="safe-container">
-        <SectionHeading kicker="Diagnóstico 360" title="O mesmo sintoma pode exigir estruturas diferentes." copy="Duas empresas high ticket podem procurar crescimento por razões completamente distintas. A Safe começa por descobrir qual decisão move mais a operação." />
+        <SectionHeading kicker="Diagnóstico 360" title="O sintoma é visível. A causa nem sempre." copy="O mesmo problema pode nascer na procura, na operação comercial, nos dados ou na tecnologia. O diagnóstico encontra a decisão que mais altera o todo." />
         <div className="mt-14 grid gap-px overflow-hidden border border-white/10 bg-white/10 md:grid-cols-2">
           {scenarios.map(({ icon: Icon, title, copy }) => (
             <article key={title} className="group bg-[#0c0c0d] p-7 sm:p-9">

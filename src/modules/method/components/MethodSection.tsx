@@ -7,8 +7,8 @@ export function MethodSection() {
     <section className="safe-section border-y border-white/10 bg-[#090909]">
       <div className="safe-container">
         <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
-          <SectionHeading kicker="Método Safe" title="Diagnóstico antes da ferramenta. Estrutura antes da escala." copy="Uma sequência clara para decidir onde atuar, construir a resposta e medir a evolução." />
-          <ButtonLink href="/metodo" variant="secondary" className="shrink-0">Explorar o método</ButtonLink>
+          <SectionHeading kicker="Método Safe" title="Ler primeiro. Decidir melhor. Executar com foco." copy="Uma sequência para sair de decisões isoladas, concentrar recursos e acompanhar o que muda na operação." />
+          <ButtonLink href="/metodo" variant="secondary" className="shrink-0">Ver o método</ButtonLink>
         </div>
         <MethodTimeline />
       </div>

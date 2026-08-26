@@ -4,13 +4,13 @@ const disciplines = ["Marketing", "Inteligência comercial", "Tecnologia", "Dado
 
 export function PositioningSection() {
   return (
-    <section className="safe-section relative overflow-hidden bg-[var(--safe-black)]">
+    <section className="relative overflow-hidden bg-[var(--safe-black)] pb-[clamp(5rem,10vw,9rem)] pt-[clamp(3.5rem,6vw,6rem)]">
       <div className="safe-container">
         <div className="grid gap-12 lg:grid-cols-[.75fr_1.25fr] lg:gap-20">
-          <SectionHeading kicker="Mais do que uma agência" title={<>Não vendemos uma disciplina. <span className="text-white/35">Estruturamos a resposta certa.</span></>} />
+          <SectionHeading kicker="O ponto de partida" title={<>Não começamos por serviços. <span className="text-white/35">Começamos pelo bloqueio.</span></>} />
           <div className="self-end">
-            <p className="text-xl leading-9 text-white/72 sm:text-2xl sm:leading-10">A Safe olha para a operação completa, identifica onde está a maior oportunidade de crescimento, lucro ou eficiência e organiza as competências necessárias para capturá-la.</p>
-            <p className="mt-6 leading-7 text-white/48">Tráfego, CRM, automação, pré-vendas, IA, software ou novos produtos podem fazer parte da entrega. Nenhum deles define, sozinho, o nosso trabalho.</p>
+            <p className="text-xl leading-9 text-white/72 sm:text-2xl sm:leading-10">Lemos procura, vendas, processo, dados, tecnologia e margem como partes da mesma operação. Só depois definimos a prioridade.</p>
+            <p className="mt-6 leading-7 text-white/48">Marketing, CRM, automação, pré-vendas, IA, software ou novos produtos entram quando servem essa prioridade. A ferramenta nunca determina o diagnóstico.</p>
           </div>
         </div>
         <div className="mt-16 grid grid-cols-2 border-l border-t border-white/10 sm:grid-cols-3 lg:grid-cols-6">

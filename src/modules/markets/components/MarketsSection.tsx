@@ -5,7 +5,7 @@ export function MarketsSection() {
   return (
     <section className="safe-section border-y border-white/10 bg-[#080808]">
       <div className="safe-container">
-        <SectionHeading kicker="Experiência multissetorial" title="A estrutura adapta-se ao negócio. O rigor mantém-se." copy="A Safe atua em operações high ticket com desafios diferentes, sem reduzir o diagnóstico a uma única vertical." />
+        <SectionHeading kicker="Operações high ticket" title="O contexto muda. A leitura mantém-se exigente." copy="A experiência atravessa operações automóvel, financeiras e de software. O diagnóstico parte do modelo de negócio, não de um sector pré-definido." />
         <div className="mt-14 grid gap-px border border-white/10 bg-white/10 lg:grid-cols-3">
           {markets.map(({ name, description, capabilities, icon: Icon }) => (
             <article key={name} className="bg-[#0c0c0d] p-7 sm:p-9">
