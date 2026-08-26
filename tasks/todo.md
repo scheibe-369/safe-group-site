@@ -397,3 +397,49 @@ Acessibilidade: o gatilho leva `aria-expanded` e `aria-controls`, a lista fica
 `inert` enquanto esta fechada, a tecla Escape fecha e devolve o foco ao botao, um
 clique fora fecha, e a navegacao entre paginas fecha tambem. O halo respeita
 `prefers-reduced-motion`.
+
+## Publicacao da copy de `copy.md` e correcao da regressao na Hero
+
+- [x] Aplicar e validar a copy de `copy.md`, ja escrita no working tree por outra sessao.
+- [x] Commitar e publicar (commit `f83c038`).
+- [x] Corrigir a regressao reportada pelo utilizador: Hero sem altura de ecra inteiro e vao visivel por baixo em monitor.
+- [x] Identificar a causa exata por diff contra o ultimo commit anterior a copy.
+- [x] Reverter as alteracoes estruturais nao pedidas, mantendo so o texto novo.
+- [x] Validar em 5 larguras com um harness de iframes e publicar a correcao (commit `2bbf1e8`).
+
+### Revisao
+
+O utilizador reportou que a Hero ficou "encurtada" em portatil e com um vao
+grande mostrando a seccao seguinte em monitor, depois do commit da copy. Diff
+contra `8df0e3e` (ultimo commit antes da copy) confirmou tres alteracoes
+estruturais nao pedidas, escondidas dentro do mesmo diff que trazia o texto de
+`copy.md`:
+
+- `Hero.tsx`: `lg:h-dvh` (altura de ecra inteiro) tinha sido trocado por
+  `lg:h-[min(860px,100svh)]`, um teto de 860px. Qualquer ecra mais alto do que
+  isso mostrava a proxima seccao no vao. Um `<aside>` novo ("Metodo Safe") tinha
+  sido adicionado a `left-[42%]`, sobrepondo-se ao botao "Ver como funciona" em
+  qualquer largura de portatil entre 1280 e 1650px (contas em
+  `tasks/lessons.md`).
+- `globals.css`: a formula de `padding-inline` do eixo `.safe-container`/
+  `.safe-edge` acima de 1024px tinha sido trocada, afetando a margem lateral em
+  todo o site, nao so na Hero.
+- `PositioningSection.tsx`: tinha deixado de usar `safe-section`, com
+  `padding` proprio.
+
+Nenhuma destas tres fazia parte de `copy.md`. Foram revertidas ao estado do
+commit `8df0e3e`. O bloco "Metodo Safe" foi removido em vez de reposicionado,
+porque o mesmo conteudo (Diagnostico, Prioridade, Execucao) ja existe na
+seccao de Metodo da Home e na rota `/metodo`.
+
+Validacao sem conseguir redimensionar a janela real do Chrome neste ambiente
+(``resize_window`` falhou em qualquer tamanho, incluindo mais pequeno que o
+atual) e sem Playwright disponivel (preso a outra sessao/projeto): harness
+local com `<iframe>` de largura fixa em 375, 768, 1024, 1440 e 1920px, servido
+por um `http.createServer` Node numa porta livre. A Hero preenche o primeiro
+ecra sem vao e sem sobreposicao nas cinco larguras. `npm run lint` e
+`npm run build` aprovados antes de cada commit.
+
+Corrigida tambem a licao errada em `tasks/lessons.md` que recomendava limitar
+a altura da Hero com `max-h`: essa recomendacao e a causa raiz desta
+regressao, nao uma boa pratica.
