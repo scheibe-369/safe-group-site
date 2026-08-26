@@ -15,12 +15,22 @@ const chip =
 const bubble =
   "flex h-11 w-11 items-center justify-center rounded-full border border-white/12 bg-[var(--safe-panel)] text-white/70 shadow-[0_10px_28px_rgba(0,0,0,.55)] transition-colors duration-300 group-hover:border-[var(--dock-accent)] group-hover:text-[var(--dock-accent)] group-focus-within:border-[var(--dock-accent)] group-focus-within:text-[var(--dock-accent)] sm:h-12 sm:w-12";
 
+// Mesmo tamanho do botao selo (h-14/w-14, sm:h-16/w-16): a bolinha da rede e
+// mais pequena que o selo, entao centra-la sozinha desalinhava os dois
+// circulos (a coluna alinha pela borda direita, e bordas iguais com
+// diametros diferentes dao centros diferentes). Este slot fixa a mesma
+// largura do selo e centra a bolinha dentro dele, os centros passam a
+// coincidir.
+const iconSlot = "flex h-14 w-14 items-center justify-center sm:h-16 sm:w-16";
+
 function NetworkRow({ network }: { network: SocialNetwork }) {
   const content = (
     <>
       <span className={chip}>{network.label}</span>
-      <span className={bubble}>
-        <NetworkGlyph id={network.id} className="h-[1.125rem] w-[1.125rem]" />
+      <span className={iconSlot}>
+        <span className={bubble}>
+          <NetworkGlyph id={network.id} className="h-[1.125rem] w-[1.125rem]" />
+        </span>
       </span>
     </>
   );
