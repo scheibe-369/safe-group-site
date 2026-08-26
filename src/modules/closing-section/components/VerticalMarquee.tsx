@@ -21,6 +21,21 @@ type VerticalMarqueeProps = {
  * metade da coluna, de 0 a -50%: quando a primeira metade sai de cena, a
  * segunda esta na posicao inicial e o corte fica invisivel. Anima apenas
  * `transform`, por isso corre no compositor e nao forca layout.
+ *
+ * As imagens levam `width`/`height` HTML explicitos (nao so a classe
+ * `w-full`) para o navegador reservar a altura pelo aspect-ratio intrinseco
+ * antes de decodificar o SVG. Sem isso, cada copia altera a altura total da
+ * coluna no momento em que carrega, e como a animacao desloca em `%` dessa
+ * altura, o alvo do `-50%` muda a meio do ciclo, ja em curso: e o salto/
+ * travao que se via de vez em quando.
+ *
+ * As imagens carregam eager, nao lazy: a heuristica nativa de `loading=lazy`
+ * mede a distancia ate a viewport pela posicao de layout, que aqui fica
+ * escondida atras de `overflow:hidden` e de um `transform` que so revela as
+ * copias visualmente. O resultado e as 12 copias so comecarem a carregar
+ * quando a seccao entra mesmo na viewport, ja com a animacao a meio,
+ * aparecendo em pop-in escalonado. Como as 12 apontam para o mesmo URL, o
+ * navegador so faz um pedido de rede de qualquer forma, eager nao custa mais.
  */
 export function VerticalMarquee({
   imageSrc = "/brand/safe-wordmark.svg",
@@ -44,7 +59,8 @@ export function VerticalMarquee({
             src={imageSrc}
             alt=""
             aria-hidden
-            loading="lazy"
+            width={623}
+            height={208}
             decoding="async"
             className="block w-full py-16"
           />
