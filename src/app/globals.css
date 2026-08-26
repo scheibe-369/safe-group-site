@@ -79,15 +79,10 @@ textarea:focus-visible {
 }
 
 /* Eixo de margem unico do site. Ate 1024px mantem a caixa centrada de 80rem.
-   A partir dai o conteudo deixa de ser uma ilha ao centro e ancora numa margem
-   proporcional de 9.4vw, a mesma da referencia visual aprovada. O segundo termo
-   do max() trava a largura util em 106rem para o texto nao esticar em ecra
-   ultralargo, mas sem o min() exterior essa trava cresce mais depressa que o
-   termo proporcional acima de ~2089px e produz uma margem gigante em monitores
-   de maior resolucao (432px a 2560px, 872px num ultralargo de 3440px). O min()
-   trava a margem no mesmo 15rem que o clamp ja usava como teto, preservando o
-   comportamento em qualquer largura ate ai. Cabecalho, Hero e seccoes
-   partilham este eixo. */
+   A partir dai ancora numa margem proporcional mais curta (5vw, teto de
+   7.5rem) para o conteudo comecar mais perto da borda em qualquer largura
+   de portatil ou monitor, em vez de crescer com a area vazia do ecra.
+   Cabecalho, Hero e seccoes partilham este eixo. */
 .safe-container,
 .safe-edge {
   width: min(100% - 2rem, 80rem);
@@ -100,7 +95,7 @@ textarea:focus-visible {
     width: 100%;
     max-width: none;
     margin-inline: 0;
-    padding-inline: min(max(clamp(3.5rem, 9.4vw, 15rem), calc((100vw - 106rem) / 2)), 15rem);
+    padding-inline: clamp(2rem, 5vw, 7.5rem);
   }
 }
 
