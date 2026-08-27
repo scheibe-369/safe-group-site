@@ -443,3 +443,92 @@ ecra sem vao e sem sobreposicao nas cinco larguras. `npm run lint` e
 Corrigida tambem a licao errada em `tasks/lessons.md` que recomendava limitar
 a altura da Hero com `max-h`: essa recomendacao e a causa raiz desta
 regressao, nao uma boa pratica.
+
+## Site inteiro numa unica pagina (inspirado em tyvo-athostudio.webflow.io)
+
+- [x] Mapear o conteudo exclusivo de `/metodo`, `/sobre`, `/solucoes` e `/contacto`
+      contra o que a Home ja mostra.
+- [x] Adicionar `id` + `scroll-mt-28` as quatro seccoes-ancora da Home
+      (`PositioningSection` = `#sobre`, `SolutionsSection` = `#solucoes`,
+      `MethodSection` = `#metodo`, `ClosingSection` = `#diagnostico`).
+- [x] Repontar os CTAs de `SolutionsSection`/`MethodSection` de `/solucoes` e
+      `/metodo` para `#diagnostico`, com o texto "Comecar diagnostico".
+- [x] Repontar `SiteHeader` e `SiteFooter` (nav, CTA, menu movel) de rotas para
+      ancoras `/#...`.
+- [x] Trocar `/metodo`, `/sobre`, `/solucoes` e `/contacto` por
+      `permanentRedirect` (308) para a ancora correspondente.
+- [x] Apagar `ClosingCta.tsx`, `DiagnosticPanel.tsx` e `DiagnosticForm.tsx`
+      (ficaram sem consumidor).
+- [x] Atualizar `sitemap.ts` para so listar `/` e `/cases`.
+- [x] `npm run lint`, `npm run build` e `curl -I` nos 4 redirects.
+
+### Revisao
+
+A Home ja tinha, antes desta entrega, as 9 seccoes que um site "tyvo" pediria
+(Hero, Positioning, Markets, Diagnostic, Solutions, Method, CasesRail, Faq,
+ClosingSection). O que faltava era parar de manter uma segunda copia desse
+conteudo em rotas proprias. Investigacao confirmou que essa segunda copia era
+quase toda redundante:
+
+- `/sobre` repetia a tese de `PositioningSection`, e os seus 3 pilares
+  (Leitura completa / Prioridade concreta / Execucao ligada) sao a mesma ideia
+  dos 5 passos do `MethodTimeline`, ja presente na Home.
+- `/solucoes` e `/metodo` renderizavam exatamente os mesmos componentes
+  (`SolutionsGrid`/`MethodTimeline`) que a Home ja mostra, so com um paragrafo
+  extra cada, que passou a viver dentro da propria seccao da Home.
+- `/contacto` tinha um formulario de diagnostico proprio (`DiagnosticPanel` →
+  `DiagnosticForm`), paralelo e duplicado ao formulario que ja vive dentro do
+  `ClosingSection`, a seccao final protegida. Esse par de componentes ficou
+  orfao e foi apagado; o resto do modulo `diagnostic` (schema, opcoes, api)
+  continua em uso direto pelo `ClosingSection`.
+
+Por instrucao explicita, Hero, `CasesRail` e `ClosingSection` nao foram
+tocados no conteudo. O unico toque no `ClosingSection` foi um `id="diagnostico"`
++ `scroll-mt-28` no `<section>`, sem nenhuma mudanca visual, porque o
+one-pager precisa de um alvo de ancora para os CTAs "Comecar diagnostico"
+espalhados pelo site (nav, footer, Solutions, Method).
+
+`/cases` e `/cases/[slug]` ficaram completamente intocados, incluindo como
+rotas proprias, cobrindo tambem a estrutura de rotas e nao so o componente
+`CasesRail`. `/tipografia` (ferramenta interna de QA) tambem ficou fora deste
+trabalho.
+
+As 4 rotas retiradas (`/metodo`, `/sobre`, `/solucoes`, `/contacto`) passaram
+a `permanentRedirect` de uma linha cada, confirmados com `curl -I` a devolver
+`308` e `Location: /#ancora`. O `sitemap.ts` deixou de as listar.
+
+Verificacao visual em browser real nao foi possivel nesta sessao: o Chrome
+controlado pela extensao esta na maquina real do utilizador, sem partilhar
+rede com o sandbox onde o `npm run start` local correu, e ao navegar para
+`localhost:4173` o Chrome mostrou uma aplicacao completamente diferente (um
+login de "Financas" de outro projeto local do utilizador, ocupando essa porta
+na maquina real). A verificacao ficou em `npm run lint`, `npm run build`
+(producao, 22 rotas geradas sem erro) e `curl` contra o servidor de producao
+local dentro do sandbox, confirmando os 4 redirects e os `id`/`href` corretos
+no HTML de `/` e `/cases`.
+
+## Barra de menu no padrão Tyvo (27/08/2026)
+
+Referência: `https://tyvo-athostudio.webflow.io`. Código extraído por completo
+(HTML da `nav.navbar`, CSS com medidas, JSON das interações IX2, capturas em
+1440, 768 e 375) para o scratchpad da sessão antes de escrever uma linha.
+
+- [x] Extrair a arquitetura real da Tyvo: DOM, CSS, coreografia IX2 com durações e delays, comportamento por breakpoint.
+- [x] Mapear o cabeçalho atual, o eixo `.safe-edge`, os tokens e as lições que o limitam.
+- [x] Converter `logo3d.svg` (recorte potrace) para um SVG positivo em `currentColor`.
+- [ ] Criar o módulo `src/modules/site-nav/` (Feature-Sliced): dados, tipos, componentes, hook, estilos da coreografia.
+- [ ] Barra: marca, ligações com máscara de texto, CTA com máscara e seta, alternador "Menu" com hambúrguer que vira X.
+- [ ] Menu: painel claro que desce, três colunas (navegação, cases, soluções), linha e rodapé do painel, painel visual com a marca 3D e imagens dos cases ao passar o rato, wordmark gigante cortado em baixo.
+- [ ] Estados: bloqueio de scroll, Escape, fecho ao navegar e ao clicar numa ligação, `aria-expanded`, `aria-controls`.
+- [ ] Montar em `src/app/layout.tsx` no lugar de `SiteHeader`.
+- [ ] Validar a 375, 768, 1024 e 1440 com Playwright, fechado e aberto, e comparar com a Tyvo.
+- [ ] Revisão por subagentes (visual, interação/acessibilidade, código) e correções.
+- [ ] Typecheck, lint, build limpo, commit só dos ficheiros do módulo, deploy e confirmação do CSS servido.
+
+### Decisões
+
+- A coreografia é feita com transições CSS conduzidas por `data-open` no `<header>`, com as mesmas durações, delays e curvas da Tyvo (`outCirc`, `swingTo`, `swingFrom`). Sem GSAP nem Framer Motion: o padrão da casa é CSS e o que a IX2 faz são tweens simples de `transform`, `opacity` e cor.
+- Estrutura e comportamento vêm da Tyvo; identidade vem da Safe: botões quadrados de 44px com texto de 13px, caixa alta com tracking, vermelho Safe no lugar do verde-lima, painel em branco Safe com texto preto.
+- O `.menu` vive dentro do `<header>` como na Tyvo, para a barra ficar por cima do painel aberto sem novo `z-index`. Por isso o `<header>` não pode ter `backdrop-filter` nem `transform`, senão o `fixed` do painel deixa de ser relativo à janela.
+- O logótipo na barra continua a ser o lockup oficial (`safe-lockup.webp`); para escurecer sobre o painel claro gera-se uma variante escura com o vermelho preservado e faz-se cross-fade. A `logo3d.svg` entra em grande no painel visual da direita, no lugar do render 3D da Tyvo.
+- As ligações usam as âncoras do one-page que outra sessão deixou no working tree (`/#solucoes`, `/#metodo`, `/cases`, `/#sobre`, `/#diagnostico`).

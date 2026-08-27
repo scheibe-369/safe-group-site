@@ -7,10 +7,10 @@ import { Menu, X } from "lucide-react";
 import { SiteLogo } from "./SiteLogo";
 
 const links = [
-  { href: "/solucoes", label: "Soluções" },
-  { href: "/metodo", label: "Método" },
+  { href: "/#solucoes", label: "Soluções" },
+  { href: "/#metodo", label: "Método" },
   { href: "/cases", label: "Cases" },
-  { href: "/sobre", label: "Sobre" },
+  { href: "/#sobre", label: "Sobre" },
 ];
 
 export function SiteHeader() {
@@ -38,7 +38,7 @@ export function SiteHeader() {
             </Link>
           ))}
         </nav>
-        <Link href="/contacto" className="hidden min-h-[2.875rem] items-center border border-white/55 px-5 text-sm font-semibold uppercase tracking-[.1em] text-white transition-colors hover:border-[var(--safe-red)] hover:bg-[var(--safe-red)] lg:inline-flex">
+        <Link href="/#diagnostico" className="hidden min-h-[2.875rem] items-center border border-white/55 px-5 text-sm font-semibold uppercase tracking-[.1em] text-white transition-colors hover:border-[var(--safe-red)] hover:bg-[var(--safe-red)] lg:inline-flex">
           Começar diagnóstico
         </Link>
         <button type="button" onClick={() => setOpen((value) => !value)} className="flex h-11 w-11 items-center justify-center border border-white/25 text-white lg:hidden" aria-expanded={open} aria-label={open ? "Fechar menu" : "Abrir menu"}>
@@ -47,7 +47,7 @@ export function SiteHeader() {
       </div>
       {open && (
         <nav aria-label="Navegação móvel" className="border-t border-white/10 bg-black px-4 pb-8 pt-4 lg:hidden">
-          {[...links, { href: "/contacto", label: "Contacto" }].map((link) => (
+          {[...links, { href: "/#diagnostico", label: "Contacto" }].map((link) => (
             <Link key={link.href} href={link.href} className="block min-h-12 border-b border-white/10 py-4 font-display text-2xl text-white">
               {link.label}
             </Link>

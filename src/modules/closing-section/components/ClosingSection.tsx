@@ -79,7 +79,7 @@ export function ClosingSection({ enabled, year, content = closingSectionContent 
   }
 
   return (
-    <section className="relative overflow-hidden border-t border-white/10 bg-[#070707] py-16 lg:py-20">
+    <section id="diagnostico" className="relative overflow-hidden border-t border-white/10 bg-[#070707] py-16 scroll-mt-28 lg:py-20">
       <div aria-hidden className="safe-red-line absolute inset-x-0 top-0 h-px" />
       <div aria-hidden className="pointer-events-none absolute -bottom-40 -left-40 h-[520px] w-[720px] rounded-full bg-[rgba(227,6,36,.09)] blur-[150px]" />
 
