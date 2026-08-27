@@ -12,7 +12,7 @@ import type { CaseStudy } from "../types/case-study";
 export const hasDemoCases = (items: CaseStudy[]) => items.some((item) => item.isDemo);
 
 /**
- * Os cases "growth-hub", "previa", "falow" e "rede-de-moteis" no início são reais, com evidência
+ * Os cases "growth-hub", "previa", "falow", "rede-de-moteis" e "brasil-dtf" no início são reais, com evidência
  * aprovada pelo utilizador em 27/08/2026, e ficam à frente por serem prova
  * concreta. Os restantes são conteúdo de demonstração: clientes, contextos e
  * resultados inventados, marcados com `isDemo: true` e sem correspondência a
@@ -106,6 +106,30 @@ export const caseStudies: CaseStudy[] = [
       "Atendimento dos três motéis passou a operar dentro do mesmo sistema.",
       "Mais de cinco números de WhatsApp geridos ao mesmo tempo sem perder controlo.",
       "Estrutura pronta para expansão a novos motéis da rede.",
+    ],
+    gallery: [],
+  },
+  {
+    slug: "brasil-dtf",
+    client: "Brasil DTF",
+    sector: "Indústria Gráfica",
+    summary: "Empresa de impressoras DTF sem site para sustentar campanhas no Google e sem nenhuma ferramenta digital para o mercado de estampas que já atendia.",
+    cover: "/cases/brasil-dtf.webp",
+    area: "Site institucional e produto SaaS",
+    deliverables: [
+      "Landing page institucional otimizada para Google Ads",
+      "SEO técnico e performance mobile",
+      "Stamp AI (Halftone Studio), SaaS de pós-produção de estampas",
+      "Sistema multiempresa com login e plano de assinatura",
+    ],
+    context: "A Brasil DTF vende impressoras DTF e UV DTF para lojistas e fabricantes de estampas, mas não tinha site para sustentar campanhas no Google nem nenhuma ferramenta digital além da venda das próprias máquinas.",
+    challenge: "Sem um site rápido e bem estruturado, o investimento em Google Ads perdia eficiência, e o mercado de estampas que a Brasil DTF já atendia (lojistas que precisam remover fundo e aplicar meio-tom nas artes antes de imprimir) não tinha nenhuma ferramenta acessível para isso.",
+    intervention: "Construção de um site institucional com padrão profissional de landing page, otimizado para SEO e para campanhas no Google, validado em velocidade e performance mobile. Em paralelo, desenvolvimento do Stamp AI (Halftone Studio), um SaaS próprio para o mercado de estampas, com remoção de fundo, geração e upscale de imagem e diferentes técnicas de meio-tom, pronto para o fluxo de quem imprime estampas.",
+    structure: "Site institucional rápido e otimizado para tráfego pago e busca orgânica, e uma plataforma SaaS separada com sistema multiempresa, login próprio por loja, sistema de tokens e as ferramentas de pós-produção de imagem que o mercado de estampas precisa.",
+    results: [
+      "Site validado em velocidade e performance mobile, pronto para sustentar campanhas no Google.",
+      "Stamp AI (Halftone Studio) lançado como SaaS próprio, hoje com mais de 20 lojistas ativos.",
+      "Nova frente de faturamento para a Brasil DTF, fora da venda de impressoras.",
     ],
     gallery: [],
   },
@@ -268,30 +292,5 @@ export const caseStudies: CaseStudy[] = [
     ],
     gallery: [],
     isDemo: true,
-  },
-  {
-    slug: "growth-hub",
-    client: "Growth Hub",
-    sector: "Serviços e Tecnologia",
-    summary: "Operação inteira sem base digital própria: site, aquisição, conteúdo e sistemas internos dependiam de esforço disperso.",
-    cover: "/cases/growth-hub.webp",
-    area: "Infraestrutura digital",
-    deliverables: [
-      "Site institucional",
-      "Processo operacional",
-      "Estratégia de tráfego pago e conteúdo",
-      "Sistema de hub de agentes de IA",
-      "Sistema de contabilidade de tokens de IA",
-    ],
-    context: "Empresa em crescimento sem site institucional, sem processo comercial documentado e sem sistemas internos que sustentassem a operação de agentes de IA.",
-    challenge: "Cada frente (site, aquisição, conteúdo, operação) avançava de forma avulsa, sem uma infraestrutura comum nem sistemas que acompanhassem o crescimento da equipa.",
-    intervention: "Construção do site institucional, do processo operacional e da estratégia de tráfego pago e conteúdo, incluindo os primeiros formatos para os experts da equipa. Em paralelo, desenho e implementação de dois sistemas internos: um hub de agentes de IA e um sistema de contabilidade de tokens.",
-    structure: "Site, processo operacional, estratégia de aquisição e sistemas internos de IA a funcionar como uma base única, sem depender de conhecimento disperso pela equipa.",
-    results: [
-      "Infraestrutura digital completa em operação, do site aos sistemas internos.",
-      "Processo comercial e de conteúdo documentado e replicável.",
-      "Sistemas internos de IA a sustentar a operação diária da equipa.",
-    ],
-    gallery: [],
   },
 ];
