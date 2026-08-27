@@ -600,4 +600,55 @@ Nenhum commit, push ou deploy foi realizado.
 - Revisão visual apanhou e corrigiu: marca 3D pequena no painel visual (agora sangra pelo canto como o render da Tyvo), vão morto entre painel e wordmark, CTA colado à fronteira, lockup ilegível na linha legal (agora texto), CTA de tablet abaixo da linha legal, navegação de 375 a ocupar seis linhas.
 - Playwright MCP estava preso a outra sessão; a bateria correu com `playwright-core` sobre o Chrome instalado (`channel: "chrome"`) a partir do scratchpad, num worktree temporário `site-safe-nav-qa` porque a árvore principal estava a meio de um refactor do módulo `cases` por outra sessão.
 - Depois da publicação, com cinco cases reais no catálogo, a coluna dos cases do menu chegou a treze entradas (um slug repetido) e o painel cresceu até tapar o wordmark gigante. A coluna lista só os cases reais, sem repetir slugs, e fecha com "Todos os cases"; só volta aos de demonstração, com aviso, se não houver nenhum real.
+- A pedido, a marca da barra passou a vetor: símbolo 3D vindo de `logo3d.svg`, filete e wordmark "SAFE GROUP" em `currentColor`, a mudar de branco para preto quando o menu abre. O lockup em imagem deixou de ser usado na barra (o rodapé continua a usá-lo). Publicado na Version ID 487d4e9f.
 - Fora do âmbito e por decidir: `src/shared/layout/SiteHeader.tsx` ficou órfão (ninguém o importa) mas outra sessão continua a mexer-lhe, por isso não foi apagado nesta entrega. As capas dos cases de demonstração são abstratas, por isso o hover no painel visual troca o mesmo tipo de imagem para todos; capas reais dão sentido ao gesto.
+
+## Cor real na marca 3D do painel do menu (27/08/2026)
+
+- [x] Comparar `SafeMark3D`/`logo3d.svg` com `design-source/logo-semfundo.png`.
+- [x] Separar o monograma S+G em duas cores fiéis à marca, em vez do bloco único `currentColor`.
+- [x] Atualizar `SafeMark3D.tsx`, `public/brand/safe-mark-3d.svg` e remover o `text-white` morto do `MenuPanel`.
+- [x] Validar visualmente contra a referência e `npm run lint`.
+
+### Revisão
+
+Pedido do utilizador: a marca 3D do painel do menu está sem cor, comparar com o
+ficheiro de origem e transformar na logo real da Safe (duas cores), mantendo o
+carácter "meio 3D, meio tech".
+
+Investigação: `logo3d.svg` (raiz) é um recorte potrace de um render 3D da marca,
+com um problema de origem. O lado branco (S) saiu como massa sólida, mas o lado
+vermelho (G) só sobreviveu à extração como linhas finas de contorno, sem bloco
+preenchido, provavelmente porque o vermelho do render tinha pouco contraste
+contra o fundo escuro para o limiar do potrace. Colorir o traço tal como estava
+teria dado um "S" branco robusto ao lado de um "G" quase invisível.
+
+Correção: em vez de remendar o traço com defeito, `design-source/logo-semfundo.png`
+(referência oficial, 1254×1254, já com o vermelho e o branco corretos) foi
+separado por canal de cor com `sharp` em duas máscaras binárias, cada uma
+vetorizada com `potrace` (instalado isolado num scratchpad, não no
+`node_modules` do projeto, para não colidir com sessões em paralelo a mexer
+nas dependências). O resultado, dois `<path>` limpos, foi validado por
+composição e renderização lado a lado com o PNG original antes de entrar no
+componente: batem pixel a pixel.
+
+`SafeMark3D.tsx` passou de um único `path fill="currentColor"` para dois
+`path`, `var(--safe-white)` e `var(--safe-red)`, no mesmo `viewBox` da nova
+geometria (1254×1254). `public/brand/safe-mark-3d.svg`, cópia estática não
+referenciada por código mas mantida em sincronia, recebeu a mesma geometria
+com cores fixas em hexadecimal (um SVG carregado por `<img>` não resolve
+`var()` do documento que o envolve). `logo3d.svg` na raiz não foi tocado: é o
+traço bruto original, material de referência, não o entregável.
+
+`MenuPanel.tsx` perdeu o `text-white` morto no `<SafeMark3D>`, sem efeito
+depois de a marca deixar de depender de `currentColor`.
+
+Verificação: composição das duas cores renderizada com `sharp` bate com
+`logo-semfundo.png`. Sem servidor Next disponível no momento (14 processos
+`node` de sessões em paralelo a disputar a máquina, `next dev` nunca chegou a
+"Ready"), a posição real no painel (`-right-[9%] -top-[7%] h-[112%]` sobre
+`bg-[var(--safe-black)]`) foi confirmada por uma página HTML estática com as
+mesmas variáveis CSS e classes, no Chrome real. `npm run lint` aprovado
+(typecheck, copy, skills).
+
+Nenhum commit, push ou deploy foi realizado.
