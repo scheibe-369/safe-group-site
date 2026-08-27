@@ -1,3 +1,4 @@
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -5,6 +6,10 @@ import type { NavLink, SiteNavContent } from "../types";
 import { DiagonalArrow } from "./DiagonalArrow";
 import { SafeMark3D } from "./SafeMark3D";
 import { TextMask } from "./TextMask";
+
+// O three so entra no bundle quando o menu abre pela primeira vez; ate la, e
+// enquanto a cena carrega, fica a silhueta plana por baixo.
+const SafeMark3DScene = dynamic(() => import("./SafeMark3DScene").then((module) => module.SafeMark3DScene), { ssr: false });
 
 type MenuPanelProps = {
   id: string;
@@ -114,7 +119,8 @@ export function MenuPanel({ id, open, content, year, onNavigate }: MenuPanelProp
         </div>
 
         <div aria-hidden className="absolute inset-y-0 right-0 hidden w-[42%] overflow-hidden bg-[var(--safe-black)] lg:block">
-          <SafeMark3D className="absolute -right-[9%] -top-[7%] h-[112%] w-auto text-white" />
+          {primed && <SafeMark3DScene active={open} className="absolute inset-0" />}
+          <SafeMark3D className="site-nav__flat-mark absolute -right-[9%] -top-[7%] h-[112%] w-auto text-white" />
           {primed &&
             content.cases.map((study) => (
               <Image key={study.slug} src={study.cover} alt="" fill sizes="42vw" data-active={activeCase === study.slug} className="site-nav__cover object-cover" />

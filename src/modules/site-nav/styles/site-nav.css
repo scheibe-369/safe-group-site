@@ -235,6 +235,32 @@ html {
   transition: transform 0.5s var(--nav-out-circ) 1.2s;
 }
 
+/* Cena 3D da marca: entra em fade por cima da silhueta plana quando o
+   primeiro frame esta desenhado; a capa do case fica por cima de ambas. */
+.site-nav__scene {
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.site-nav__scene[data-ready="true"] {
+  opacity: 1;
+}
+
+.site-nav__scene canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* A silhueta plana e o fallback: apaga-se quando a cena 3D ja desenhou. */
+.site-nav__flat-mark {
+  transition: opacity 0.8s ease;
+}
+
+.site-nav__scene[data-ready="true"] + .site-nav__flat-mark {
+  opacity: 0;
+}
+
 /* Capa do case sob o rato no painel visual. */
 .site-nav__cover {
   opacity: 0;
