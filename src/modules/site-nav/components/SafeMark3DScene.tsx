@@ -16,7 +16,8 @@ type SafeMark3DSceneProps = {
  * Versao tridimensional da marca: o monograma e extrudido a partir dos mesmos
  * caminhos do vetor, com o S em metal prateado e o G em vermelho Safe
  * lacado, luz de recorte vermelha e um ambiente de estudio para os reflexos.
- * Roda devagar sozinho e inclina-se com o rato. O three so entra no bundle
+ * Fica virado para a esquerda com um balanco leve, a luz principal desliza
+ * devagar pela superficie e o rato so acrescenta um sopro. O three so entra no bundle
  * quando o painel o pede (import dinamico no MenuPanel); ate a cena estar
  * pronta fica a silhueta plana por baixo.
  */
@@ -46,7 +47,7 @@ export function SafeMark3DScene({ active, className = "" }: SafeMark3DSceneProps
     scene.environment = environment;
 
     const camera = new THREE.PerspectiveCamera(30, 1, 1, 10000);
-    camera.position.set(0, 0, 1750);
+    camera.position.set(0, 0, 1320);
 
     const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${SAFE_MARK_VIEWBOX}"><path id="s" d="${SAFE_MARK_S}"/><path id="g" d="${SAFE_MARK_G}"/></svg>`;
     const group = new THREE.Group();
@@ -54,7 +55,7 @@ export function SafeMark3DScene({ active, className = "" }: SafeMark3DSceneProps
     const materialG = new THREE.MeshPhysicalMaterial({ color: 0xc9021f, metalness: 0.5, roughness: 0.3, clearcoat: 1, clearcoatRoughness: 0.12 });
     const geometries: THREE.BufferGeometry[] = [];
     for (const path of new SVGLoader().parse(svg).paths) {
-      const geometry = new THREE.ExtrudeGeometry(SVGLoader.createShapes(path), { depth: 120, bevelEnabled: true, bevelThickness: 6, bevelSize: 5, bevelSegments: 3, curveSegments: 24 });
+      const geometry = new THREE.ExtrudeGeometry(SVGLoader.createShapes(path), { depth: 42, bevelEnabled: true, bevelThickness: 3, bevelSize: 2.5, bevelSegments: 3, curveSegments: 24 });
       geometries.push(geometry);
       group.add(new THREE.Mesh(geometry, (path.userData?.node as SVGElement | undefined)?.id === "g" ? materialG : materialS));
     }
@@ -74,6 +75,8 @@ export function SafeMark3DScene({ active, className = "" }: SafeMark3DSceneProps
 
     let pointerX = 0;
     let pointerY = 0;
+    let smoothX = 0;
+    let smoothY = 0;
     const onPointer = (event: PointerEvent) => {
       pointerX = (event.clientX / window.innerWidth - 0.5) * 2;
       pointerY = (event.clientY / window.innerHeight - 0.5) * 2;
@@ -97,9 +100,12 @@ export function SafeMark3DScene({ active, className = "" }: SafeMark3DSceneProps
       frame = requestAnimationFrame(tick);
       if (!activeRef.current) return;
       const t = reduceMotion ? 0 : clock.getElapsedTime();
-      group.rotation.y = Math.sin(t * 0.45) * 0.42 + pointerX * 0.35;
-      group.rotation.x = Math.sin(t * 0.32) * 0.12 - pointerY * 0.25;
-      group.rotation.z = Math.sin(t * 0.2) * 0.04;
+      smoothX += (pointerX - smoothX) * 0.04;
+      smoothY += (pointerY - smoothY) * 0.04;
+      group.rotation.y = -0.48 + Math.sin(t * 0.35) * 0.06 + smoothX * 0.05;
+      group.rotation.x = 0.1 + Math.sin(t * 0.27) * 0.03 - smoothY * 0.03;
+      group.rotation.z = Math.sin(t * 0.21) * 0.015;
+      key.position.set(-600 + Math.sin(t * 0.3) * 700, 700 + Math.cos(t * 0.25) * 250, 900);
       renderer.render(scene, camera);
     };
     renderer.render(scene, camera);
