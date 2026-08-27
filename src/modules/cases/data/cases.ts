@@ -12,7 +12,7 @@ import type { CaseStudy } from "../types/case-study";
 export const hasDemoCases = (items: CaseStudy[]) => items.some((item) => item.isDemo);
 
 /**
- * Os cases "growth-hub", "previa" e "falow" no início são reais, com evidência
+ * Os cases "growth-hub", "previa", "falow" e "rede-de-moteis" no início são reais, com evidência
  * aprovada pelo utilizador em 27/08/2026, e ficam à frente por serem prova
  * concreta. Os restantes são conteúdo de demonstração: clientes, contextos e
  * resultados inventados, marcados com `isDemo: true` e sem correspondência a
@@ -83,6 +83,31 @@ export const caseStudies: CaseStudy[] = [
     ],
     gallery: [],
     credit: { label: "@matheusfonseca.ia", href: "https://www.instagram.com/matheusfonseca.ia/" },
+  },
+  {
+    slug: "rede-de-moteis",
+    client: "Cozumel, Manhattan e Atenas",
+    sector: "Software e SaaS",
+    summary: "Rede de três motéis com atendimento disperso entre WhatsApp e Instagram, sem um sistema único para gerir tudo.",
+    cover: "/cases/rede-de-moteis.webp",
+    area: "Sistema de atendimento",
+    deliverables: [
+      "CRM de atendimento",
+      "Integração WhatsApp oficial e não oficial",
+      "Integração com Instagram",
+      "Multi-login por função",
+      "Controlo financeiro e de campanhas",
+    ],
+    context: "Rede com três motéis, o Cozumel, o Manhattan e o Atenas, com atendimento disperso entre WhatsApp e Instagram, sem um sistema único que ligasse conversas, campanhas e financeiro.",
+    challenge: "Cada motel geria o atendimento à sua maneira, com mais de cinco números de WhatsApp ativos ao mesmo tempo e sem controlo central sobre quem via o quê, do atendente ao gerente.",
+    intervention: "Construção de um CRM de atendimento próprio, com WhatsApp API oficial e não oficial, Instagram integrado no mesmo painel, controlo de campanhas e módulo financeiro. Multi-login separa o acesso por função: administrador, gerente de loja e atendentes.",
+    structure: "Sistema único a suportar atendimento simultâneo em mais de cinco números de WhatsApp e Instagram, com acesso segmentado por função e pronto para receber novos motéis da rede.",
+    results: [
+      "Atendimento dos três motéis passou a operar dentro do mesmo sistema.",
+      "Mais de cinco números de WhatsApp geridos ao mesmo tempo sem perder controlo.",
+      "Estrutura pronta para expansão a novos motéis da rede.",
+    ],
+    gallery: [],
   },
   {
     slug: "norte-mobilidade",
