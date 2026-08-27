@@ -12,6 +12,13 @@ type UseCasesSwiperArgs = {
    * encontrar o elemento ja renderizado em vez de criar um novo.
    */
   dragClass: string;
+  /**
+   * Classe aplicada ao trilho enquanto o arraste esta em curso, para suprimir
+   * a transicao de hover da capa. Sem isto, cada slide que o cursor atravessa
+   * a meio do arraste dispara a sua propria transicao de 500ms ao mesmo tempo
+   * que o trilho esta a ser transformado, e o resultado sente-se travado.
+   */
+  draggingClass: string;
   /** Reinicializa as medidas quando a lista de cases muda de tamanho. */
   itemCount: number;
 };
@@ -30,7 +37,7 @@ type UseCasesSwiperArgs = {
  * margem do `.safe-container` e mais estreita nesse intervalo, e 4 slides
  * aos 480px davam cartoes de menos de 100 pixels, ilegiveis.
  */
-export function useCasesSwiper({ dragClass, itemCount }: UseCasesSwiperArgs) {
+export function useCasesSwiper({ dragClass, draggingClass, itemCount }: UseCasesSwiperArgs) {
   const containerRef = useRef<HTMLDivElement>(null);
   const prevRef = useRef<HTMLButtonElement>(null);
   const nextRef = useRef<HTMLButtonElement>(null);
@@ -68,13 +75,18 @@ export function useCasesSwiper({ dragClass, itemCount }: UseCasesSwiperArgs) {
       },
     });
 
+    const startDragging = () => container.classList.add(draggingClass);
+    const stopDragging = () => container.classList.remove(draggingClass);
+    instance.on("sliderFirstMove", startDragging);
+    instance.on("touchEnd", stopDragging);
+
     swiperRef.current = instance;
 
     return () => {
       instance.destroy(true, true);
       swiperRef.current = null;
     };
-  }, [dragClass]);
+  }, [dragClass, draggingClass]);
 
   useEffect(() => {
     swiperRef.current?.update();

@@ -151,6 +151,22 @@
   }
 }
 
+/* ---------------------------------------------------------------------------
+   Arraste
+   Enquanto o trilho esta a ser arrastado, cada slide que o cursor atravessa
+   ainda cumpre :hover. Sem isto, a transicao de hover de cada slide corre ao
+   mesmo tempo que o trilho esta a ser transformado, e o arraste sente-se
+   travado. A classe e aplicada pelo useCasesSwiper via eventos do Swiper.
+   --------------------------------------------------------------------------- */
+.track.isDragging .slide:hover .img {
+  transform: none;
+}
+
+.track.isDragging .slide:hover .meta,
+.track.isDragging .slide:hover .hoverLabel {
+  transform: none;
+}
+
 /* Paridade de teclado: o foco no link revela o mesmo estado do hover. */
 .slide:focus-within .img {
   transform: scale(1.03);

@@ -42,6 +42,7 @@ export function CasesCarousel({
 }: CasesCarouselProps) {
   const { containerRef, prevRef, nextRef, scrollbarRef } = useCasesSwiper({
     dragClass: styles.drag,
+    draggingClass: styles.isDragging,
     itemCount: items.length,
   });
 
