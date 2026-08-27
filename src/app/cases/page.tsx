@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
 import { CasesDirectory } from "@/modules/cases/components/CasesDirectory";
-import { casesAreDemo } from "@/modules/cases/data/cases";
+import { caseStudies, hasDemoCases } from "@/modules/cases/data/cases";
 import { PageHero } from "@/shared/layout/PageHero";
 
 export const metadata: Metadata = {
   title: "Cases",
   description: "Cases da Safe Group apresentados com contexto, decisão, intervenção e resultados verificáveis.",
-  // Enquanto os cases forem de demonstração, a rota fica fora dos motores de busca.
-  ...(casesAreDemo ? { robots: { index: false, follow: false } } : {}),
+  // A rota só fica fora dos motores de busca se todos os cases ainda forem demonstração.
+  ...(caseStudies.every((item) => item.isDemo) && hasDemoCases(caseStudies)
+    ? { robots: { index: false, follow: false } }
+    : {}),
 };
 
 export default function CasesPage() {

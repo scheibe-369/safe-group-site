@@ -1,15 +1,16 @@
-import { casesAreDemo } from "../data/cases";
+import { caseStudies, hasDemoCases } from "../data/cases";
 
 /**
- * Aviso mostrado enquanto os cases publicados forem de demonstração.
+ * Aviso mostrado enquanto existir pelo menos um case de demonstração entre os
+ * publicados.
  *
  * Existe porque o site está no ar sob a marca da Safe e um visitante não tem
- * como distinguir um case inventado de um real. Desaparece de todo o site
- * assim que `casesAreDemo` passar a `false`, junto com o `noindex` das rotas
- * de case.
+ * como distinguir um case inventado de um real. Desaparece assim que o
+ * último `isDemo: true` sair do array, junto com o `noindex` da respetiva
+ * página de case.
  */
 export function CasesDemoNotice({ className }: { className?: string }) {
-  if (!casesAreDemo) return null;
+  if (!hasDemoCases(caseStudies)) return null;
 
   return (
     <p
@@ -21,7 +22,7 @@ export function CasesDemoNotice({ className }: { className?: string }) {
         .join(" ")}
     >
       <span aria-hidden="true" className="inline-block h-1.5 w-1.5 shrink-0 bg-[var(--safe-red)]" />
-      Conteúdo de demonstração. Estes cases são fictícios e servem para validar o formato.
+      Alguns cases abaixo são conteúdo de demonstração, fictícios, para validar o formato.
     </p>
   );
 }

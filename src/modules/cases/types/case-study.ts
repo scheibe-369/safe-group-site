@@ -12,4 +12,6 @@ export type CaseStudy = {
   structure: string;
   results: string[];
   gallery: string[];
+  /** Marca um case fictício, usado só para validar o formato. Omitido em cases reais. */
+  isDemo?: boolean;
 };

@@ -29,7 +29,7 @@ Read `README.md`, `tasks/todo.md`, `tasks/lessons.md`, `skills/safe-brand-contex
 - Never use Unicode U+2014 or U+2013 in copy, prompts or generated interface text.
 - Position Safe for high ticket operations across multiple sectors. Automóvel, financeiro e software/SaaS are established experience verticals, not a closed list.
 - Do not position Safe as a generic marketing, traffic, automation, software or AI agency.
-- Do not mention the Growth Hub relationship in Safe commercial copy or cases. Keep it only in internal context and in the mandatory production credit.
+- The Growth Hub relationship may appear as a real, evidenced case in `/cases` (approved 27/08/2026), in Safe's structural voice (context, challenge, intervention, structure, verified results), never as agency/marketing-service language. Outside that one case entry, keep the relationship out of commercial copy and rely on the mandatory production credit.
 - Never invent clients, testimonials, metrics or results.
 - Every delivered page must include the footer credit “Desenvolvido por Method Growth Hub” linked to `https://methodgrowthhub.com.br` with `target="_blank" rel="noopener"`.
 

@@ -532,3 +532,61 @@ Referência: `https://tyvo-athostudio.webflow.io`. Código extraído por complet
 - O `.menu` vive dentro do `<header>` como na Tyvo, para a barra ficar por cima do painel aberto sem novo `z-index`. Por isso o `<header>` não pode ter `backdrop-filter` nem `transform`, senão o `fixed` do painel deixa de ser relativo à janela.
 - O logótipo na barra continua a ser o lockup oficial (`safe-lockup.webp`); para escurecer sobre o painel claro gera-se uma variante escura com o vermelho preservado e faz-se cross-fade. A `logo3d.svg` entra em grande no painel visual da direita, no lugar do render 3D da Tyvo.
 - As ligações usam as âncoras do one-page que outra sessão deixou no working tree (`/#solucoes`, `/#metodo`, `/cases`, `/#sobre`, `/#diagnostico`).
+
+## Primeiro case real: Growth Hub (27/08/2026)
+
+- [x] Confirmar com o utilizador a mudança de política (AGENTS.md e lessons.md proibiam citar a Growth Hub em cases) e a classificação de setor.
+- [x] Converter `cases-imagens-das-logos/growth-hub.png` para `public/cases/growth-hub.webp` (1122x1402, 4:5, mantido nativo).
+- [x] Refatorar `casesAreDemo` (interruptor global) para `isDemo` por case, com `hasDemoCases()` derivado, porque um case real misturado aos 8 fictícios não podia herdar noindex/aviso do grupo todo.
+- [x] Atualizar os 4 consumidores do interruptor antigo: `CasesDemoNotice`, `/cases` (robots), `/cases/[slug]` (robots por item) e `sitemap.ts` (filtro por item).
+- [x] Adicionar o case "growth-hub" (setor novo "Serviços e Tecnologia"), na voz estrutural dos outros cases, sem linguagem de agência.
+- [x] Atualizar AGENTS.md e lessons.md para refletir a nova política.
+- [x] `npm run lint`, `npm run build` (23 rotas) e verificação visual real (Chrome) em 375, 768, 1024 e 1440.
+
+### Revisão
+
+O pedido do utilizador ("adicionar o card da Growth Hub aos cases") contrariava uma regra
+explícita e duas vezes registada (`AGENTS.md:32` e `tasks/lessons.md`): não mencionar a
+Growth Hub na narrativa comercial da Safe. Confirmado com o utilizador antes de qualquer
+edição: este passa a ser o primeiro case real aprovado, e ambos os documentos foram
+atualizados para não sinalizar isto como violação numa sessão futura.
+
+Setor: nenhum dos 3 setores existentes (Automóvel, Financeiro, Software e SaaS) cobria o
+âmbito do trabalho (site, infraestrutura, tráfego pago, conteúdo, sistemas internos de IA).
+Criado o 4º setor "Serviços e Tecnologia", por escolha do utilizador. `groupBySector` já
+deriva a âncora e a barra de setores sem alteração de código.
+
+Problema técnico encontrado ao planear: `casesAreDemo` era um único interruptor global,
+usado por 4 consumidores para decidir noindex e o aviso de demonstração. Misturar um case
+real (Growth Hub) com os 8 fictícios quebrava os dois lados: mantendo o interruptor em
+`true`, o case real ficava noindex e com aviso de "fictício"; virando para `false`, os 8
+cases inventados perdiam noindex e entravam no sitemap, contra a lição de não publicar
+cliente/resultado sem evidência. Resolvido com `isDemo?: boolean` por item no tipo
+`CaseStudy`, os 8 cases existentes marcados `isDemo: true`, e `hasDemoCases()` como função
+derivada. Os 4 consumidores (`CasesDemoNotice`, robots de `/cases`, robots de
+`/cases/[slug]`, filtro do `sitemap.ts`) passaram a ler por item em vez do interruptor
+global. `/cases` só fica noindex se todos os cases ainda forem demo; o aviso mostra-se
+enquanto existir pelo menos um.
+
+Durante a implementação, outra sessão em paralelo (o card "Previa", usando a mesma pasta
+`cases-imagens-das-logos/`) leu e estendeu o mesmo `isDemo`/`hasDemoCases`, sem conflito:
+o comentário partilhado do array já referia os dois cases reais antes de o "previa" ter
+sido de facto adicionado ao array.
+
+Imagem: `cases-imagens-das-logos/growth-hub.png` (1122x1402, mockup de laptop com o
+logótipo "growth hub") convertido para WebP com `sharp` a qualidade 82, mantendo a
+resolução nativa (já em 4:5). Confirmado por crop de pré-visualização que o corte 16/9
+usado pelo `CaseDetail` mantém o logótipo bem enquadrado, sem `object-position` especial.
+
+Copy: contexto, desafio, intervenção e estrutura escritos na mesma voz dos outros 8 cases
+(diagnóstico, decisão, execução), sem números inventados e sem linguagem de agência de
+marketing/tráfego/IA, para não contradizer o posicionamento da Safe (`AGENTS.md:31`).
+
+Verificação: `npm run lint` aprovado. `npm run build` com 23 rotas, incluindo os 9 cases.
+Servidor de produção local confirmado por Chrome real (marcador único: título da aba e
+lockup Safe Group visíveis) em 375, 768, 1024 e 1440, sem overflow horizontal, imagem de
+capa e crop 16/9 corretos, `robots: index, follow` em `/cases/growth-hub` e
+`robots: noindex, nofollow` mantido em `/cases/norte-mobilidade`. Sitemap confirmado com
+`/`, `/cases` e `/cases/growth-hub`, sem nenhum slug de demonstração.
+
+Nenhum commit, push ou deploy foi realizado.

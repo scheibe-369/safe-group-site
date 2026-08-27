@@ -1,21 +1,22 @@
 import type { CaseStudy } from "../types/case-study";
 
 /**
- * Ligado enquanto os cases publicados forem de demonstração.
+ * Cada case marca `isDemo: true` se for fictício. Um case sem essa marca é
+ * real, com evidência aprovada, e entra no sitemap e no índice dos motores de
+ * busca individualmente.
  *
- * Enquanto for `true`, a rota /cases e as páginas de case ficam fora do índice
- * dos motores de busca e fora do sitemap, e o site mostra um aviso onde os
- * cases aparecem.
- *
- * Quando entrarem cases reais com evidências aprovadas: substituir o array
- * abaixo e pôr esta constante a `false`. É o único interruptor.
+ * `hasDemoCases` alimenta o aviso mostrado enquanto existir pelo menos um case
+ * fictício no array. Some os `isDemo` de um case específico para o publicar
+ * como real, sem afetar os restantes.
  */
-export const casesAreDemo = true;
+export const hasDemoCases = (items: CaseStudy[]) => items.some((item) => item.isDemo);
 
 /**
- * Conteúdo de demonstração. Clientes, contextos e resultados são inventados e
- * não correspondem a trabalho realizado. Não reutilizar em proposta,
- * apresentação ou qualquer material comercial.
+ * Os 8 primeiros cases são conteúdo de demonstração: clientes, contextos e
+ * resultados inventados, marcados com `isDemo: true` e sem correspondência a
+ * trabalho realizado. Não reutilizar em proposta, apresentação ou qualquer
+ * material comercial. O case "growth-hub" no fim é real, com evidência
+ * aprovada pelo utilizador em 27/08/2026.
  */
 export const caseStudies: CaseStudy[] = [
   {
@@ -36,6 +37,7 @@ export const caseStudies: CaseStudy[] = [
       "Revisão semanal instalada como rotina da direção.",
     ],
     gallery: [],
+    isDemo: true,
   },
   {
     slug: "lavra-veiculos",
@@ -55,6 +57,7 @@ export const caseStudies: CaseStudy[] = [
       "Diferença entre turnos ficou visível e gerível.",
     ],
     gallery: [],
+    isDemo: true,
   },
   {
     slug: "cardume-frotas",
@@ -74,6 +77,7 @@ export const caseStudies: CaseStudy[] = [
       "Fim da consolidação manual em folha de cálculo.",
     ],
     gallery: [],
+    isDemo: true,
   },
   {
     slug: "ribalta-credito",
@@ -93,6 +97,7 @@ export const caseStudies: CaseStudy[] = [
       "Revisão quinzenal instalada.",
     ],
     gallery: [],
+    isDemo: true,
   },
   {
     slug: "azimute-capital",
@@ -112,6 +117,7 @@ export const caseStudies: CaseStudy[] = [
       "Reunião de originação passou a olhar para dados do próprio dia.",
     ],
     gallery: [],
+    isDemo: true,
   },
   {
     slug: "pontal-seguros",
@@ -131,6 +137,7 @@ export const caseStudies: CaseStudy[] = [
       "Motivo de saída passou a ser registado.",
     ],
     gallery: [],
+    isDemo: true,
   },
   {
     slug: "talha-plataforma",
@@ -150,6 +157,7 @@ export const caseStudies: CaseStudy[] = [
       "Planeamento de contratações ganhou base.",
     ],
     gallery: [],
+    isDemo: true,
   },
   {
     slug: "bussola-saas",
@@ -167,6 +175,32 @@ export const caseStudies: CaseStudy[] = [
       "Churn passou a ser lido por segmento e não só em agregado.",
       "Sinais de risco passaram a chegar antes do cancelamento.",
       "Retenção por coorte instalada no reporte.",
+    ],
+    gallery: [],
+    isDemo: true,
+  },
+  {
+    slug: "growth-hub",
+    client: "Growth Hub",
+    sector: "Serviços e Tecnologia",
+    summary: "Operação inteira sem base digital própria: site, aquisição, conteúdo e sistemas internos dependiam de esforço disperso.",
+    cover: "/cases/growth-hub.webp",
+    area: "Infraestrutura digital",
+    deliverables: [
+      "Site institucional",
+      "Processo operacional",
+      "Estratégia de tráfego pago e conteúdo",
+      "Sistema de hub de agentes de IA",
+      "Sistema de contabilidade de tokens de IA",
+    ],
+    context: "Empresa em crescimento sem site institucional, sem processo comercial documentado e sem sistemas internos que sustentassem a operação de agentes de IA.",
+    challenge: "Cada frente (site, aquisição, conteúdo, operação) avançava de forma avulsa, sem uma infraestrutura comum nem sistemas que acompanhassem o crescimento da equipa.",
+    intervention: "Construção do site institucional, do processo operacional e da estratégia de tráfego pago e conteúdo, incluindo os primeiros formatos para os experts da equipa. Em paralelo, desenho e implementação de dois sistemas internos: um hub de agentes de IA e um sistema de contabilidade de tokens.",
+    structure: "Site, processo operacional, estratégia de aquisição e sistemas internos de IA a funcionar como uma base única, sem depender de conhecimento disperso pela equipa.",
+    results: [
+      "Infraestrutura digital completa em operação, do site aos sistemas internos.",
+      "Processo comercial e de conteúdo documentado e replicável.",
+      "Sistemas internos de IA a sustentar a operação diária da equipa.",
     ],
     gallery: [],
   },
