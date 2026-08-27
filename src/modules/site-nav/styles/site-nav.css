@@ -13,12 +13,13 @@
   --nav-out-circ: cubic-bezier(0.075, 0.82, 0.165, 1);
   --nav-swing-to: cubic-bezier(0.175, 0.885, 0.32, 1.275);
   --nav-swing-from: cubic-bezier(0.6, -0.28, 0.735, 0.045);
-  /* Compensa a barra de scroll que desaparece quando o documento bloqueia. */
-  right: var(--site-nav-gutter, 0px);
 }
 
+/* Com o menu aberto o documento leva `overflow: hidden`. Reservar a goteira
+   da barra de scroll evita que a pagina, a barra e o dock saltem 17 pixels
+   no Windows quando ela desaparece. */
 html {
-  padding-right: var(--site-nav-gutter, 0px);
+  scrollbar-gutter: stable;
 }
 
 /* ---------------------------------------------------------------------------
@@ -72,11 +73,13 @@ html {
   opacity: 1;
 }
 
+/* Estas regras nao estao em camada, por isso ganham ao `transition-colors`
+   dos utilitarios: a transicao de cor do hover dos CTAs declara-se aqui. */
 .site-nav__links,
 .site-nav__cta {
   opacity: 1;
   visibility: visible;
-  transition: opacity 0.8s ease 0.4s, visibility 0s linear 0.4s;
+  transition: opacity 0.8s ease 0.4s, visibility 0s linear 0.4s, color 0.3s, background-color 0.3s, border-color 0.3s;
 }
 
 .site-nav[data-open="true"] .site-nav__links,
@@ -84,19 +87,19 @@ html {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transition: opacity 1s ease, visibility 0s linear 1s;
+  transition: opacity 1s ease, visibility 0s linear 1s, color 0.3s, background-color 0.3s, border-color 0.3s;
 }
 
 .site-nav__panel-cta {
   opacity: 0;
   visibility: hidden;
-  transition: opacity 1s ease 0.4s, visibility 0s linear 1.4s;
+  transition: opacity 1s ease 0.4s, visibility 0s linear 1.4s, color 0.3s, background-color 0.3s, border-color 0.3s;
 }
 
 .site-nav[data-open="true"] .site-nav__panel-cta {
   opacity: 1;
   visibility: visible;
-  transition: opacity 1s ease 0.8s, visibility 0s;
+  transition: opacity 1s ease 0.8s, visibility 0s, color 0.3s, background-color 0.3s, border-color 0.3s;
 }
 
 /* Marca: a versao escura fica por cima e faz cross-fade sobre a clara. */
@@ -153,14 +156,13 @@ html {
 
 /* ---------------------------------------------------------------------------
  * Menu. O fundo preto desce primeiro, o painel claro desce 400ms depois, e o
- * conteudo aparece em cascata: colunas, linha e CTA aos 800ms, wordmark
- * pequeno aos 1000ms, redes aos 1200ms. O fecho recolhe tudo em 800ms a partir
- * dos 400ms, com o wordmark gigante a subir logo no inicio.
+ * conteudo aparece em cascata: colunas, linha e CTA aos 800ms, assinatura aos
+ * 1000ms, redes aos 1200ms. O fecho recolhe tudo em 800ms a partir dos 400ms,
+ * com o wordmark gigante a subir logo no inicio.
  * ------------------------------------------------------------------------- */
 .site-nav__menu {
   position: fixed;
   inset: 0;
-  right: var(--site-nav-gutter, 0px);
   overflow: hidden;
   background: var(--safe-black);
   transform: translateY(-100%);
@@ -251,5 +253,14 @@ html {
     background: rgba(5, 5, 5, 0.3);
     -webkit-backdrop-filter: blur(12px);
     backdrop-filter: blur(12px);
+  }
+}
+
+/* O bloco global de movimento reduzido ja encurta as duracoes; sem isto os
+   atrasos ficavam e a abertura virava uma sequencia de saltos secos. */
+@media (prefers-reduced-motion: reduce) {
+  .site-nav,
+  .site-nav * {
+    transition-delay: 0s !important;
   }
 }

@@ -516,14 +516,14 @@ Referência: `https://tyvo-athostudio.webflow.io`. Código extraído por complet
 - [x] Extrair a arquitetura real da Tyvo: DOM, CSS, coreografia IX2 com durações e delays, comportamento por breakpoint.
 - [x] Mapear o cabeçalho atual, o eixo `.safe-edge`, os tokens e as lições que o limitam.
 - [x] Converter `logo3d.svg` (recorte potrace) para um SVG positivo em `currentColor`.
-- [ ] Criar o módulo `src/modules/site-nav/` (Feature-Sliced): dados, tipos, componentes, hook, estilos da coreografia.
-- [ ] Barra: marca, ligações com máscara de texto, CTA com máscara e seta, alternador "Menu" com hambúrguer que vira X.
-- [ ] Menu: painel claro que desce, três colunas (navegação, cases, soluções), linha e rodapé do painel, painel visual com a marca 3D e imagens dos cases ao passar o rato, wordmark gigante cortado em baixo.
-- [ ] Estados: bloqueio de scroll, Escape, fecho ao navegar e ao clicar numa ligação, `aria-expanded`, `aria-controls`.
-- [ ] Montar em `src/app/layout.tsx` no lugar de `SiteHeader`.
-- [ ] Validar a 375, 768, 1024 e 1440 com Playwright, fechado e aberto, e comparar com a Tyvo.
-- [ ] Revisão por subagentes (visual, interação/acessibilidade, código) e correções.
-- [ ] Typecheck, lint, build limpo, commit só dos ficheiros do módulo, deploy e confirmação do CSS servido.
+- [x] Criar o módulo `src/modules/site-nav/` (Feature-Sliced): dados, tipos, componentes, hook, estilos da coreografia.
+- [x] Barra: marca, ligações com máscara de texto, CTA com máscara e seta, alternador "Menu" com hambúrguer que vira X.
+- [x] Menu: painel claro que desce, três colunas (navegação, cases, soluções), linha e rodapé do painel, painel visual com a marca 3D e imagens dos cases ao passar o rato, wordmark gigante cortado em baixo.
+- [x] Estados: bloqueio de scroll, Escape, fecho ao navegar e ao clicar numa ligação, `aria-expanded`, `aria-controls`.
+- [x] Montar em `src/app/layout.tsx` no lugar de `SiteHeader`.
+- [x] Validar a 375, 768, 1024 e 1440 com Playwright, fechado e aberto, e comparar com a Tyvo.
+- [x] Revisão por subagentes (visual, interação/acessibilidade, código) e correções.
+- [x] Typecheck, lint, build limpo, commit só dos ficheiros do módulo, deploy e confirmação do CSS servido.
 
 ### Decisões
 
@@ -590,3 +590,13 @@ capa e crop 16/9 corretos, `robots: index, follow` em `/cases/growth-hub` e
 `/`, `/cases` e `/cases/growth-hub`, sem nenhum slug de demonstração.
 
 Nenhum commit, push ou deploy foi realizado.
+
+### Revisão
+
+- Módulo `src/modules/site-nav/`: `SiteNav` (cliente, recebe o conteúdo já calculado no servidor pelo layout), `MenuPanel`, `BrandLogo` (lockup claro e escuro em cross-fade), `HamburgerToggle`, `TextMask`, `SafeMark3D` (vector positivo tirado de `logo3d.svg`), `useSiteNav` (scroll, Escape, `inert` no resto da página, foco de volta ao alternador) e `site-nav.css` com a coreografia da Tyvo em transições CSS.
+- Tempos replicados da IX2: fundo 500ms outCirc, painel 800ms outCirc aos 400ms, colunas e linha aos 800ms, assinatura aos 1000ms, redes aos 1200ms; fecho em 800ms a partir dos 400ms com o wordmark gigante a subir primeiro. Hambúrguer: traço do meio colapsa em 300ms swingFrom, os de fora convergem e rodam 45 graus.
+- Medido no worktree de QA a 1440: marca e `h1` na mesma coluna (x 72), barra a 96px, painel a 72% da altura, CTA do painel a 28px da fronteira com o painel visual, wordmark gigante a começar 63px abaixo do painel. A 1024 as ligações continuam na barra com respiração; a 768 o CTA escuro ocupa a casa do claro na barra; a 375 a navegação passa a duas colunas e o CTA vive no painel antes da linha legal.
+- Revisão de código apanhou e corrigiu: `role="dialog"` com o fecho fora do diálogo (passou a `nav` com o resto da página `inert`), prosa dos cases e ícones lucide a irem para o bundle do cliente (conteúdo passa por prop do layout), transições de cor dos CTAs anuladas pelo CSS do módulo, alvos de toque abaixo de 44px em mobile, anel de foco cortado por `overflow-hidden`, delays mantidos em `prefers-reduced-motion`, seis soluções a apontarem para a mesma âncora (agora cada pilar tem a sua, com `scroll-mt-28` no `SolutionsGrid`), salto da barra de scroll ao bloquear (`scrollbar-gutter: stable`).
+- Revisão visual apanhou e corrigiu: marca 3D pequena no painel visual (agora sangra pelo canto como o render da Tyvo), vão morto entre painel e wordmark, CTA colado à fronteira, lockup ilegível na linha legal (agora texto), CTA de tablet abaixo da linha legal, navegação de 375 a ocupar seis linhas.
+- Playwright MCP estava preso a outra sessão; a bateria correu com `playwright-core` sobre o Chrome instalado (`channel: "chrome"`) a partir do scratchpad, num worktree temporário `site-safe-nav-qa` porque a árvore principal estava a meio de um refactor do módulo `cases` por outra sessão.
+- Fora do âmbito e por decidir: `src/shared/layout/SiteHeader.tsx` ficou órfão (ninguém o importa) mas outra sessão continua a mexer-lhe, por isso não foi apagado nesta entrega. As capas dos cases de demonstração são abstratas, por isso o hover no painel visual troca o mesmo tipo de imagem para todos; capas reais dão sentido ao gesto.

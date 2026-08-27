@@ -2,12 +2,12 @@ import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 /**
- * Estado do menu e os efeitos que o acompanham: bloqueio do scroll do documento
- * (com compensacao da barra de scroll, para a pagina nao saltar), fecho com
- * Escape e fecho ao mudar de rota. O fecho e sincrono no scroll para uma
- * ligacao de ancora dentro do menu conseguir deslocar a pagina no mesmo clique.
- * Se o foco estiver dentro do menu quando ele fecha, volta ao alternador, senao
- * o teclado perdia-se no `body` porque o painel passa a `inert`.
+ * Estado do menu e os efeitos que o acompanham, todos com um so dono, o efeito
+ * de `open`: bloqueio do scroll do documento (o `scrollbar-gutter: stable` do
+ * CSS do modulo evita o salto da barra de scroll), resto da pagina `inert`
+ * para o teclado e o leitor de ecra nao sairem do menu, fecho com Escape, e
+ * foco de volta ao alternador quando o menu fecha, porque o painel passa a
+ * `inert` e o browser larga o foco no `body`.
  */
 export function useSiteNav(menuId: string) {
   const pathname = usePathname();
@@ -15,24 +15,8 @@ export function useSiteNav(menuId: string) {
   const [scrolled, setScrolled] = useState(false);
   const toggleRef = useRef<HTMLButtonElement>(null);
 
-  const restoreFocus = useCallback(() => {
-    const active = document.activeElement;
-    const menu = document.getElementById(menuId);
-    if (menu && active && menu.contains(active)) toggleRef.current?.focus();
-  }, [menuId]);
-
-  const close = useCallback(() => {
-    unlockDocument();
-    restoreFocus();
-    setOpen(false);
-  }, [restoreFocus]);
-
-  const toggle = useCallback(() => {
-    setOpen((value) => {
-      if (value) unlockDocument();
-      return !value;
-    });
-  }, []);
+  const close = useCallback(() => setOpen(false), []);
+  const toggle = useCallback(() => setOpen((value) => !value), []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -43,35 +27,34 @@ export function useSiteNav(menuId: string) {
 
   useEffect(() => {
     if (!open) return;
-    lockDocument();
+    const root = document.documentElement;
+    const header = document.getElementById(menuId)?.closest("header");
+    const outside = [...document.body.children].filter((el): el is HTMLElement => el instanceof HTMLElement && el !== header);
+    root.style.overflow = "hidden";
+    outside.forEach((el) => {
+      el.inert = true;
+    });
     const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") close();
+      if (event.key === "Escape") setOpen(false);
     };
     document.addEventListener("keydown", onKey);
     return () => {
       document.removeEventListener("keydown", onKey);
-      unlockDocument();
+      outside.forEach((el) => {
+        el.inert = false;
+      });
+      root.style.overflow = "";
+      const active = document.activeElement;
+      const menu = document.getElementById(menuId);
+      if (!active || active === document.body || menu?.contains(active)) toggleRef.current?.focus();
     };
-  }, [open, close]);
+  }, [open, menuId]);
 
   useEffect(() => {
     setOpen(false);
   }, [pathname]);
 
-  return { open, scrolled, toggle, close, toggleRef };
-}
-
-function lockDocument() {
-  const root = document.documentElement;
-  const gutter = window.innerWidth - root.clientWidth;
-  root.style.setProperty("--site-nav-gutter", `${gutter}px`);
-  root.style.overflow = "hidden";
-}
-
-function unlockDocument() {
-  const root = document.documentElement;
-  root.style.overflow = "";
-  root.style.removeProperty("--site-nav-gutter");
+  return { open, scrolled, toggle, close, toggleRef, pathname };
 }
 
 /**

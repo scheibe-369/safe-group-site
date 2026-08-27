@@ -4,7 +4,7 @@ export function SolutionsGrid() {
   return (
     <div className="grid gap-px overflow-hidden border border-white/10 bg-white/10 md:grid-cols-2 lg:grid-cols-3">
       {solutions.map(({ id, icon: Icon, title, description, capabilities }) => (
-        <article id={id} key={id} className="group bg-[#0c0c0d] p-7 transition-colors duration-300 hover:bg-[#131316] sm:p-9">
+        <article id={id} key={id} className="group scroll-mt-28 bg-[#0c0c0d] p-7 transition-colors duration-300 hover:bg-[#131316] sm:p-9">
           <div className="flex items-center justify-between">
             <Icon aria-hidden className="h-7 w-7 text-[var(--safe-red)]" strokeWidth={1.5} />
             <span className="text-[10px] uppercase tracking-[.18em] text-white/25">Estrutura</span>

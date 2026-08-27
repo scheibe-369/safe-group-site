@@ -36,6 +36,7 @@ export type SiteNavContent = {
   menuLinks: NavLink[];
   solutions: NavLink[];
   cases: MenuCaseLink[];
+  /** Aviso discreto sob o título dos cases enquanto a lista tiver conteúdo de demonstração. */
+  casesNote?: string;
   social: SocialLink[];
-  legal: string;
 };
