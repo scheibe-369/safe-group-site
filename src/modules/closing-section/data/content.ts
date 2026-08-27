@@ -59,7 +59,7 @@ export const closingSectionContent: ClosingSectionContent = {
   footer: {
     socialHeader: "Redes",
     socials: [
-      { label: "Instagram", href: null },
+      { label: "Instagram", href: "https://www.instagram.com/safegroup_/" },
       { label: "LinkedIn", href: null },
     ],
     navHeader: "Navegação",

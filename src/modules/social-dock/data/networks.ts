@@ -8,9 +8,9 @@ import type { SocialNetwork } from "../types/social-network";
  * houver perfil, basta preencher o `href` aqui: nenhum componente muda.
  */
 export const socialNetworks: SocialNetwork[] = [
-  { id: "instagram", label: "Instagram", href: null, accent: "#e1306c" },
+  { id: "instagram", label: "Instagram", href: "https://www.instagram.com/safegroup_/", accent: "#e1306c" },
   { id: "linkedin", label: "LinkedIn", href: null, accent: "#0a66c2" },
-  { id: "whatsapp", label: "WhatsApp", href: null, accent: "#25d366" },
+  { id: "whatsapp", label: "WhatsApp", href: "https://wa.me/5527999584889", accent: "#25d366" },
 ];
 
 export const socialDockCopy = {
