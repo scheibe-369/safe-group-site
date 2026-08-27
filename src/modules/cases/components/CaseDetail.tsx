@@ -17,6 +17,16 @@ export function CaseDetail({ item }: { item: CaseStudy }) {
         )}
         <h1 className="mt-5 text-6xl font-semibold tracking-[-.055em] sm:text-8xl">{item.client}</h1>
         <p className="mt-7 max-w-2xl text-lg leading-8 text-white/60">{item.summary}</p>
+        {item.credit && (
+          <a
+            href={item.credit.href}
+            target="_blank"
+            rel="noopener"
+            className="mt-4 inline-flex items-center gap-1.5 text-xs uppercase tracking-[.12em] text-white/45 transition-colors hover:text-[var(--safe-red)]"
+          >
+            Operação de origem: {item.credit.label}
+          </a>
+        )}
         <div className="relative mt-12 aspect-[16/9] overflow-hidden bg-[#111]"><Image src={item.cover} alt={`Case ${item.client}`} fill priority className="object-cover" /></div>
         <dl className="grid border-b border-white/15 md:grid-cols-3">
           <div className="border-b border-white/15 py-7 md:border-b-0 md:border-r md:pr-7"><dt className="safe-kicker">Cliente</dt><dd className="mt-3 text-lg">{item.client}</dd></div>

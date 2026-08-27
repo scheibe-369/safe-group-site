@@ -14,4 +14,6 @@ export type CaseStudy = {
   gallery: string[];
   /** Marca um case fictício, usado só para validar o formato. Omitido em cases reais. */
   isDemo?: boolean;
+  /** Crédito externo opcional (ex.: perfil da pessoa por trás da operação de origem). */
+  credit?: { label: string; href: string };
 };
