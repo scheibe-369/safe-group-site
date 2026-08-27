@@ -4,6 +4,14 @@ import { solutions } from "@/modules/solutions/data/solutions";
 import type { SiteNavContent } from "../types";
 
 /**
+ * A coluna dos cases lista so os reais, sem repetir slugs; se ainda nao houver
+ * nenhum, cai nos de demonstracao com o aviso respetivo, para a coluna nunca
+ * ir ao ar vazia. O indice completo fica na ligacao final da coluna.
+ */
+const realCases = caseStudies.filter((study) => !study.isDemo);
+const menuCases = (realCases.length ? realCases : caseStudies).filter((study, index, list) => list.findIndex((other) => other.slug === study.slug) === index);
+
+/**
  * Copy e destinos do menu. O site é um one-page com âncoras, por isso a maior
  * parte das ligações aponta para secções da Home; só o detalhe de cada case
  * tem rota própria. As colunas de cases e de soluções são derivadas dos dados
@@ -40,8 +48,9 @@ export const siteNavContent: SiteNavContent = {
     { href: "/#diagnostico", label: "Contacto" },
   ],
   solutions: solutions.map((solution) => ({ href: `/#${solution.id}`, label: solution.title })),
-  cases: caseStudies.map((study) => ({ slug: study.slug, href: `/cases/${study.slug}`, label: study.client, cover: study.cover })),
-  casesNote: caseStudies.some((study) => study.isDemo) ? "Inclui conteúdo de demonstração" : undefined,
+  cases: menuCases.map((study) => ({ slug: study.slug, href: `/cases/${study.slug}`, label: study.client, cover: study.cover })),
+  casesAll: { href: "/#cases", label: "Todos os cases" },
+  casesNote: menuCases.some((study) => study.isDemo) ? "Inclui conteúdo de demonstração" : undefined,
   social: socialNetworks
     .filter((network) => network.id !== "whatsapp")
     .map((network) => ({ label: network.label, href: network.href })),

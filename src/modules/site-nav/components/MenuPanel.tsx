@@ -18,9 +18,9 @@ type MenuPanelProps = {
 // largo a lista aperta para a cadencia da referencia.
 const linkClass = "nav-mask-trigger inline-flex min-h-11 items-center text-[.9375rem] leading-6 text-black/55 lg:min-h-0";
 
-function MenuLink({ link, onNavigate, onEnter, onLeave }: { link: NavLink; onNavigate: (href: string) => void; onEnter?: () => void; onLeave?: () => void }) {
+function MenuLink({ link, onNavigate, onEnter, onLeave, emphasis = false }: { link: NavLink; onNavigate: (href: string) => void; onEnter?: () => void; onLeave?: () => void; emphasis?: boolean }) {
   return (
-    <Link href={link.href} onClick={() => onNavigate(link.href)} onMouseEnter={onEnter} onFocus={onEnter} onMouseLeave={onLeave} onBlur={onLeave} className={linkClass}>
+    <Link href={link.href} onClick={() => onNavigate(link.href)} onMouseEnter={onEnter} onFocus={onEnter} onMouseLeave={onLeave} onBlur={onLeave} className={`${linkClass} ${emphasis ? "font-semibold text-black" : ""}`}>
       <TextMask label={link.label} copyClassName="text-black" />
     </Link>
   );
@@ -71,6 +71,7 @@ export function MenuPanel({ id, open, content, year, onNavigate }: MenuPanelProp
                 {content.cases.map((study) => (
                   <MenuLink key={study.slug} link={study} onNavigate={onNavigate} onEnter={() => setActiveCase(study.slug)} onLeave={() => setActiveCase(null)} />
                 ))}
+                <MenuLink link={content.casesAll} onNavigate={onNavigate} emphasis />
               </Column>
               <Column heading={content.columns.solutions}>
                 {content.solutions.map((link) => (

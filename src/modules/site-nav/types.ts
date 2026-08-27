@@ -36,6 +36,8 @@ export type SiteNavContent = {
   menuLinks: NavLink[];
   solutions: NavLink[];
   cases: MenuCaseLink[];
+  /** Ligação para o índice completo, no fim da coluna dos cases. */
+  casesAll: NavLink;
   /** Aviso discreto sob o título dos cases enquanto a lista tiver conteúdo de demonstração. */
   casesNote?: string;
   social: SocialLink[];
