@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "../modules/closing-section/styles/closing-section.css";
+@import "../modules/site-nav/styles/site-nav.css";
 
 :root {
   --safe-black: #050505;

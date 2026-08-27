@@ -1,12 +1,20 @@
 import Image from "next/image";
-import { ButtonLink } from "@/shared/ui/ButtonLink";
+import Link from "next/link";
+import { caseStudies } from "../data/cases";
 import type { CaseStudy } from "../types/case-study";
 
 export function CaseDetail({ item }: { item: CaseStudy }) {
+  const otherCases = caseStudies.filter((entry) => entry.slug !== item.slug).slice(0, 3);
+
   return (
     <article className="pb-24 pt-32">
       <div className="safe-container">
         <p className="safe-kicker">{item.sector}</p>
+        {item.isDemo && (
+          <p className="mt-2 text-[11px] uppercase tracking-[.14em] text-white/40">
+            Case de demonstração, não corresponde a trabalho realizado.
+          </p>
+        )}
         <h1 className="mt-5 text-6xl font-semibold tracking-[-.055em] sm:text-8xl">{item.client}</h1>
         <p className="mt-7 max-w-2xl text-lg leading-8 text-white/60">{item.summary}</p>
         <div className="relative mt-12 aspect-[16/9] overflow-hidden bg-[#111]"><Image src={item.cover} alt={`Case ${item.client}`} fill priority className="object-cover" /></div>
@@ -45,7 +53,25 @@ export function CaseDetail({ item }: { item: CaseStudy }) {
           </section>
         )}
 
-        <ButtonLink href="/cases" variant="secondary" className="mt-20">Voltar aos cases</ButtonLink>
+        {otherCases.length > 0 && (
+          <section className="mt-24 border-t border-white/15 pt-16">
+            <div className="flex items-baseline justify-between gap-6">
+              <p className="safe-kicker">Outros cases</p>
+              <Link href="/cases" className="shrink-0 text-xs uppercase tracking-[.12em] text-white/45 transition-colors hover:text-white">Ver todos os cases</Link>
+            </div>
+            <div className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+              {otherCases.map((other) => (
+                <Link key={other.slug} href={`/cases/${other.slug}`} className="group block">
+                  <div className="relative aspect-[4/3] overflow-hidden bg-[#111]">
+                    <Image src={other.cover} alt={`Case ${other.client}`} fill sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 90vw" className="object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" decoding="async" />
+                  </div>
+                  <p className="mt-4 text-lg font-medium text-white">{other.client}</p>
+                  <p className="mt-1 text-xs uppercase tracking-[.12em] text-white/45">{other.sector}</p>
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
       </div>
     </article>
   );

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { SiteLogo } from "./SiteLogo";
 
 const links = [
-  ["Soluções", "/#solucoes"], ["Método", "/#metodo"], ["Cases", "/cases"],
+  ["Soluções", "/#solucoes"], ["Método", "/#metodo"], ["Cases", "/#cases"],
   ["Sobre", "/#sobre"], ["Contacto", "/#diagnostico"],
 ];
 

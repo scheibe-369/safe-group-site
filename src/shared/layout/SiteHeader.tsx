@@ -9,7 +9,7 @@ import { SiteLogo } from "./SiteLogo";
 const links = [
   { href: "/#solucoes", label: "Soluções" },
   { href: "/#metodo", label: "Método" },
-  { href: "/cases", label: "Cases" },
+  { href: "/#cases", label: "Cases" },
   { href: "/#sobre", label: "Sobre" },
 ];
 

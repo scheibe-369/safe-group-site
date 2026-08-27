@@ -38,7 +38,14 @@ export function CaseIndex({ items }: { items: CaseStudy[] }) {
               </span>
 
               <span className="min-w-0">
-                <span className="block truncate text-lg text-white sm:text-xl">{item.client}</span>
+                <span className="flex items-center gap-2">
+                  <span className="block truncate text-lg text-white sm:text-xl">{item.client}</span>
+                  {item.isDemo && (
+                    <span className="shrink-0 text-[10px] uppercase tracking-[.14em] text-white/35">
+                      Demonstração
+                    </span>
+                  )}
+                </span>
                 <span className="mt-1 block text-[11px] uppercase tracking-[.14em] text-white/40 sm:hidden">
                   {item.sector}
                 </span>

@@ -15,6 +15,11 @@ export function CaseSlide({ item, meta, hoverLabel }: CaseSlideProps) {
   return (
     <div role="listitem" className={`swiper-slide ${styles.slide}`}>
       <div className={styles.imgWrapper}>
+        {item.isDemo && (
+          <span className="absolute left-3 top-3 z-10 border border-white/20 bg-black/70 px-2 py-1 text-[10px] uppercase tracking-[.14em] text-white/70">
+            Demonstração
+          </span>
+        )}
         <Image
           src={item.cover}
           alt={`Case ${item.client}`}

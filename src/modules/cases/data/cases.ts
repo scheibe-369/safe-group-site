@@ -15,8 +15,8 @@ export const hasDemoCases = (items: CaseStudy[]) => items.some((item) => item.is
  * Os 8 primeiros cases são conteúdo de demonstração: clientes, contextos e
  * resultados inventados, marcados com `isDemo: true` e sem correspondência a
  * trabalho realizado. Não reutilizar em proposta, apresentação ou qualquer
- * material comercial. O case "growth-hub" no fim é real, com evidência
- * aprovada pelo utilizador em 27/08/2026.
+ * material comercial. Os cases "growth-hub" e "previa" no fim são reais, com
+ * evidência aprovada pelo utilizador em 27/08/2026.
  */
 export const caseStudies: CaseStudy[] = [
   {
@@ -201,6 +201,25 @@ export const caseStudies: CaseStudy[] = [
       "Infraestrutura digital completa em operação, do site aos sistemas internos.",
       "Processo comercial e de conteúdo documentado e replicável.",
       "Sistemas internos de IA a sustentar a operação diária da equipa.",
+    ],
+    gallery: [],
+  },
+  {
+    slug: "previa",
+    client: "Previa",
+    sector: "Financeiro",
+    summary: "Fomentadora com cobrança dependente de pessoas e uma base de operações sem leitura comercial.",
+    cover: "/cases/previa.webp",
+    area: "Automação e inteligência de dados",
+    deliverables: ["Automação de cobrança", "Modelo de qualificação comercial", "Integração de canais oficiais"],
+    context: "A Previa é uma fomentadora que compra recebíveis de cedentes e cobra dos sacados responsáveis pelo pagamento. O acompanhamento de vencimentos e a cobrança dependiam do trabalho manual da equipa, e a base de operações entre cedentes e sacados não era usada além da cobrança.",
+    challenge: "A cobrança perdia tempo e consistência por depender de pessoas, e a mesma base que sustentava a cobrança escondia sacados com potencial para se tornarem clientes diretos, sem que ninguém os identificasse.",
+    intervention: "Duas frentes estruturadas em paralelo. Na cobrança, um sistema passou a ler a base de clientes da Previa, identificar vencimentos com dois dias de antecedência e acionar a cobrança automática por email e pelo WhatsApp oficial. Na inteligência comercial, a base de operações entre cedentes e sacados foi analisada com um filtro definido pela Previa, para identificar sacados com potencial para se tornarem cedentes, ou seja, clientes diretos.",
+    structure: "Motor de cobrança automatizada ligado à base de clientes e aos canais oficiais de email e WhatsApp, com aviso dois dias antes do vencimento. Processo de leitura de dados que entrega ao comercial uma lista qualificada de oportunidades geradas pela própria operação, sem depender de análise manual.",
+    results: [
+      "Cobrança deixou de depender de acompanhamento manual da equipa.",
+      "Comercial passou a receber oportunidades qualificadas geradas pela própria base de operações.",
+      "Aumento de faturamento e lucro com duas frentes complementares.",
     ],
     gallery: [],
   },

@@ -1,0 +1,255 @@
+/* =============================================================================
+ * Menu do site, coreografia propria do modulo.
+ *
+ * Importado uma vez em `src/app/globals.css`. As duracoes, os atrasos e as
+ * curvas replicam as interacoes do site de referencia (Webflow IX2), que sao
+ * tweens simples de `transform`, `opacity` e cor. Em vez de uma biblioteca de
+ * animacao, o `<header>` leva `data-open` e cada elemento declara duas
+ * transicoes: a do estado fechado (tempos de fecho) e a do estado aberto
+ * (tempos de abertura). Cor, medida e tipografia continuam nos utilitarios.
+ * ========================================================================== */
+
+.site-nav {
+  --nav-out-circ: cubic-bezier(0.075, 0.82, 0.165, 1);
+  --nav-swing-to: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --nav-swing-from: cubic-bezier(0.6, -0.28, 0.735, 0.045);
+  /* Compensa a barra de scroll que desaparece quando o documento bloqueia. */
+  right: var(--site-nav-gutter, 0px);
+}
+
+html {
+  padding-right: var(--site-nav-gutter, 0px);
+}
+
+/* ---------------------------------------------------------------------------
+ * Mascara de texto. Duas copias do rotulo num contentor com `overflow:hidden`:
+ * a base sobe e sai, a copia entra por baixo. Serve o hover das ligacoes, o
+ * hover dos botoes e a troca "Menu" / "Fechar" do alternador.
+ * ------------------------------------------------------------------------- */
+.nav-mask {
+  display: inline-grid;
+  overflow: hidden;
+  line-height: 1.25;
+}
+
+/* As duas copias partilham a mesma celula da grelha: a caixa fica com a
+   largura da maior ("Fechar" e mais largo do que "Menu") e um rotulo comprido
+   quebra linha da mesma forma nas duas. */
+.nav-mask__base,
+.nav-mask__copy {
+  grid-area: 1 / 1;
+  display: block;
+  transition: transform 0.5s var(--nav-swing-to);
+}
+
+.nav-mask__copy {
+  transform: translateY(115%);
+}
+
+/* O alternador nao leva `nav-mask-trigger`: a troca dele e so por estado,
+   senao um foco de teclado com o menu fechado mostrava "Fechar". */
+.nav-mask-trigger:hover .nav-mask__base,
+.nav-mask-trigger:focus-visible .nav-mask__base,
+[data-swap="true"] .nav-mask__base {
+  transform: translateY(-115%);
+}
+
+.nav-mask-trigger:hover .nav-mask__copy,
+.nav-mask-trigger:focus-visible .nav-mask__copy,
+[data-swap="true"] .nav-mask__copy {
+  transform: translateY(0);
+}
+
+/* ---------------------------------------------------------------------------
+ * Barra: o que se apaga quando o menu abre e volta quando fecha.
+ * ------------------------------------------------------------------------- */
+.site-nav__scrim {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.site-nav__scrim[data-visible="true"] {
+  opacity: 1;
+}
+
+.site-nav__links,
+.site-nav__cta {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.8s ease 0.4s, visibility 0s linear 0.4s;
+}
+
+.site-nav[data-open="true"] .site-nav__links,
+.site-nav[data-open="true"] .site-nav__cta {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 1s ease, visibility 0s linear 1s;
+}
+
+.site-nav__panel-cta {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 1s ease 0.4s, visibility 0s linear 1.4s;
+}
+
+.site-nav[data-open="true"] .site-nav__panel-cta {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 1s ease 0.8s, visibility 0s;
+}
+
+/* Marca: a versao escura fica por cima e faz cross-fade sobre a clara. */
+.site-nav__brand-dark {
+  opacity: 0;
+  transition: opacity 0.8s ease 0.4s;
+}
+
+.site-nav[data-open="true"] .site-nav__brand-dark {
+  opacity: 1;
+  transition: opacity 0.5s ease 0.4s;
+}
+
+/* ---------------------------------------------------------------------------
+ * Hamburguer. Tres tracos de 14 por 1.5 pixels com 3.25 de intervalo. Ao abrir
+ * o traco do meio colapsa, os de fora convergem para o centro (4.75 pixels) e
+ * rodam 45 graus. Ao fechar volta tudo num so passo.
+ * ------------------------------------------------------------------------- */
+.site-nav__burger-line {
+  display: block;
+  width: 14px;
+  height: 1.5px;
+  background: currentColor;
+  transition: transform 0.5s var(--nav-out-circ);
+}
+
+.site-nav[data-open="true"] .site-nav__burger-line:nth-child(1) {
+  transform: translateY(4.75px) rotate(45deg);
+  transition: transform 0.5s var(--nav-swing-from) 0.1s;
+}
+
+.site-nav[data-open="true"] .site-nav__burger-line:nth-child(2) {
+  transform: scaleX(0);
+  transition: transform 0.3s var(--nav-swing-from);
+}
+
+.site-nav[data-open="true"] .site-nav__burger-line:nth-child(3) {
+  transform: translateY(-4.75px) rotate(-45deg);
+  transition: transform 0.5s var(--nav-swing-from) 0.1s;
+}
+
+/* Abaixo de 1024 pixels o alternador fica sobre o painel claro, por isso
+   escurece. Em ecra largo fica sobre o painel visual preto e mantem-se branco. */
+.site-nav__toggle {
+  transition: color 0.5s ease 0.4s;
+}
+
+@media (max-width: 1023.98px) {
+  .site-nav[data-open="true"] .site-nav__toggle {
+    color: var(--safe-black);
+    transition: color 0.5s ease;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * Menu. O fundo preto desce primeiro, o painel claro desce 400ms depois, e o
+ * conteudo aparece em cascata: colunas, linha e CTA aos 800ms, wordmark
+ * pequeno aos 1000ms, redes aos 1200ms. O fecho recolhe tudo em 800ms a partir
+ * dos 400ms, com o wordmark gigante a subir logo no inicio.
+ * ------------------------------------------------------------------------- */
+.site-nav__menu {
+  position: fixed;
+  inset: 0;
+  right: var(--site-nav-gutter, 0px);
+  overflow: hidden;
+  background: var(--safe-black);
+  transform: translateY(-100%);
+  visibility: hidden;
+  transition: transform 0.8s ease 0.4s, visibility 0s linear 1.2s;
+}
+
+.site-nav[data-open="true"] .site-nav__menu {
+  transform: none;
+  visibility: visible;
+  transition: transform 0.5s var(--nav-out-circ), visibility 0s;
+}
+
+.site-nav__panel {
+  transform: translateY(-100%);
+  transition: transform 0.8s ease 0.4s;
+}
+
+.site-nav[data-open="true"] .site-nav__panel {
+  transform: none;
+  transition: transform 0.8s var(--nav-out-circ) 0.4s;
+}
+
+.site-nav__column {
+  opacity: 0;
+  transition: opacity 0.8s ease 0.4s;
+}
+
+.site-nav[data-open="true"] .site-nav__column {
+  opacity: 1;
+  transition: opacity 1s ease 0.8s;
+}
+
+.site-nav__line {
+  transform: scaleX(0);
+  transition: transform 0.8s ease 0.4s;
+}
+
+.site-nav[data-open="true"] .site-nav__line {
+  transform: none;
+  transition: transform 1s ease 0.8s;
+}
+
+.site-nav__wordmark {
+  transform: translateY(-100%);
+  transition: transform 0.8s ease;
+}
+
+.site-nav[data-open="true"] .site-nav__wordmark {
+  transform: none;
+  transition: transform 0.8s var(--nav-out-circ) 0.8s;
+}
+
+.site-nav__signature {
+  transform: translateY(-100%);
+  transition: transform 0.8s ease 0.4s;
+}
+
+.site-nav[data-open="true"] .site-nav__signature {
+  transform: none;
+  transition: transform 0.8s var(--nav-out-circ) 1s;
+}
+
+.site-nav__social {
+  transform: translateY(-100%);
+  transition: transform 0.8s ease 0.4s;
+}
+
+.site-nav[data-open="true"] .site-nav__social {
+  transform: none;
+  transition: transform 0.5s var(--nav-out-circ) 1.2s;
+}
+
+/* Capa do case sob o rato no painel visual. */
+.site-nav__cover {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.site-nav__cover[data-active="true"] {
+  opacity: 1;
+}
+
+/* Abaixo de 1024 pixels o menu e um vidro escuro com o painel por cima, sem
+   painel visual nem wordmark gigante, como na referencia. */
+@media (max-width: 1023.98px) {
+  .site-nav__menu {
+    background: rgba(5, 5, 5, 0.3);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
+}

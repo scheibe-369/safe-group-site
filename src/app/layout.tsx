@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { SiteFooter } from "@/shared/layout/SiteFooter";
 import { SiteFooterSlot } from "@/shared/layout/SiteFooterSlot";
-import { SiteHeader } from "@/shared/layout/SiteHeader";
+import { SiteNav } from "@/modules/site-nav";
 import { SocialDock } from "@/modules/social-dock";
 import { variant } from "@/shared/typography/active";
 import "./globals.css";
@@ -29,7 +29,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="pt-PT" data-type={variant.id} className={variant.variableClass}>
       <body>
         <a href="#main-content" className="fixed left-4 top-3 z-[100] -translate-y-20 bg-white px-4 py-3 text-sm text-black transition-transform focus:translate-y-0">Saltar para o conteúdo</a>
-        <SiteHeader />
+        <SiteNav year={new Date().getFullYear()} />
         <main id="main-content">{children}</main>
         <SiteFooterSlot>
           <SiteFooter />

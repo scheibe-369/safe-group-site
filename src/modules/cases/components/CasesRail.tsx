@@ -13,7 +13,7 @@ import { CasesEmptyState } from "./CasesEmptyState";
  */
 export function CasesRail() {
   return (
-    <section className="safe-section overflow-x-clip bg-[var(--safe-black)]">
+    <section id="cases" className="safe-section scroll-mt-28 overflow-x-clip bg-[var(--safe-black)]">
       <div className="safe-container flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
         <SectionHeading
           kicker="Cases"
