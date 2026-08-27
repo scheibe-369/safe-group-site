@@ -10,7 +10,7 @@
  */
 export function SafeMark3D({ className = "" }: { className?: string }) {
   return (
-    <svg aria-hidden viewBox="0 0 1254 1254" fill="none" className={className}>
+    <svg aria-hidden viewBox="346 336 564 564" fill="none" className={className}>
       <path
         fill="currentColor"
         fillRule="evenodd"

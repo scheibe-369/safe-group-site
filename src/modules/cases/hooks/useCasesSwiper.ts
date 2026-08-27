@@ -24,8 +24,11 @@ type UseCasesSwiperArgs = {
  * seletor de string, para nao vazar seletores globais nem partir quando ha
  * mais de um carrossel na mesma pagina, que e o caso da rota /cases.
  *
- * A escada de slidesPerView desvia do original de proposito. Ele saltava de
- * 1.5 para 4 ja aos 480 pixels, o que da slides de 120 pixels em tablet.
+ * A escada de slidesPerView reproduz a densidade do original (1.5 no
+ * telemovel, 4 em ecra largo), mas com um degrau intermedio em vez do salto
+ * direto para 4 aos 480 pixels. O original usa uma margem fluida em vw; a
+ * margem do `.safe-container` e mais estreita nesse intervalo, e 4 slides
+ * aos 480px davam cartoes de menos de 100 pixels, ilegiveis.
  */
 export function useCasesSwiper({ dragClass, itemCount }: UseCasesSwiperArgs) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -42,7 +45,7 @@ export function useCasesSwiper({ dragClass, itemCount }: UseCasesSwiperArgs) {
       modules: [FreeMode, Navigation, Scrollbar],
 
       loop: false,
-      slidesPerView: 1.15,
+      slidesPerView: 1.5,
       spaceBetween: 20,
       freeMode: true,
       grabCursor: true,
@@ -60,8 +63,8 @@ export function useCasesSwiper({ dragClass, itemCount }: UseCasesSwiperArgs) {
       },
 
       breakpoints: {
-        640: { slidesPerView: 2.2 },
-        1024: { slidesPerView: 3.2 },
+        640: { slidesPerView: 2.5 },
+        1024: { slidesPerView: 4 },
       },
     });
 
