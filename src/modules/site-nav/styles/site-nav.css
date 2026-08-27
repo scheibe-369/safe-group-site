@@ -102,15 +102,14 @@ html {
   transition: opacity 1s ease 0.8s, visibility 0s, color 0.3s, background-color 0.3s, border-color 0.3s;
 }
 
-/* Marca: a versao escura fica por cima e faz cross-fade sobre a clara. */
-.site-nav__brand-dark {
-  opacity: 0;
-  transition: opacity 0.8s ease 0.4s;
+/* Marca em vetor: passa de branco a preto quando o painel claro chega. */
+.site-nav__brand {
+  transition: color 0.8s ease 0.4s;
 }
 
-.site-nav[data-open="true"] .site-nav__brand-dark {
-  opacity: 1;
-  transition: opacity 0.5s ease 0.4s;
+.site-nav[data-open="true"] .site-nav__brand {
+  color: var(--safe-black);
+  transition: color 0.5s ease 0.4s;
 }
 
 /* ---------------------------------------------------------------------------

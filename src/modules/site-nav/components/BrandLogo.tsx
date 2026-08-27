@@ -1,20 +1,19 @@
-import Image from "next/image";
 import Link from "next/link";
+import { SafeMark3D } from "./SafeMark3D";
+import { SafeWordmark } from "./SafeWordmark";
 
 /**
- * Lockup oficial em duas camadas: a clara serve a barra sobre o site escuro, a
- * escura faz cross-fade por cima quando o menu abre e a barra passa a ficar
- * sobre o painel claro. As duas partilham a mesma silhueta, por isso a de
- * cima cobre a de baixo por completo. A escura so e precisa com o menu
- * aberto, por isso pede prioridade baixa ao browser.
+ * Marca da barra em vetor: o simbolo 3D vindo de `logo3d.svg`, um filete e o
+ * wordmark "SAFE GROUP", tudo em `currentColor`. Assim a marca inteira passa de
+ * branco a preto quando o menu abre e a barra fica sobre o painel claro, sem
+ * segunda imagem nem filtro.
  */
 export function BrandLogo({ label, onClick }: { label: string; onClick?: () => void }) {
-  const size = "h-11 w-auto xl:h-12";
-  const sizes = "(min-width: 1280px) 163px, 149px";
   return (
-    <Link href="/" aria-label={label} onClick={onClick} className="pointer-events-auto relative flex min-h-11 shrink-0 items-center">
-      <Image src="/brand/safe-lockup.webp" alt="" width={1064} height={314} sizes={sizes} priority className={size} />
-      <Image src="/brand/safe-lockup-dark.webp" alt="" width={1064} height={314} sizes={sizes} fetchPriority="low" aria-hidden className={`site-nav__brand-dark absolute inset-0 ${size}`} />
+    <Link href="/" aria-label={label} onClick={onClick} className="site-nav__brand pointer-events-auto flex min-h-11 shrink-0 items-center gap-3 text-white">
+      <SafeMark3D className="h-11 w-auto xl:h-12" />
+      <span aria-hidden className="h-9 w-px bg-current opacity-60 xl:h-10" />
+      <SafeWordmark className="h-[1.9rem] w-auto xl:h-8" />
     </Link>
   );
 }
