@@ -9,11 +9,14 @@ type FaqItemBubbleProps = {
  * Um item de FAQ em formato de conversa: a pergunta e um balao que abre, mostra
  * os pontinhos de "a escrever" por um instante e so depois revela a resposta ao
  * lado do selo da Safe. Tudo por CSS a partir do estado `[open]` do `<details>`
- * (classes `safe-faq-*`, definidas em `styles/faq.css`), sem JavaScript.
+ * (classes `safe-faq-*`, definidas em `styles/faq.css`), sem JavaScript. O
+ * `name="faq"` faz o navegador fechar sozinho qualquer outro item aberto
+ * quando este abre, como na referencia: nunca dois balões abertos ao mesmo
+ * tempo, sem precisar de JavaScript para isso.
  */
 export function FaqItemBubble({ item }: FaqItemBubbleProps) {
   return (
-    <details className="safe-faq-item group border-b border-white/15 py-5">
+    <details name="faq" className="group">
       <summary className="safe-faq-bubble inline-block w-fit max-w-lg cursor-pointer select-none rounded-2xl bg-white/[.06] px-5 py-3.5 text-base font-medium text-white/70 transition-colors duration-150 hover:bg-white/[.1] hover:text-white group-open:bg-white/[.1] group-open:text-white">
         {item.question}
       </summary>
