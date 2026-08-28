@@ -691,6 +691,6 @@ cresce de 0 a 100% (2000ms). O pedido acrescenta um contador de 0 a 100%.
 
 ## Tamanho do painel do MENU (28/08/2026)
 
-- [x] Primeira leitura, errada: repus a unidade fluida do desktop (`clamp(13px, 1.111vw, 26px)`, de `e608f32`) no commit `69c3088`, a pensar que era esse o ajuste atropelado.
-- [x] Correção: o ajuste que o utilizador queria era o contrário, o menu travado em 16px no desktop (`e8c6981`, feito a pedido dele pela sessão do FAQ), porque a unidade fluida infla o painel do MENU até 33% em monitores acima de 1440. Reposto o ficheiro de `e8c6981` e publicado por push para `main`.
-- Nota: os deploys da cortina de entrada (`42971b6`, `54ce6f7`) nunca mexeram na unidade; o que o utilizador viu como "atropelado" foi provavelmente HTML em cache a apontar para o CSS fluido anterior às 20:40.
+- [x] O utilizador reportou que o ajuste do tamanho do texto do menu tinha sido atropelado. No histórico: `dfc7c0c`, `432f486` e `e608f32` (11:00 a 11:25) escalam o menu com a janela, `clamp(13px, 1.111vw, 26px)` no desktop: 16px a 1440, 21px a 1920, 26px a partir de 2340. `e8c6981` (sessão do FAQ, 17:38) fixou o desktop em 16px dentro do commit da secção de FAQ, com "revertida a pedido" na mensagem; foi isso que atropelou o ajuste. Os deploys da cortina de entrada não tocaram na unidade.
+- [x] Reposta a unidade fluida (`69c3088`). A seguir, por má leitura de uma mensagem do utilizador, voltei a travar em 16px (`3258c37`), e ele reportou "agora está pequeno de novo". Reposta a unidade fluida outra vez, definitiva, e publicada por push para `main`.
+- Estado final: desktop fluido (`clamp(13px, 1.111vw, 26px)`), tablet e telemóvel com os pisos de `e608f32`.
