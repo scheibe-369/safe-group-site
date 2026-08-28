@@ -16,27 +16,28 @@
   /* Unidade fluida do menu, como na referencia: o corpo dela e 1.111vw em
      desktop, 1.615vw em tablet, 2.086vw e 3.347vw em telemovel, e tudo o
      resto e medido em em. A unidade vale 16px a 1440 (as medidas de sempre),
-     21px a 1920 e 26px a partir de 2340; tem um piso de legibilidade e os
-     alvos de toque de 44px ficam em pixels. */
+     21px a 1920 e 26px a partir de 2340. Em tablet e telemovel o piso e mais
+     alto do que na referencia (14 e 15px), senao o texto caia abaixo de 11px;
+     os alvos de toque de 44px ficam em pixels. */
   --nav-unit: clamp(13px, 1.111vw, 26px);
   font-size: var(--nav-unit);
 }
 
 @media (max-width: 1023.98px) {
   .site-nav {
-    --nav-unit: clamp(12px, 1.615vw, 18px);
+    --nav-unit: clamp(14px, 1.615vw, 18px);
   }
 }
 
 @media (max-width: 767.98px) {
   .site-nav {
-    --nav-unit: clamp(12px, 2.086vw, 16px);
+    --nav-unit: clamp(15px, 2.086vw, 16px);
   }
 }
 
 @media (max-width: 479.98px) {
   .site-nav {
-    --nav-unit: clamp(12px, 3.347vw, 16px);
+    --nav-unit: clamp(15px, 3.347vw, 16px);
   }
 }
 
