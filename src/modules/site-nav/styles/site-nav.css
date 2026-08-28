@@ -13,6 +13,17 @@
   --nav-out-circ: cubic-bezier(0.075, 0.82, 0.165, 1);
   --nav-swing-to: cubic-bezier(0.175, 0.885, 0.32, 1.275);
   --nav-swing-from: cubic-bezier(0.6, -0.28, 0.735, 0.045);
+  /* Escala fluida do texto, como na referencia (corpo a 1.111vw a partir de
+     992px): nunca abaixo do tamanho de 1440, cresce com a janela ate um teto.
+     A 1920: ligacoes 18px, texto pequeno e botoes 16px, titulos 13px. */
+  --nav-size-link: clamp(0.9375rem, 0.9375vw, 1.25rem);
+  --nav-size-small: clamp(0.75rem, 0.833vw, 1rem);
+  --nav-size-button: clamp(0.8125rem, 0.833vw, 1rem);
+  --nav-size-kicker: clamp(0.72rem, 0.694vw, 0.9rem);
+}
+
+.site-nav__column .safe-kicker {
+  font-size: var(--nav-size-kicker);
 }
 
 /* Com o menu aberto o documento leva `overflow: hidden`. Reservar a goteira

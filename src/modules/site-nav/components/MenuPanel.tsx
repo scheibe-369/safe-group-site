@@ -21,7 +21,7 @@ type MenuPanelProps = {
 
 // Linhas de 44 pixels em ecra de toque, sem intervalo entre elas; em ecra
 // largo a lista aperta para a cadencia da referencia.
-const linkClass = "nav-mask-trigger inline-flex min-h-11 items-center text-[.9375rem] leading-6 text-black/55 lg:min-h-0";
+const linkClass = "nav-mask-trigger inline-flex min-h-11 items-center text-(length:--nav-size-link) leading-[1.5] text-black/55 lg:min-h-0";
 
 function MenuLink({ link, onNavigate, onEnter, onLeave, emphasis = false }: { link: NavLink; onNavigate: (href: string) => void; onEnter?: () => void; onLeave?: () => void; emphasis?: boolean }) {
   return (
@@ -33,12 +33,12 @@ function MenuLink({ link, onNavigate, onEnter, onLeave, emphasis = false }: { li
 
 function Column({ heading, note, children, className = "", listClassName = "" }: { heading: string; note?: string; children: React.ReactNode; className?: string; listClassName?: string }) {
   return (
-    <div className={`site-nav__column flex flex-col gap-4 lg:gap-6 ${className}`}>
+    <div className={`site-nav__column flex flex-col gap-4 lg:gap-[max(1.5rem,1.667vw)] ${className}`}>
       <p className="safe-kicker">
         {heading}
         {note && <span className="mt-1 block text-[.625rem] font-medium normal-case tracking-[.04em] text-black/45">{note}</span>}
       </p>
-      <div className={`flex flex-col lg:gap-3 ${listClassName}`}>{children}</div>
+      <div className={`flex flex-col lg:gap-[max(0.75rem,0.833vw)] ${listClassName}`}>{children}</div>
     </div>
   );
 }
@@ -63,10 +63,10 @@ export function MenuPanel({ id, open, content, year, onNavigate }: MenuPanelProp
 
   return (
     <nav id={id} aria-label={content.toggle.menuLabel} aria-hidden={!open} inert={!open} className="site-nav__menu">
-      <div className="site-nav__panel relative z-[5] max-h-dvh w-full overflow-y-auto overscroll-contain bg-[var(--safe-white)] pb-6 pt-[7.5rem] shadow-[0_6px_10px_rgba(0,0,0,.08)] lg:min-h-[72dvh] lg:pb-8 lg:pt-40">
+      <div className="site-nav__panel relative z-[5] max-h-dvh w-full overflow-y-auto overscroll-contain bg-[var(--safe-white)] pb-6 pt-[7.5rem] shadow-[0_6px_10px_rgba(0,0,0,.08)] lg:min-h-[72dvh] lg:pb-8 lg:pt-[max(10rem,10.4vw)]">
         <div className="safe-edge">
-          <div className="flex w-full flex-col gap-9 lg:w-[58%] lg:max-w-[46.8rem] lg:gap-[4.5rem]">
-            <div className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-3 lg:max-w-[35.7rem]">
+          <div className="flex w-full flex-col gap-9 lg:w-[58%] lg:max-w-[52vw] lg:gap-[max(4.5rem,5vw)]">
+            <div className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-3 lg:max-w-[39.7vw]">
               <Column heading={content.columns.navigation} className="max-sm:col-span-2" listClassName="max-sm:grid max-sm:grid-cols-2 max-sm:gap-x-6">
                 {content.menuLinks.map((link) => (
                   <MenuLink key={link.href} link={link} onNavigate={onNavigate} />
@@ -96,11 +96,11 @@ export function MenuPanel({ id, open, content, year, onNavigate }: MenuPanelProp
               <span aria-hidden className="site-nav__line block h-px w-full bg-black/10" />
               <div className="flex w-full flex-wrap items-center justify-between gap-x-6 gap-y-3">
                 <div className="overflow-hidden">
-                  <p className="site-nav__signature text-[13px] font-semibold tracking-[.04em] text-black">
+                  <p className="site-nav__signature text-(length:--nav-size-button) font-semibold tracking-[.04em] text-black">
                     Safe Group {year} ©
                   </p>
                 </div>
-                <ul className="-m-2 flex items-center gap-7 overflow-hidden p-2 text-xs">
+                <ul className="-m-2 flex items-center gap-7 overflow-hidden p-2 text-(length:--nav-size-small)">
                   {content.social.map((network) => (
                     <li key={network.label} className="site-nav__social">
                       {network.href ? (

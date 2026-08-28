@@ -11,7 +11,7 @@ import { TextMask } from "./TextMask";
 
 const MENU_ID = "site-menu";
 
-const cta = "nav-mask-trigger group pointer-events-auto h-11 items-center gap-2.5 border px-5 text-[13px] font-semibold uppercase tracking-[.1em] hover:border-[var(--safe-red)] hover:bg-[var(--safe-red)]";
+const cta = "nav-mask-trigger group pointer-events-auto h-11 items-center gap-2.5 border px-5 text-(length:--nav-size-button) font-semibold uppercase tracking-[.1em] hover:border-[var(--safe-red)] hover:bg-[var(--safe-red)]";
 
 type SiteNavProps = {
   /** Calculado no servidor (layout) para a prosa dos cases e os icones das solucoes nao irem no bundle do cliente. */
@@ -45,7 +45,7 @@ export function SiteNav({ content, year }: SiteNavProps) {
           {content.barLinks.map((link) => {
             const active = isActive(link.href);
             return (
-              <Link key={link.href} href={link.href} onClick={() => navigate(link.href)} aria-current={active ? (link.href.includes("#") ? "location" : "page") : undefined} className={`nav-mask-trigger pointer-events-auto inline-flex min-h-11 items-center text-xs font-medium uppercase tracking-[.12em] ${active ? "text-white" : "text-white/80"}`}>
+              <Link key={link.href} href={link.href} onClick={() => navigate(link.href)} aria-current={active ? (link.href.includes("#") ? "location" : "page") : undefined} className={`nav-mask-trigger pointer-events-auto inline-flex min-h-11 items-center text-(length:--nav-size-small) font-medium uppercase tracking-[.12em] ${active ? "text-white" : "text-white/80"}`}>
                 <TextMask label={link.label} copyClassName="text-[var(--safe-red)]" />
               </Link>
             );

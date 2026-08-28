@@ -26,7 +26,7 @@ export function HamburgerToggle({ ref, open, labels, controls, onToggle }: Hambu
       data-swap={open}
       className="site-nav__toggle pointer-events-auto -mr-2 flex min-h-11 items-center gap-1 pl-2 pr-2 text-white"
     >
-      <TextMask label={labels.open} swapLabel={labels.close} copyClassName="text-[var(--safe-red)]" className="text-right text-xs font-medium uppercase tracking-[.12em]" />
+      <TextMask label={labels.open} swapLabel={labels.close} copyClassName="text-[var(--safe-red)]" className="text-right text-(length:--nav-size-small) font-medium uppercase tracking-[.12em]" />
       <span aria-hidden className="flex h-8 w-8 flex-col items-center justify-center gap-[3.25px]">
         <span className="site-nav__burger-line" />
         <span className="site-nav__burger-line" />
