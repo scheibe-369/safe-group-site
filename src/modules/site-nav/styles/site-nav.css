@@ -13,17 +13,35 @@
   --nav-out-circ: cubic-bezier(0.075, 0.82, 0.165, 1);
   --nav-swing-to: cubic-bezier(0.175, 0.885, 0.32, 1.275);
   --nav-swing-from: cubic-bezier(0.6, -0.28, 0.735, 0.045);
-  /* Escala fluida do texto, como na referencia (corpo a 1.111vw a partir de
-     992px): nunca abaixo do tamanho de 1440, cresce com a janela ate um teto.
-     A 1920: ligacoes 18px, texto pequeno e botoes 16px, titulos 13px. */
-  --nav-size-link: clamp(0.9375rem, 0.9375vw, 1.25rem);
-  --nav-size-small: clamp(0.75rem, 0.833vw, 1rem);
-  --nav-size-button: clamp(0.8125rem, 0.833vw, 1rem);
-  --nav-size-kicker: clamp(0.72rem, 0.694vw, 0.9rem);
+  /* Unidade fluida do menu, como na referencia: o corpo dela e 1.111vw em
+     desktop, 1.615vw em tablet, 2.086vw e 3.347vw em telemovel, e tudo o
+     resto e medido em em. A unidade vale 16px a 1440 (as medidas de sempre),
+     21px a 1920 e 26px a partir de 2340; tem um piso de legibilidade e os
+     alvos de toque de 44px ficam em pixels. */
+  --nav-unit: clamp(13px, 1.111vw, 26px);
+  font-size: var(--nav-unit);
+}
+
+@media (max-width: 1023.98px) {
+  .site-nav {
+    --nav-unit: clamp(12px, 1.615vw, 18px);
+  }
+}
+
+@media (max-width: 767.98px) {
+  .site-nav {
+    --nav-unit: clamp(12px, 2.086vw, 16px);
+  }
+}
+
+@media (max-width: 479.98px) {
+  .site-nav {
+    --nav-unit: clamp(12px, 3.347vw, 16px);
+  }
 }
 
 .site-nav__column .safe-kicker {
-  font-size: var(--nav-size-kicker);
+  font-size: 0.66em;
 }
 
 /* Com o menu aberto o documento leva `overflow: hidden`. Reservar a goteira
@@ -124,20 +142,20 @@ html {
 }
 
 /* ---------------------------------------------------------------------------
- * Hamburguer. Tres tracos de 14 por 1.5 pixels com 3.25 de intervalo. Ao abrir
- * o traco do meio colapsa, os de fora convergem para o centro (4.75 pixels) e
- * rodam 45 graus. Ao fechar volta tudo num so passo.
+ * Hamburguer. Tres tracos de 0.875em por 0.09375em com 0.2em de intervalo
+ * (14 por 1.5 pixels a 1440). Ao abrir o traco do meio colapsa, os de fora
+ * convergem para o centro e rodam 45 graus. Ao fechar volta tudo num so passo.
  * ------------------------------------------------------------------------- */
 .site-nav__burger-line {
   display: block;
-  width: 14px;
-  height: 1.5px;
+  width: 0.875em;
+  height: 0.09375em;
   background: currentColor;
   transition: transform 0.5s var(--nav-out-circ);
 }
 
 .site-nav[data-open="true"] .site-nav__burger-line:nth-child(1) {
-  transform: translateY(4.75px) rotate(45deg);
+  transform: translateY(0.3em) rotate(45deg);
   transition: transform 0.5s var(--nav-swing-from) 0.1s;
 }
 
@@ -147,7 +165,7 @@ html {
 }
 
 .site-nav[data-open="true"] .site-nav__burger-line:nth-child(3) {
-  transform: translateY(-4.75px) rotate(-45deg);
+  transform: translateY(-0.3em) rotate(-45deg);
   transition: transform 0.5s var(--nav-swing-from) 0.1s;
 }
 

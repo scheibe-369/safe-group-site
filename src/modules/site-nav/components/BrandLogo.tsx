@@ -10,10 +10,10 @@ import { SafeWordmark } from "./SafeWordmark";
  */
 export function BrandLogo({ label, onClick }: { label: string; onClick?: () => void }) {
   return (
-    <Link href="/" aria-label={label} onClick={onClick} className="site-nav__brand pointer-events-auto flex min-h-11 shrink-0 items-center gap-3 text-white">
-      <SafeMark3D className="h-11 w-auto xl:h-12" />
-      <span aria-hidden className="h-9 w-px bg-current opacity-60 xl:h-10" />
-      <SafeWordmark className="h-[1.9rem] w-auto xl:h-8" />
+    <Link href="/" aria-label={label} onClick={onClick} className="site-nav__brand pointer-events-auto flex min-h-11 shrink-0 items-center gap-[0.75em] text-white">
+      <SafeMark3D className="h-[2.75em] w-auto" />
+      <span aria-hidden className="h-[2.25em] w-px bg-current opacity-60" />
+      <SafeWordmark className="h-[1.9em] w-auto" />
     </Link>
   );
 }

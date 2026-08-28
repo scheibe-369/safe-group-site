@@ -24,10 +24,10 @@ export function HamburgerToggle({ ref, open, labels, controls, onToggle }: Hambu
       aria-controls={controls}
       aria-label={open ? labels.ariaClose : labels.ariaOpen}
       data-swap={open}
-      className="site-nav__toggle pointer-events-auto -mr-2 flex min-h-11 items-center gap-1 pl-2 pr-2 text-white"
+      className="site-nav__toggle pointer-events-auto -mr-[0.5em] flex min-h-11 items-center gap-[0.25em] px-[0.5em] text-white"
     >
-      <TextMask label={labels.open} swapLabel={labels.close} copyClassName="text-[var(--safe-red)]" className="text-right text-(length:--nav-size-small) font-medium uppercase tracking-[.12em]" />
-      <span aria-hidden className="flex h-8 w-8 flex-col items-center justify-center gap-[3.25px]">
+      <TextMask label={labels.open} swapLabel={labels.close} copyClassName="text-[var(--safe-red)]" className="text-right text-[0.75em] font-medium uppercase tracking-[.12em]" />
+      <span aria-hidden className="flex h-[2em] w-[2em] flex-col items-center justify-center gap-[0.2em]">
         <span className="site-nav__burger-line" />
         <span className="site-nav__burger-line" />
         <span className="site-nav__burger-line" />
