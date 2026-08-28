@@ -13,13 +13,14 @@
   --nav-out-circ: cubic-bezier(0.075, 0.82, 0.165, 1);
   --nav-swing-to: cubic-bezier(0.175, 0.885, 0.32, 1.275);
   --nav-swing-from: cubic-bezier(0.6, -0.28, 0.735, 0.045);
-  /* Unidade fluida do menu, como na referencia: o corpo dela e 1.111vw em
-     desktop, 1.615vw em tablet, 2.086vw e 3.347vw em telemovel, e tudo o
-     resto e medido em em. A unidade vale 16px a 1440 (as medidas de sempre),
-     21px a 1920 e 26px a partir de 2340. Em tablet e telemovel o piso e mais
-     alto do que na referencia (14 e 15px), senao o texto caia abaixo de 11px;
-     os alvos de toque de 44px ficam em pixels. */
-  --nav-unit: clamp(13px, 1.111vw, 26px);
+  /* Unidade do menu: tudo medido em em a partir dela (barra, marca, ligacoes,
+     CTAs, hamburguer, painel, colunas e espacos). No desktop fica fixa em
+     16px, as medidas de sempre; a versao fluida (crescer com o monitor ate
+     33% a mais em ecras largos) foi experimentada e revertida a pedido, por
+     inflar a barra e o CTA em qualquer monitor comum acima de 1440. Em
+     tablet e telemovel mantem-se fluida, com piso de legibilidade e os
+     alvos de toque de 44px em pixels. */
+  --nav-unit: 16px;
   font-size: var(--nav-unit);
 }
 

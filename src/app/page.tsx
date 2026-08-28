@@ -1,6 +1,6 @@
 import { ClosingSection } from "@/modules/closing-section";
 import { DiagnosticSection } from "@/modules/home/components/DiagnosticSection";
-import { FaqSection } from "@/modules/home/components/FaqSection";
+import { FaqSection } from "@/modules/faq/components/FaqSection";
 import { Hero } from "@/modules/home/components/Hero";
 import { PositioningSection } from "@/modules/home/components/PositioningSection";
 import { CasesRail } from "@/modules/cases/components/CasesRail";
