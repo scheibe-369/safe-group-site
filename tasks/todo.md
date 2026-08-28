@@ -653,3 +653,38 @@ mesmas variáveis CSS e classes, no Chrome real. `npm run lint` aprovado
 (typecheck, copy, skills).
 
 Nenhum commit, push ou deploy foi realizado.
+
+## Entrada do site no padrão Tyvo: cortina de carregamento e revelação da Hero (28/08/2026)
+
+Referência: coreografia `PAGE_START` da Home da Tyvo, lida do JSON IX2 embutido em
+`D:/Projetos-vibeocding/tyvo/site/js/tyvo-athostudio.*.js`: overlay preto fixo, logótipo
+entra de -130% com `swingTo` (200ms de atraso, 500ms), sai para +130% com `swingFrom`,
+cortina desce (`outCirc`, 800ms), textos entram por máscaras de -100% a 0 (`outCirc`, 800ms,
+atrasos de 400 a 1000ms em passos de 100ms), imagem da Hero de 1.15 a 1 (1500ms), filete
+cresce de 0 a 100% (2000ms). O pedido acrescenta um contador de 0 a 100%.
+
+- [x] Módulo `src/modules/site-intro/` (Feature-Sliced): componente cliente, hook com a linha temporal, dados de copy, CSS com o vocabulário de revelação.
+- [x] Script inline antes da primeira pintura: escreve `data-intro="pending"` no `<html>` só quando o movimento não está reduzido; sem JavaScript a página nasce no estado final.
+- [x] Cortina: marca Safe (S+G) a cair com overshoot, contador tabular até 100 com curva de saída, filete vermelho de progresso, saída da marca e descida da cortina.
+- [x] Hero: kicker, duas linhas do título, parágrafo, áreas, dois CTAs e assinatura em máscaras com escalonamento; vídeo e poster de 1.15 a 1; filetes a crescer.
+- [x] Cabeçalho: barra entra por opacidade e leve descida. `PageHero` das páginas interiores com as mesmas máscaras.
+- [x] Typecheck, lint, verificação visual em 375 e 1440 com capturas ao longo do tempo, caminho de movimento reduzido.
+- [x] Commit só dos ficheiros desta entrega e push para `main` (a Action publica).
+
+### Decisões
+
+- Sem GSAP nem Framer Motion, no padrão da casa: o estado da entrada vive num atributo do `<html>` (`data-intro`) e tudo o resto são animações e transições CSS. O componente só escreve o contador e o filete no DOM.
+- O script inline corre como primeiro filho do `<body>`, antes de qualquer conteúdo ser analisado: com `prefers-reduced-motion: reduce` não escreve nada e a página nasce no estado final, sem cortina nem máscaras. Sem JavaScript, idem. Se a hidratação nunca chegar, o próprio script larga o estado passados 5 segundos.
+- A marca entra por animação CSS assim que o atributo existe, sem esperar pela hidratação, por isso a cortina nunca fica vazia. O contador sobe até 99 por curva cúbica de saída em 1,1 s e só fecha a 100 com `document.readyState === "complete"` e fontes prontas, com teto de 2,6 s para uma ligação lenta não prender a cortina.
+- As máscaras recortam com `clip-path: inset()` em vez de `overflow: hidden`: folga lateral para a seta dos CTAs no hover, folga inferior para descendentes, e a variante `--loose` dá folga em cima para o anel de foco dos botões e para acentos em títulos com entrelinha apertada (`PageHero`). O recorte só existe durante a entrada; em `done` não há recorte nenhum.
+- As margens verticais passaram do conteúdo para as máscaras. Uma margem no filho fica dentro da caixa da máscara e o filho continuava visível na margem enquanto devia estar escondido.
+- A regra de transição das máscaras inclui cor, fundo e borda, porque é uma regra fora de camada e ganhava ao `transition-colors` dos CTAs: sem isso o hover dos botões perdia a transição depois da entrada.
+- O `<html>` leva `suppressHydrationWarning` porque o script escreve `data-intro` antes de o React hidratar.
+
+### Revisão
+
+- Coreografia medida contra a referência: marca a cair com `swingTo` (200 ms de atraso, 500 ms), a sair com `swingFrom`, cortina a descer em `outCirc` (800 ms), textos de -100% a 0 em `outCirc` (800 ms) com atrasos de 400 a 1200 ms, vídeo e poster de 1,15 a 1 (1,5 s), filetes a crescer (1,6 s).
+- Verificado com playwright-core sobre o Chrome instalado, em dev server próprio na porta 3417, com capturas a cada 500 ms: Home a 1440x900 e 375x812, `/sobre` a 1440. Sequência `pending → loading → exit → ready → done` confirmada nas três, contador de 00 a 100, vídeo de 1,15 a 1, máscaras recortadas só durante a entrada e sem recorte no fim, hover do CTA fantasma com a seta inteira.
+- Caminho de movimento reduzido confirmado: sem atributo, cortina com `display: none`, título sem transformação nem recorte, `overflow` do documento livre.
+- O aviso de hidratação que aparece nas capturas (`style={{caret-color:"transparent"}}` nos inputs do formulário de fecho) é injetado pelo próprio Playwright ao tirar screenshots antes da hidratação. Sem screenshots precoces o console fica limpo. Não é do código.
+- `npm run lint` aprovou typecheck, conteúdo e skills. O build de produção corre na Action a cada push para `main`.

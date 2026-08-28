@@ -38,7 +38,7 @@ export function SiteNav({ content, year }: SiteNavProps) {
     <header data-open={open} className="site-nav fixed inset-x-0 top-0 z-50">
       <span aria-hidden data-visible={scrolled && !open} className="site-nav__scrim pointer-events-none absolute inset-0 bg-gradient-to-b from-black/80 to-transparent" />
 
-      <div className="safe-edge pointer-events-none relative z-10 flex min-h-[6em] items-center justify-between gap-[1.5em]">
+      <div data-intro-reveal="bar" className="safe-edge pointer-events-none relative z-10 flex min-h-[6em] items-center justify-between gap-[1.5em]">
         <BrandLogo label={content.brandLabel} onClick={() => navigate("/")} />
 
         <nav aria-label="Navegação principal" className="site-nav__links hidden items-center gap-[1.5em] lg:flex xl:gap-[2em]">

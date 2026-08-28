@@ -1,0 +1,290 @@
+/* =============================================================================
+ * Entrada do site: cortina de carregamento e revelacao da primeira dobra.
+ *
+ * Importado uma vez em `src/app/globals.css`. O estado vive num atributo do
+ * `<html>` (`data-intro`), escrito por um script inline antes da primeira
+ * pintura e avancado pelo componente `SiteIntro`:
+ *
+ *   (ausente)  sem JavaScript ou com movimento reduzido: nada acontece e a
+ *              pagina nasce no estado final.
+ *   pending    o script correu, a cortina cobre a janela e a marca entra.
+ *   loading    o componente hidratou e conduz o contador ate 100.
+ *   ready      a cortina desce e a primeira dobra entra por mascaras.
+ *   done       a cortina saiu do fluxo e as mascaras deixam de recortar. As
+ *              transicoes ficam declaradas para nada saltar.
+ *
+ * Os tempos e as curvas sao os da referencia (Webflow IX2 da Home da Tyvo):
+ * marca a cair com `swingTo`, a sair com `swingFrom`, cortina e textos em
+ * `outCirc`, escalonamento de 100ms a partir de 400ms.
+ *
+ * Vocabulario que qualquer modulo usa sem importar nada:
+ *   .intro-mask               recorta o filho direto, que desce de -100% ate
+ *                             ao lugar. As margens ficam na mascara, nunca no
+ *                             filho, senao o filho continua visivel na margem.
+ *   .intro-mask--loose        folga a toda a volta para botoes (anel de foco)
+ *                             e titulos com acentos em entrelinha apertada.
+ *   data-intro-step="0..9"    atraso da entrada, 100ms por passo desde 400ms.
+ *   data-intro-reveal="scale" media da Hero: de 1.15 ate 1 em 1.5s.
+ *   data-intro-reveal="line"  filete: cresce da esquerda ate a largura total.
+ *   data-intro-reveal="beam"  filete: cresce a partir do centro.
+ *   data-intro-reveal="bar"   barra do menu: opacidade e leve descida.
+ * ========================================================================== */
+
+:root {
+  --intro-out-circ: cubic-bezier(0.075, 0.82, 0.165, 1);
+  --intro-swing-to: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --intro-swing-from: cubic-bezier(0.6, -0.28, 0.735, 0.045);
+  --intro-delay: 400ms;
+}
+
+/* Enquanto a cortina esta fechada a pagina nao rola. A goteira da barra de
+   scroll ja e estavel (`scrollbar-gutter` no modulo do menu). */
+html[data-intro="pending"],
+html[data-intro="loading"] {
+  overflow: hidden;
+}
+
+/* ---------------------------------------------------------------------------
+ * Cortina.
+ * ------------------------------------------------------------------------- */
+.site-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--safe-black);
+  color: var(--safe-white);
+  transform: translate3d(0, 0, 0);
+}
+
+html[data-intro="pending"] .site-intro,
+html[data-intro="loading"] .site-intro,
+html[data-intro="ready"] .site-intro {
+  display: flex;
+}
+
+html[data-intro="ready"] .site-intro {
+  transform: translate3d(0, 100%, 0);
+  transition: transform 0.8s var(--intro-out-circ);
+}
+
+/* Marca: entra a cair com overshoot assim que o script escreve o estado, sem
+   esperar pela hidratacao; sai para baixo com antecipacao quando o contador
+   chega a 100. Cada fase e uma animacao com `from` explicito, para a saida
+   nao partir do estado base. */
+.site-intro__mark {
+  height: clamp(4.5rem, 9vw, 7rem);
+  width: auto;
+  opacity: 0;
+  transform: translate3d(0, -130%, 0);
+}
+
+html[data-intro="pending"] .site-intro__mark,
+html[data-intro="loading"] .site-intro__mark {
+  animation: intro-mark-fade-in 0.5s ease both, intro-mark-drop 0.5s var(--intro-swing-to) 0.2s both;
+}
+
+.site-intro[data-phase="exit"] .site-intro__mark {
+  animation: intro-mark-leave 0.5s var(--intro-swing-from) both, intro-mark-fade-out 0.5s ease 0.3s both;
+}
+
+/* Rodape da cortina: contador a esquerda, assinatura a direita, no mesmo
+   eixo de margem da Hero. */
+.site-intro__foot {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+  padding-bottom: clamp(2rem, 5vh, 3.5rem);
+}
+
+.site-intro__foot > * {
+  opacity: 0;
+}
+
+html[data-intro="pending"] .site-intro__foot > *,
+html[data-intro="loading"] .site-intro__foot > * {
+  animation: intro-rise 0.8s var(--intro-out-circ) 0.45s both;
+}
+
+.site-intro[data-phase="exit"] .site-intro__foot > * {
+  animation: intro-fade-out 0.35s ease both;
+}
+
+.site-intro__label {
+  margin: 0;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.site-intro__count {
+  margin: 0.6rem 0 0;
+  font-family: var(--font-heading), Arial, sans-serif;
+  font-size: clamp(3.5rem, 9vw, 8rem);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+.site-intro__count small {
+  margin-left: 0.12em;
+  font-size: 0.32em;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--safe-steel);
+}
+
+.site-intro__signature {
+  display: none;
+  text-align: right;
+}
+
+@media (min-width: 640px) {
+  .site-intro__signature {
+    display: block;
+  }
+}
+
+/* Filete de progresso: a linha vermelha luminosa da identidade, a crescer
+   com o contador. A escala e escrita pelo hook. */
+.site-intro__line {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  width: 100%;
+  background: var(--safe-red);
+  box-shadow: 0 0 22px rgba(227, 6, 36, 0.72);
+  transform-origin: left center;
+  transform: scale3d(0, 1, 1);
+}
+
+@keyframes intro-mark-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes intro-mark-drop {
+  from { transform: translate3d(0, -130%, 0); }
+  to { transform: translate3d(0, 0, 0); }
+}
+
+@keyframes intro-mark-leave {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(0, 130%, 0); }
+}
+
+@keyframes intro-mark-fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes intro-rise {
+  from { opacity: 0; transform: translate3d(0, 0.6em, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes intro-fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+/* ---------------------------------------------------------------------------
+ * Revelacao da primeira dobra.
+ *
+ * As mascaras recortam com `clip-path` em vez de `overflow: hidden`, para
+ * deixar folga lateral (a seta dos botoes desloca-se no hover) e em baixo
+ * (descendentes) sem tocar na caixa. Em cima a folga e zero por omissao:
+ * duas linhas de titulo em mascaras vizinhas nao podem deixar a segunda
+ * espreitar por cima da primeira enquanto entra. O recorte so existe
+ * enquanto a entrada corre; em `done` e sem JavaScript nao ha recorte.
+ * ------------------------------------------------------------------------- */
+.intro-mask {
+  --intro-slack: 0px;
+}
+
+.intro-mask--loose {
+  --intro-slack: max(0.5rem, 0.3em);
+}
+
+[data-intro-step="0"] { --intro-delay: 400ms; }
+[data-intro-step="1"] { --intro-delay: 500ms; }
+[data-intro-step="2"] { --intro-delay: 600ms; }
+[data-intro-step="3"] { --intro-delay: 700ms; }
+[data-intro-step="4"] { --intro-delay: 800ms; }
+[data-intro-step="5"] { --intro-delay: 900ms; }
+[data-intro-step="6"] { --intro-delay: 1000ms; }
+[data-intro-step="7"] { --intro-delay: 1100ms; }
+[data-intro-step="8"] { --intro-delay: 1200ms; }
+[data-intro-step="9"] { --intro-delay: 1300ms; }
+
+html[data-intro="pending"] .intro-mask,
+html[data-intro="loading"] .intro-mask,
+html[data-intro="ready"] .intro-mask {
+  clip-path: inset(calc(-1 * var(--intro-slack)) -1rem calc(-0.25em - var(--intro-slack)) -1rem);
+}
+
+html[data-intro="pending"] .intro-mask > *,
+html[data-intro="loading"] .intro-mask > * {
+  transform: translate3d(0, calc(-100% - var(--intro-slack) - 1px), 0);
+}
+
+/* A cor entra na lista porque esta regra ganha ao `transition-colors` dos
+   botoes: sem ela o hover dos CTAs perdia a transicao depois da entrada. */
+html[data-intro="ready"] .intro-mask > *,
+html[data-intro="done"] .intro-mask > * {
+  transition: transform 0.8s var(--intro-out-circ) var(--intro-delay), color 0.3s, background-color 0.3s, border-color 0.3s;
+}
+
+html[data-intro="pending"] [data-intro-reveal="scale"],
+html[data-intro="loading"] [data-intro-reveal="scale"] {
+  transform: scale3d(1.15, 1.15, 1);
+}
+
+html[data-intro="ready"] [data-intro-reveal="scale"],
+html[data-intro="done"] [data-intro-reveal="scale"] {
+  transition: transform 1.5s var(--intro-out-circ);
+}
+
+[data-intro-reveal="line"] {
+  transform-origin: left center;
+}
+
+[data-intro-reveal="beam"] {
+  transform-origin: center;
+}
+
+html[data-intro="pending"] [data-intro-reveal="line"],
+html[data-intro="loading"] [data-intro-reveal="line"],
+html[data-intro="pending"] [data-intro-reveal="beam"],
+html[data-intro="loading"] [data-intro-reveal="beam"] {
+  transform: scale3d(0, 1, 1);
+}
+
+html[data-intro="ready"] [data-intro-reveal="line"],
+html[data-intro="done"] [data-intro-reveal="line"],
+html[data-intro="ready"] [data-intro-reveal="beam"],
+html[data-intro="done"] [data-intro-reveal="beam"] {
+  transition: transform 1.6s ease var(--intro-delay);
+}
+
+html[data-intro="pending"] [data-intro-reveal="bar"],
+html[data-intro="loading"] [data-intro-reveal="bar"] {
+  opacity: 0;
+  transform: translate3d(0, -0.5em, 0);
+}
+
+html[data-intro="ready"] [data-intro-reveal="bar"],
+html[data-intro="done"] [data-intro-reveal="bar"] {
+  transition: opacity 0.8s ease 0.3s, transform 0.8s var(--intro-out-circ) 0.3s;
+}

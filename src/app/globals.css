@@ -2,6 +2,7 @@
 @import "../modules/closing-section/styles/closing-section.css";
 @import "../modules/site-nav/styles/site-nav.css";
 @import "../modules/faq/styles/faq.css";
+@import "../modules/site-intro/styles/site-intro.css";
 
 :root {
   --safe-black: #050505;

@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { SiteFooter } from "@/shared/layout/SiteFooter";
 import { SiteFooterSlot } from "@/shared/layout/SiteFooterSlot";
+import { SiteIntro } from "@/modules/site-intro";
 import { SiteNav, siteNavContent } from "@/modules/site-nav";
 import { SocialDock } from "@/modules/social-dock";
 import { variant } from "@/shared/typography/active";
@@ -26,8 +27,10 @@ export const viewport: Viewport = { themeColor: "#050505", colorScheme: "dark" }
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="pt-PT" data-type={variant.id} className={variant.variableClass}>
+    // `suppressHydrationWarning`: a cortina de entrada escreve `data-intro` no <html> antes da hidratacao.
+    <html lang="pt-PT" data-type={variant.id} className={variant.variableClass} suppressHydrationWarning>
       <body>
+        <SiteIntro />
         <a href="#main-content" className="fixed left-4 top-3 z-[100] -translate-y-20 bg-white px-4 py-3 text-sm text-black transition-transform focus:translate-y-0">Saltar para o conteúdo</a>
         <SiteNav content={siteNavContent} year={new Date().getFullYear()} />
         <main id="main-content">{children}</main>
