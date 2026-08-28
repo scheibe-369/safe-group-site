@@ -689,7 +689,8 @@ cresce de 0 a 100% (2000ms). O pedido acrescenta um contador de 0 a 100%.
 - O aviso de hidratação que aparece nas capturas (`style={{caret-color:"transparent"}}` nos inputs do formulário de fecho) é injetado pelo próprio Playwright ao tirar screenshots antes da hidratação. Sem screenshots precoces o console fica limpo. Não é do código.
 - `npm run lint` aprovou typecheck, conteúdo e skills. O build de produção corre na Action a cada push para `main`.
 
-## Reposição da unidade fluida do menu (28/08/2026)
+## Tamanho do painel do MENU (28/08/2026)
 
-- [x] O utilizador reportou que o ajuste do tamanho do texto do menu tinha sido atropelado. No histórico: `dfc7c0c`, `432f486` e `e608f32` escalam o menu com a janela; `e8c6981` (sessão do FAQ, 20:38) fixou o desktop em 16px no mesmo commit da secção de FAQ; os deploys da cortina de entrada (`42971b6`, `54ce6f7`) não tocaram na unidade.
-- [x] Reposto o bloco de `e608f32` (`--nav-unit: clamp(13px, 1.111vw, 26px)` no desktop; tablet e telemóvel não tinham mudado) e publicado por push para `main`.
+- [x] Primeira leitura, errada: repus a unidade fluida do desktop (`clamp(13px, 1.111vw, 26px)`, de `e608f32`) no commit `69c3088`, a pensar que era esse o ajuste atropelado.
+- [x] Correção: o ajuste que o utilizador queria era o contrário, o menu travado em 16px no desktop (`e8c6981`, feito a pedido dele pela sessão do FAQ), porque a unidade fluida infla o painel do MENU até 33% em monitores acima de 1440. Reposto o ficheiro de `e8c6981` e publicado por push para `main`.
+- Nota: os deploys da cortina de entrada (`42971b6`, `54ce6f7`) nunca mexeram na unidade; o que o utilizador viu como "atropelado" foi provavelmente HTML em cache a apontar para o CSS fluido anterior às 20:40.
