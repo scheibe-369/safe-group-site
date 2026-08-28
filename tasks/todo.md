@@ -694,3 +694,9 @@ cresce de 0 a 100% (2000ms). O pedido acrescenta um contador de 0 a 100%.
 - [x] O utilizador reportou que o ajuste do tamanho do texto do menu tinha sido atropelado. No histórico: `dfc7c0c`, `432f486` e `e608f32` (11:00 a 11:25) escalam o menu com a janela, `clamp(13px, 1.111vw, 26px)` no desktop: 16px a 1440, 21px a 1920, 26px a partir de 2340. `e8c6981` (sessão do FAQ, 17:38) fixou o desktop em 16px dentro do commit da secção de FAQ, com "revertida a pedido" na mensagem; foi isso que atropelou o ajuste. Os deploys da cortina de entrada não tocaram na unidade.
 - [x] Reposta a unidade fluida (`69c3088`). A seguir, por má leitura de uma mensagem do utilizador, voltei a travar em 16px (`3258c37`), e ele reportou "agora está pequeno de novo". Reposta a unidade fluida outra vez, definitiva, e publicada por push para `main`.
 - Estado final: desktop fluido (`clamp(13px, 1.111vw, 26px)`), tablet e telemóvel com os pisos de `e608f32`.
+
+## Barra fixa, painel do MENU fluido (28/08/2026)
+
+- [x] O utilizador esclareceu: a unidade fluida estava a crescer a barra inteira (logo Safe Group, abas Soluções/Método/Cases/Sobre, Começar diagnóstico, Menu/Fechar), que é o que fica visível sobre a Hero e sobre o painel aberto. Quer a barra sempre pequena (16px) e só o conteúdo do painel do MENU a crescer com o monitor.
+- [x] `site-nav.css`: `.site-nav` fica com `--nav-unit: 16px` em desktop; `.site-nav__menu` passa a ter `font-size: var(--nav-unit)` e, a partir de 1024px, `--nav-unit: clamp(13px, 1.111vw, 26px)`. Abaixo de 1024 o painel herda a unidade da barra (pisos de tablet e telemóvel inalterados).
+- [x] Medido com o menu aberto (playwright-core, porta 3417): a 1920 a barra fica a 16px (abas 12px, CTA 13px/44px, marca 44px) e o painel a 21,3px (ligações 18px); a 1440 tudo a 16px; a 375 tudo a 15px como antes. Lint limpo.
