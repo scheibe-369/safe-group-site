@@ -688,3 +688,8 @@ cresce de 0 a 100% (2000ms). O pedido acrescenta um contador de 0 a 100%.
 - Caminho de movimento reduzido confirmado: sem atributo, cortina com `display: none`, título sem transformação nem recorte, `overflow` do documento livre.
 - O aviso de hidratação que aparece nas capturas (`style={{caret-color:"transparent"}}` nos inputs do formulário de fecho) é injetado pelo próprio Playwright ao tirar screenshots antes da hidratação. Sem screenshots precoces o console fica limpo. Não é do código.
 - `npm run lint` aprovou typecheck, conteúdo e skills. O build de produção corre na Action a cada push para `main`.
+
+## Reposição da unidade fluida do menu (28/08/2026)
+
+- [x] O utilizador reportou que o ajuste do tamanho do texto do menu tinha sido atropelado. No histórico: `dfc7c0c`, `432f486` e `e608f32` escalam o menu com a janela; `e8c6981` (sessão do FAQ, 20:38) fixou o desktop em 16px no mesmo commit da secção de FAQ; os deploys da cortina de entrada (`42971b6`, `54ce6f7`) não tocaram na unidade.
+- [x] Reposto o bloco de `e608f32` (`--nav-unit: clamp(13px, 1.111vw, 26px)` no desktop; tablet e telemóvel não tinham mudado) e publicado por push para `main`.
