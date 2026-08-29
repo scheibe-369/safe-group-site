@@ -42,8 +42,12 @@ export async function sendWhatsappNotification(payload: DiagnosticFormPayload): 
       body: JSON.stringify({ number: DESTINATION_NUMBER, text: formatMessage(payload) }),
       signal: AbortSignal.timeout(8_000),
     });
+    if (!response.ok) {
+      console.error("[whatsapp] resposta nao ok", response.status, await response.text().catch(() => ""));
+    }
     return response.ok;
-  } catch {
+  } catch (err) {
+    console.error("[whatsapp] erro no envio", err);
     return false;
   }
 }
