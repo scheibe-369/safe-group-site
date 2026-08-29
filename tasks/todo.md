@@ -783,3 +783,36 @@ risco, só a documentação.
 - A barra escondida é `inert` e o `<header>` só tem `pointer-events` com a barra ou o menu presentes: a QA em produção tinha apanhado o CTA a receber foco a 768 e o cabeçalho a engolir cliques nos primeiros 6em.
 - `data-intro-reveal="bar"` saiu da barra e do vocabulário da intro: a visibilidade da barra tem um só dono.
 - Publicado em `76c7b62` e `6a862db` pela Action "Deploy Cloudflare"; QA com playwright-core sobre a produção nas quatro larguras, menu aberto e fechado, Tab desde o topo e `elementFromPoint`.
+
+## WhatsApp na Home: ativa o envio e remove o credito de producao (29/08/2026)
+
+Pedido: ligar o formulario de diagnostico da Home ao WhatsApp (Evolution API,
+numero +55 27 99958-4889) e remover o credito "Desenvolvido por Method Growth
+Hub" do rodape, por pedido explicito do cliente.
+
+- [x] `POST /api/diagnostic` passou a enviar a lead por `sendWhatsappNotification`
+      (`src/modules/diagnostic/api/send-whatsapp-notification.ts`), instancia
+      Evolution `helio-2` em `evo.cauania.online`. Chave em `EVOLUTION_API_KEY`,
+      nunca commitada; segredo no Worker (`wrangler secret put`) e no repo GitHub
+      (`gh secret set`, usado pelo passo de build).
+- [x] Bug encontrado durante a QA: a Home e estatica, e o flag `enabled` do
+      formulario (`src/app/page.tsx`) ainda lia `SAFE_DIAGNOSTIC_WEBHOOK_URL`,
+      variavel que ja nao existe. O botao continuava "Envio disponivel em breve"
+      em producao mesmo com a rota a funcionar. Trocado para
+      `whatsappNotificationEnabled()` e o workflow `deploy.yml` passou a receber
+      `EVOLUTION_API_KEY` no passo de build (era so segredo de runtime do Worker,
+      nao chegava ao build estatico do GitHub Actions).
+- [x] Removido "Desenvolvido por Method Growth Hub" do `SiteFooter` e do rodape
+      embutido da Home (`ClosingFooter`, campo `producedBy` em `content.ts`/`types.ts`),
+      e a checagem obrigatoria em `scripts/content-check.mjs` e a regra em
+      `AGENTS.md` que exigiam o credito, senao o lint quebrava no CI.
+- [x] Verificado ponta a ponta: `npm run lint` e `npm run build` limpos num
+      worktree isolado (`site-safe-formfix-92`, removido no fim); teste real via
+      Evolution API (mensagem chegou no WhatsApp); formulario real da Home
+      preenchido e submetido por browser em producao, "Pedido recebido."
+- [x] Deploy pela Action "Deploy Cloudflare" (push direto por trabalhar a partir
+      do worktree), producao confirmada em https://safe.methodgrowthhub.com.br.
+
+Credenciais Evolution foram trocadas a meio da tarefa (instancia `helio-forms`
+para `helio-2`); o codigo e os segredos (Worker e GitHub) ja refletem a
+credencial nova.
