@@ -61,5 +61,25 @@ src/modules/closing-section/
 
 O wordmark do carrossel esta em `public/brand/safe-wordmark.svg`, extraido do
 banner institucional sem o simbolo e sem o traco divisor. Ocupa a largura toda da
-coluna e o espaco entre copias e maior do que a altura de cada uma, por isso a
-janela mostra um de cada vez em vez de uma fila de logotipos pequenos.
+coluna e a janela mostra um de cada vez, em vez de uma fila de logotipos pequenos.
+
+## Como o fecho se adapta ao ecra
+
+Regra unica: **as medidas do carrossel sao proporcoes, nunca pixeis fixos**.
+
+- A janela sai do racio do wordmark (`aspect-[622/266]`), por isso acompanha a
+  largura da coluna. Nao ha `h-*` por breakpoint.
+- Ainda cresce (`grow`) para absorver o espaco livre da coluna, porque a partir
+  de `lg` a coluna do formulario e bastante mais alta. O tecto e uma vez e meia a
+  altura natural, em `cqw`, ou seja medido pela largura da propria coluna
+  (`.safe-marquee-window` no CSS do modulo). Sem tecto, nas larguras de portatil
+  a janela chegava a quatro wordmarks empilhados.
+- O espaco entre copias e `7%` da largura, as fitas de fade `18%` da altura.
+- O carrossel aparece em **todas** as larguras. Abaixo de `lg` a coluna direita
+  empilha por baixo do formulario e o wordmark fecha a pagina antes das listas de
+  redes e navegacao.
+
+Nao repor alturas fixas aqui. Foi esse o defeito que obrigou a esta passagem: a
+seccao so estava certa na largura do monitor onde tinha sido afinada, e num
+portatil com o ecra escalado pelo Windows caia abaixo de `lg` e ficava sem
+carrossel nenhum.

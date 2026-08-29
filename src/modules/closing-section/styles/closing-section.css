@@ -7,6 +7,32 @@
  * consegue exprimir em utilitarios.
  * ========================================================================== */
 
+/* Janela do carrossel vertical.
+ *
+ * A altura sai do racio do proprio wordmark (`aspect-[622/266]` no componente),
+ * nao de alturas fixas por breakpoint: assim acompanha a largura da coluna e
+ * fica enquadrada em qualquer ecra, do telemovel ao monitor. Era esse o defeito
+ * antigo, `h-72 xl:h-80 2xl:h-96` so batia certo na largura onde foi afinado.
+ *
+ * A janela ainda cresce (`grow`) para absorver o espaco livre da coluna, porque
+ * a partir de `lg` a coluna do formulario e bastante mais alta do que o wordmark
+ * mais o rodape, e sem isso sobrava um vazio de centenas de pixeis. O tecto e
+ * uma vez e meia a altura natural (`64cqw` contra os `42.8cqw` do racio): sem
+ * tecto, nas larguras de portatil a janela chegava a quatro wordmarks empilhados
+ * e deixava de ler como fecho para passar a parede de logotipos.
+ *
+ * O tecto vem em `cqw`, ou seja, da largura da propria coluna, e nao em pixeis
+ * nem em `vw`: e a mesma regra em qualquer largura e nao depende do `clamp()` da
+ * margem do site. Um browser sem container queries ignora o `max-height` e fica
+ * com o comportamento anterior, a janela pelo racio mais o `grow`. */
+.safe-marquee-column {
+  container-type: inline-size;
+}
+
+.safe-marquee-window {
+  max-height: 64cqw;
+}
+
 /* Carrossel vertical. O componente duplica a lista de imagens, por isso ir de 0
    a -50% desloca exatamente uma metade e o ciclo fecha sem costura. Anima so
    `transform`, logo corre no compositor e nao forca layout. */

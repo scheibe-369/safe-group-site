@@ -37,8 +37,18 @@ export type ClosingSectionProps = {
  *   +---------------------------+------------------+
  *
  * A coluna direita faz o trabalho do rodape nesta pagina, por isso o
- * `SiteFooter` global fica escondido na Home pelo `SiteFooterSlot`. O carrossel
- * so aparece a partir de `lg`: em coluna estreita seria ruido.
+ * `SiteFooter` global fica escondido na Home pelo `SiteFooterSlot`.
+ *
+ * Abaixo de `lg` as duas colunas empilham e a direita cai inteira por baixo do
+ * formulario, com o carrossel entre o botao e as listas de redes e navegacao. O
+ * carrossel aparece em todas as larguras: escondia-lo abaixo de `lg` tirava o
+ * fecho de marca justamente nos ecras onde a pagina e mais lida, e bastava um
+ * portatil com o Windows a escalar o ecra para cair nesse ramo.
+ *
+ * A janela do carrossel nao leva altura fixa. Sai do racio do wordmark
+ * (`aspect-[622/266]`), por isso acompanha a largura da coluna, e cresce
+ * (`grow`) para absorver o espaco livre que sobra quando a coluna do formulario
+ * e mais alta. O tecto do crescimento vive no CSS do modulo, em `cqw`.
  *
  * A margem horizontal sai do eixo unico do site (`safe-container`), nunca de
  * uma escala interna. O ritmo vertical e mais apertado do que o `safe-section`
@@ -195,11 +205,11 @@ export function ClosingSection({ enabled, year, content = closingSectionContent 
           </div>
 
           {/* Coluna direita: wordmark e rodape da pagina */}
-          <div className="mt-14 flex flex-col border-t border-white/10 pt-12 lg:mt-0 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0 xl:pl-12">
-            <div className="relative hidden h-72 overflow-hidden lg:block xl:h-80 2xl:h-96">
+          <div className="safe-marquee-column mt-14 flex flex-col border-t border-white/10 pt-12 lg:mt-0 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0 xl:pl-12">
+            <div className="safe-marquee-window relative aspect-[622/266] w-full grow overflow-hidden">
               <VerticalMarquee />
             </div>
-            <div className="lg:mt-auto lg:pt-16">
+            <div className="mt-12 lg:mt-auto lg:pt-16">
               <ClosingFooter content={content} year={year} />
             </div>
           </div>

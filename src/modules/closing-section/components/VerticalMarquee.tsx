@@ -10,12 +10,18 @@ type VerticalMarqueeProps = {
 /**
  * Carrossel vertical do wordmark Safe Group.
  *
- * O wordmark ocupa a largura toda da coluna e o espaco entre copias é maior do
- * que a altura de cada uma, por isso a janela mostra um de cada vez, em vez de
- * uma coluna de logotipos pequenos. Entra a branco cheio, o mesmo peso do
- * exemplo aprovado: quem suaviza a entrada e a saida sao os dois gradientes,
- * nao a opacidade da imagem. As fitas de fade ficam curtas de proposito: a 80
- * pixels comiam mais de metade da janela e apanhavam as letras quase sempre.
+ * O wordmark ocupa a largura toda da coluna e a janela mostra um de cada vez,
+ * em vez de uma coluna de logotipos pequenos. Entra a branco cheio, o mesmo
+ * peso do exemplo aprovado: quem suaviza a entrada e a saida sao os dois
+ * gradientes, nao a opacidade da imagem.
+ *
+ * O espaco entre copias e as fitas de fade sao percentagens, nao pixeis, e essa
+ * e a regra que faz o carrossel funcionar em qualquer ecra. Em valores fixos so
+ * havia uma largura onde as proporcoes batiam certo, a do monitor onde isto foi
+ * afinado: no telemovel as fitas de 56 pixeis comiam quase toda a janela e o
+ * intervalo de 64 pixeis entre copias esticava o ciclo. Em `7%` da largura e
+ * `18%` da altura da janela valem o mesmo que antes no monitor e encolhem com a
+ * coluna em todo o resto.
  *
  * O ciclo fecha porque o array é duplicado e o keyframe desloca exatamente
  * metade da coluna, de 0 a -50%: quando a primeira metade sai de cena, a
@@ -46,8 +52,8 @@ export function VerticalMarquee({
 
   return (
     <div aria-hidden className="pointer-events-none absolute inset-0 select-none overflow-hidden">
-      <div className="absolute inset-x-0 top-0 z-10 h-14 bg-gradient-to-b from-[#070707] to-transparent" />
-      <div className="absolute inset-x-0 bottom-0 z-10 h-14 bg-gradient-to-t from-[#070707] to-transparent" />
+      <div className="absolute inset-x-0 top-0 z-10 h-[18%] bg-gradient-to-b from-[#070707] to-transparent" />
+      <div className="absolute inset-x-0 bottom-0 z-10 h-[18%] bg-gradient-to-t from-[#070707] to-transparent" />
       <div
         className="safe-marquee absolute inset-x-0 top-0 flex flex-col items-center"
         style={{ ["--safe-marquee-duration" as string]: `${speed}s` }}
@@ -62,7 +68,7 @@ export function VerticalMarquee({
             width={623}
             height={208}
             decoding="async"
-            className="block w-full py-16"
+            className="block w-full py-[7%]"
           />
         ))}
       </div>
