@@ -22,9 +22,15 @@ type SiteNavProps = {
 /**
  * Cabecalho fixo com o menu dentro, na estrutura do site de referencia: a barra
  * fica num contexto proprio por cima do painel, por isso a marca e o
- * alternador continuam clicaveis com o menu aberto sem `z-index` novo. O
- * `<header>` nao pode levar `transform` nem `backdrop-filter`, senao passa a
- * ser o bloco de referencia do painel `fixed` e ele deixa de cobrir a janela.
+ * alternador continuam clicaveis com o menu aberto sem `z-index` novo.
+ *
+ * Sobre a primeira dobra nao ha barra nenhuma: ela so desce depois do primeiro
+ * scroll (`data-scrolled`), sobre um vidro escuro que desfoca e abafa o que
+ * passa por baixo, e volta a subir quando a pagina regressa ao topo. O vidro e
+ * um irmao da barra e do painel, nunca o `<header>`: o `<header>` nao pode
+ * levar `transform`, `opacity` nem `backdrop-filter`, senao passa a ser o
+ * bloco de referencia do painel `fixed` (e a raiz do desfoque) e o painel
+ * deixa de cobrir a janela.
  */
 export function SiteNav({ content, year }: SiteNavProps) {
   const { open, scrolled, toggle, close, toggleRef, pathname } = useSiteNav(MENU_ID);
@@ -35,10 +41,10 @@ export function SiteNav({ content, year }: SiteNavProps) {
   };
 
   return (
-    <header data-open={open} className="site-nav fixed inset-x-0 top-0 z-50">
-      <span aria-hidden data-visible={scrolled && !open} className="site-nav__scrim pointer-events-none absolute inset-0 bg-gradient-to-b from-black/80 to-transparent" />
+    <header data-open={open} data-scrolled={scrolled} className="site-nav fixed inset-x-0 top-0 z-50">
+      <span aria-hidden className="site-nav__glass pointer-events-none absolute inset-0" />
 
-      <div data-intro-reveal="bar" className="safe-edge pointer-events-none relative z-10 flex min-h-[6em] items-center justify-between gap-[1.5em]">
+      <div className="site-nav__bar safe-edge pointer-events-none relative z-10 flex min-h-[6em] items-center justify-between gap-[1.5em]">
         <BrandLogo label={content.brandLabel} onClick={() => navigate("/")} />
 
         <nav aria-label="Navegação principal" className="site-nav__links hidden items-center gap-[1.5em] lg:flex xl:gap-[2em]">

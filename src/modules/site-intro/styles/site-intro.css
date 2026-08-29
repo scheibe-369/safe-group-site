@@ -27,7 +27,6 @@
  *   data-intro-reveal="scale" media da Hero: de 1.15 ate 1 em 1.5s.
  *   data-intro-reveal="line"  filete: cresce da esquerda ate a largura total.
  *   data-intro-reveal="beam"  filete: cresce a partir do centro.
- *   data-intro-reveal="bar"   barra do menu: opacidade e leve descida.
  * ========================================================================== */
 
 :root {
@@ -276,15 +275,4 @@ html[data-intro="done"] [data-intro-reveal="line"],
 html[data-intro="ready"] [data-intro-reveal="beam"],
 html[data-intro="done"] [data-intro-reveal="beam"] {
   transition: transform 1.6s ease var(--intro-delay);
-}
-
-html[data-intro="pending"] [data-intro-reveal="bar"],
-html[data-intro="loading"] [data-intro-reveal="bar"] {
-  opacity: 0;
-  transform: translate3d(0, -0.5em, 0);
-}
-
-html[data-intro="ready"] [data-intro-reveal="bar"],
-html[data-intro="done"] [data-intro-reveal="bar"] {
-  transition: opacity 0.8s ease 0.3s, transform 0.8s var(--intro-out-circ) 0.3s;
 }

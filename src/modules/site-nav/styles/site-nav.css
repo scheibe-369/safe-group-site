@@ -106,15 +106,49 @@ html {
 }
 
 /* ---------------------------------------------------------------------------
- * Barra: o que se apaga quando o menu abre e volta quando fecha.
+ * Barra. Sobre a primeira dobra nao existe: entra a descer depois do primeiro
+ * scroll (`data-scrolled` no cabecalho) e sai a subir quando a pagina volta ao
+ * topo. Com o menu aberto fica sempre, porque e nela que vive o "Fechar".
+ * `visibility` acompanha a opacidade para a barra escondida sair da ordem de
+ * tabulacao e da arvore de acessibilidade.
  * ------------------------------------------------------------------------- */
-.site-nav__scrim {
+.site-nav__bar {
   opacity: 0;
-  transition: opacity 0.3s ease;
+  visibility: hidden;
+  transform: translate3d(0, -100%, 0);
+  transition: opacity 0.35s ease, transform 0.5s ease, visibility 0s linear 0.5s;
 }
 
-.site-nav__scrim[data-visible="true"] {
+.site-nav[data-scrolled="true"] .site-nav__bar,
+.site-nav[data-open="true"] .site-nav__bar {
   opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition: opacity 0.5s ease, transform 0.7s var(--nav-out-circ), visibility 0s;
+}
+
+/* Vidro da barra: desfoca e escurece o que passa por baixo. Vive num irmao da
+   barra, nunca no `<header>` (ver o componente). Apaga-se com o menu aberto,
+   porque o painel opaco ja cobre a janela e o desfoque so gastava GPU. */
+.site-nav__glass {
+  opacity: 0;
+  background: rgba(5, 5, 5, 0.6);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  backdrop-filter: blur(16px) saturate(1.4);
+  transition: opacity 0.5s ease;
+}
+
+.site-nav[data-scrolled="true"]:not([data-open="true"]) .site-nav__glass {
+  opacity: 1;
+}
+
+/* Sem `backdrop-filter` o vidro fecha-se quase opaco, senao o texto da barra
+   ficava a lutar com o conteudo por baixo. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .site-nav__glass {
+    background: rgba(5, 5, 5, 0.92);
+  }
 }
 
 /* Estas regras nao estao em camada, por isso ganham ao `transition-colors`

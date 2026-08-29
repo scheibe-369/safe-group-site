@@ -766,3 +766,12 @@ duas vezes por corrida de escrita com outras sessões no mesmo `tasks/todo.md` (
 vez sem ficar registada em nenhum commit). O código do módulo em si nunca esteve em
 risco, só a documentação.
 - [x] Correção imediata: a 1024px, com as abas a 13,5px, a barra ficava no limite e o CTA quebrava em duas linhas dentro da caixa de altura fixa. As abas passam a 13,5px só a partir de 1280px (`xl:`), onde sobram 120px; entre 1024 e 1279 mantêm os 12px validados. Confirmado com capturas reais a 1024, 1279, 1280, 1440 e 1920: CTA sempre numa linha (máscara a 18px), folga mínima de 30px.
+
+## Navbar em vidro, visível só depois do primeiro scroll
+
+- [x] Ler o módulo `site-nav`, a coreografia da intro e a decisão da unidade fixa da barra.
+- [x] Trocar o scrim em gradiente por uma camada de vidro (`backdrop-filter` + fundo escuro) irmã da barra, nunca no `<header>`.
+- [x] Esconder a barra inteira sobre a primeira dobra e fazê-la descer depois do primeiro scroll (`data-scrolled`), com histerese no limiar.
+- [x] Retirar o `data-intro-reveal="bar"` da barra e o vocabulário morto da intro, para a visibilidade ter um só dono.
+- [x] Typecheck e lint (aprovados); QA a 375, 768, 1024 e 1440 (topo sem barra, barra com vidro depois do scroll, menu aberto intacto).
+- [x] Commit por caminhos, push para `main`, confirmar a Action e a produção.

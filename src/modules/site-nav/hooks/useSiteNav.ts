@@ -19,7 +19,10 @@ export function useSiteNav(menuId: string) {
   const toggle = useCallback(() => setOpen((value) => !value), []);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    // A barra so existe com a pagina rolada. Histerese no limiar: entra depois
+    // dos 24px e so sai abaixo dos 4px, para nao piscar quando o scroll para
+    // mesmo em cima da fronteira.
+    const onScroll = () => setScrolled((value) => window.scrollY > (value ? 4 : 24));
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
