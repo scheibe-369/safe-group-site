@@ -11,7 +11,7 @@ import { TextMask } from "./TextMask";
 
 const MENU_ID = "site-menu";
 
-const cta = "nav-mask-trigger group pointer-events-auto h-[3.385em] items-center gap-[0.77em] border px-[1.54em] text-[0.8125em] font-semibold uppercase tracking-[.1em] hover:border-[var(--safe-red)] hover:bg-[var(--safe-red)]";
+const cta = "nav-mask-trigger group pointer-events-auto h-[3.385em] items-center gap-[0.77em] border px-[1.54em] text-[0.875em] font-semibold uppercase tracking-[.1em] hover:border-[var(--safe-red)] hover:bg-[var(--safe-red)]";
 
 type SiteNavProps = {
   /** Calculado no servidor (layout) para a prosa dos cases e os icones das solucoes nao irem no bundle do cliente. */

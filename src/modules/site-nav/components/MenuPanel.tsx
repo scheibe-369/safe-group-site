@@ -87,7 +87,7 @@ export function MenuPanel({ id, open, content, year, onNavigate }: MenuPanelProp
 
             {/* Em telemovel o CTA nao cabe na barra, por isso vive aqui, antes
                 da linha legal, para a assinatura continuar a ser a ultima linha. */}
-            <Link href={content.cta.href} onClick={() => onNavigate(content.cta.href)} className="site-nav__panel-cta nav-mask-trigger group inline-flex h-[3.385em] min-h-11 items-center justify-center gap-[0.77em] border border-black px-[1.54em] text-[0.8125em] font-semibold uppercase tracking-[.1em] text-black hover:border-[var(--safe-red)] hover:bg-[var(--safe-red)] hover:text-white sm:hidden">
+            <Link href={content.cta.href} onClick={() => onNavigate(content.cta.href)} className="site-nav__panel-cta nav-mask-trigger group inline-flex h-[3.385em] min-h-11 items-center justify-center gap-[0.77em] border border-black px-[1.54em] text-[0.875em] font-semibold uppercase tracking-[.1em] text-black hover:border-[var(--safe-red)] hover:bg-[var(--safe-red)] hover:text-white sm:hidden">
               <TextMask label={content.cta.label} />
               <DiagonalArrow className="h-[0.92em] w-[0.92em] transition-transform duration-500 group-hover:rotate-45" />
             </Link>
