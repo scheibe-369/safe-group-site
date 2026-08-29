@@ -1,0 +1,21 @@
+/*
+ * Estrutura de mascara extraida do site da Tyvo: o SplitType (ver
+ * useLineWipeReveal.ts) envolve cada linha do titulo num `.line` e injeta um
+ * `.line-mask` la dentro. A mascara nasce a cobrir a linha inteira (100% de
+ * largura) e o scroll encolhe-a ate 0%, revelando o texto da esquerda para a
+ * direita conforme a linha atravessa o centro do ecra.
+ */
+.line {
+  position: relative;
+}
+
+.line-mask {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: var(--safe-black);
+  opacity: 0.65;
+  height: 100%;
+  width: 100%;
+  z-index: 2;
+}

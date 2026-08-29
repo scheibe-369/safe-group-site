@@ -3,6 +3,8 @@
 @import "../modules/site-nav/styles/site-nav.css";
 @import "../modules/faq/styles/faq.css";
 @import "../modules/site-intro/styles/site-intro.css";
+@import "../modules/hero-transition/styles/hero-transition.css";
+@import "../modules/statement-section/styles/statement-section.css";
 
 :root {
   --safe-black: #050505;

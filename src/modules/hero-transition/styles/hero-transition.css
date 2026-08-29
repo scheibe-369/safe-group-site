@@ -1,0 +1,70 @@
+/*
+ * Por omissao (mobile, tablet, prefers-reduced-motion) a Hero fica exatamente
+ * como sem este modulo: sem altura extra, sem sticky, sem overlay a fazer
+ * nada. So a partir do lg e fora de reduced-motion e que o palco prende a
+ * Hero no ecra durante o scroll extra para a cobertura acontecer.
+ */
+.hero-transition {
+  height: auto;
+}
+
+.hero-transition__stage {
+  position: relative;
+}
+
+@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+  .hero-transition {
+    height: 220vh;
+  }
+
+  .hero-transition__stage {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow: hidden;
+  }
+}
+
+/*
+ * Overlay puramente decorativo por cima da Hero real: pointer-events-none
+ * para nunca tapar cliques nos CTAs da Hero antes de a cobertura la chegar.
+ * `z-index: 20` e obrigatorio aqui: a Hero e so `position: relative` sem
+ * z-index proprio, por isso nao cria o seu proprio contexto de empilhamento,
+ * e o `z-10` do texto/CTAs (`safe-edge relative z-10` e `hero-signature`)
+ * escapa para competir directamente neste nivel. Sem um z-index explicito
+ * maior aqui, esse texto ganhava ao overlay mesmo entrando depois no DOM.
+ */
+.hero-transition__stripes {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+}
+
+.hero-transition__stripe {
+  position: absolute;
+  top: -25%;
+  left: calc(var(--i) * (100% / 9) - 2rem);
+  width: calc(100% / 9 + 4rem);
+  height: 150%;
+  box-sizing: border-box;
+  background: var(--safe-black);
+  border-right: 3px solid var(--safe-red);
+  transform: skewX(-18deg) scaleX(0);
+  transform-origin: left center;
+}
+
+/*
+ * O desvio horizontal do skew cresce com a altura do ecra (tan(18deg) * metade
+ * da altura da listra) e em ecras altos ultrapassa a folga das listras,
+ * deixando cantos por cobrir. Este forro cobre o palco inteiro e entra por
+ * cima nos ultimos instantes da animacao (ver useStripeWipe.ts), garantindo
+ * preto solido antes da secao seguinte subir, sem depender de trigonometria
+ * afinada por tamanho de ecra.
+ */
+.hero-transition__cover {
+  position: absolute;
+  inset: 0;
+  background: var(--safe-black);
+  opacity: 0;
+}
