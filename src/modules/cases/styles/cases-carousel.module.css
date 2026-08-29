@@ -35,8 +35,22 @@
    --------------------------------------------------------------------------- */
 .track {
   flex: none;
-  width: 100vw;
-  max-width: 100vw;
+  /* O trilho nasce deslocado a direita pela margem do .safe-container, entao
+     100vw puros o levariam alem da borda real do ecra por essa mesma margem,
+     uma faixa que fica sempre cortada. O Swiper mede a largura literal do
+     elemento, entao deixava arrastar ate esse ponto fantasma e o ultimo card
+     nunca ficava totalmente visivel. Subtrai o mesmo inset lateral do
+     .safe-container (ver globals.css) para o fim do scroll coincidir com a
+     borda do ecra. */
+  width: calc(100vw - 1rem);
+  max-width: calc(100vw - 1rem);
+}
+
+@media (min-width: 1024px) {
+  .track {
+    width: calc(100vw - clamp(2rem, 5vw, 7.5rem));
+    max-width: calc(100vw - clamp(2rem, 5vw, 7.5rem));
+  }
 }
 
 .wrapper {
