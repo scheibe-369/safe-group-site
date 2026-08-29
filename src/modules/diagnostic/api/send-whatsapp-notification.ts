@@ -1,12 +1,12 @@
 import type { DiagnosticFormPayload } from "../types/diagnostic";
 
 /**
- * Instancia Evolution API dedicada aos formularios do site (helio-forms).
+ * Instancia Evolution API dedicada aos formularios do site (helio-2).
  * URL e instancia nao sao segredo, ficam fixos aqui; a chave e que e credencial
  * e vive em EVOLUTION_API_KEY.
  */
 const EVOLUTION_API_URL = "https://evo.cauania.online";
-const EVOLUTION_INSTANCE = "helio-forms";
+const EVOLUTION_INSTANCE = "helio-2";
 const DESTINATION_NUMBER = "5527999584889";
 
 function formatMessage(payload: DiagnosticFormPayload): string {
