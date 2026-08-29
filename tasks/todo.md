@@ -765,3 +765,4 @@ Nota: esta secção substitui uma versão anterior escrita durante a mesma entre
 duas vezes por corrida de escrita com outras sessões no mesmo `tasks/todo.md` (a segunda
 vez sem ficar registada em nenhum commit). O código do módulo em si nunca esteve em
 risco, só a documentação.
+- [x] Correção imediata: a 1024px, com as abas a 13,5px, a barra ficava no limite e o CTA quebrava em duas linhas dentro da caixa de altura fixa. As abas passam a 13,5px só a partir de 1280px (`xl:`), onde sobram 120px; entre 1024 e 1279 mantêm os 12px validados. Confirmado com capturas reais a 1024, 1279, 1280, 1440 e 1920: CTA sempre numa linha (máscara a 18px), folga mínima de 30px.

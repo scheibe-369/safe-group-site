@@ -45,7 +45,7 @@ export function SiteNav({ content, year }: SiteNavProps) {
           {content.barLinks.map((link) => {
             const active = isActive(link.href);
             return (
-              <Link key={link.href} href={link.href} onClick={() => navigate(link.href)} aria-current={active ? (link.href.includes("#") ? "location" : "page") : undefined} className={`nav-mask-trigger pointer-events-auto inline-flex min-h-11 items-center text-[0.84375em] font-medium uppercase tracking-[.12em] ${active ? "text-white" : "text-white/80"}`}>
+              <Link key={link.href} href={link.href} onClick={() => navigate(link.href)} aria-current={active ? (link.href.includes("#") ? "location" : "page") : undefined} className={`nav-mask-trigger pointer-events-auto inline-flex min-h-11 items-center text-[0.75em] font-medium uppercase tracking-[.12em] xl:text-[0.84375em] ${active ? "text-white" : "text-white/80"}`}>
                 <TextMask label={link.label} copyClassName="text-[var(--safe-red)]" />
               </Link>
             );
