@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
+import { sendWhatsappNotification, whatsappNotificationEnabled } from "@/modules/diagnostic/api/send-whatsapp-notification";
 import { diagnosticSchema } from "@/modules/diagnostic/schemas/diagnostic-schema";
 
 export async function POST(request: Request) {
-  const webhookUrl = process.env.SAFE_DIAGNOSTIC_WEBHOOK_URL;
-  if (!webhookUrl) return NextResponse.json({ error: "Integração indisponível" }, { status: 503 });
+  if (!whatsappNotificationEnabled()) return NextResponse.json({ error: "Integração indisponível" }, { status: 503 });
 
   const requestOrigin = request.headers.get("origin");
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
@@ -26,17 +26,8 @@ export async function POST(request: Request) {
   if (!parsed.success) return NextResponse.json({ error: "Dados inválidos" }, { status: 400 });
   if (parsed.data.website) return NextResponse.json({ ok: true });
 
-  try {
-    const response = await fetch(webhookUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...parsed.data, source: "safe-group-site", submittedAt: new Date().toISOString() }),
-      signal: AbortSignal.timeout(8_000),
-    });
-    if (!response.ok) return NextResponse.json({ error: "Destino indisponível" }, { status: 502 });
-  } catch {
-    return NextResponse.json({ error: "Destino indisponível" }, { status: 502 });
-  }
+  const sent = await sendWhatsappNotification(parsed.data);
+  if (!sent) return NextResponse.json({ error: "Destino indisponível" }, { status: 502 });
 
   return NextResponse.json({ ok: true });
 }
