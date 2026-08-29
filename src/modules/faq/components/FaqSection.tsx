@@ -1,5 +1,5 @@
 import { faqItems } from "../data/faq";
-import { FaqItemBubble } from "./FaqItemBubble";
+import { FaqList } from "./FaqList";
 
 export function FaqSection() {
   return (
@@ -10,10 +10,8 @@ export function FaqSection() {
         <h2 className="max-w-2xl text-center text-4xl font-semibold leading-[.98] tracking-[-.045em] text-white sm:text-5xl lg:text-6xl">
           Perguntas antes de começar
         </h2>
-        <div className="mt-10 w-full max-w-2xl space-y-3 sm:mt-14">
-          {faqItems.map((item) => (
-            <FaqItemBubble key={item.question} item={item} />
-          ))}
+        <div className="mt-10 sm:mt-14">
+          <FaqList items={faqItems} />
         </div>
       </div>
     </section>

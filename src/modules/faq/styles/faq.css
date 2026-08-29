@@ -2,20 +2,32 @@
  * FAQ em formato de conversa. Padrao de interacao adaptado de outro projeto
  * (ver README do modulo): a pergunta abre um balao, mostra os pontinhos de "a
  * escrever" por meio segundo e so depois revela a resposta ao lado do selo da
- * Safe. Tudo corre a partir do estado `[open]` do `<details>`, sem JavaScript.
+ * Safe. O estado (`data-open`, controlado por `FaqList` em React) troca as
+ * classes; a abertura interna usa `animation` de um sentido so, mas o cartao
+ * inteiro colapsa por `transition` em `.safe-faq-collapse`, que anima igual
+ * nos dois sentidos, para o fecho ficar tao fluido quanto a abertura.
  * Importado uma vez em `src/app/globals.css`.
  * ========================================================================== */
 
-.safe-faq-bubble::-webkit-details-marker {
-  display: none;
-}
-
-.safe-faq-bubble::marker {
-  content: "";
-}
-
-details[open] > .safe-faq-bubble {
+.safe-faq-item[data-open="true"] > .safe-faq-bubble {
   animation: safe-faq-bubble-open .26s cubic-bezier(.22, 1, .36, 1);
+}
+
+/* Colapso do cartao inteiro (resposta + selo). Ao contrario do `<details>`
+   nativo, que troca pra `display: none` num salto, esta `transition` anima
+   `grid-template-rows` nos dois sentidos: abre e fecha pela mesma curva. */
+.safe-faq-collapse {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows .45s cubic-bezier(.22, 1, .36, 1);
+}
+
+.safe-faq-item[data-open="true"] .safe-faq-collapse {
+  grid-template-rows: 1fr;
+}
+
+.safe-faq-collapse > * {
+  overflow: hidden;
 }
 
 .safe-faq-typing,
@@ -37,15 +49,15 @@ details[open] > .safe-faq-bubble {
   grid-template-rows: 0fr;
 }
 
-details[open] .safe-faq-typing {
+.safe-faq-item[data-open="true"] .safe-faq-typing {
   animation: safe-faq-typing-out .15s cubic-bezier(.22, 1, .36, 1) .5s forwards;
 }
 
-details[open] .safe-faq-answer {
+.safe-faq-item[data-open="true"] .safe-faq-answer {
   animation: safe-faq-answer-open .3s cubic-bezier(.22, 1, .36, 1) .54s forwards;
 }
 
-details[open] .safe-faq-answer > * > * {
+.safe-faq-item[data-open="true"] .safe-faq-answer > * > * {
   animation: safe-faq-rise .3s cubic-bezier(.22, 1, .36, 1) .6s both;
 }
 
@@ -53,15 +65,15 @@ details[open] .safe-faq-answer > * > * {
   opacity: .25;
 }
 
-details[open] .safe-faq-typing i {
+.safe-faq-item[data-open="true"] .safe-faq-typing i {
   animation: safe-faq-dot-blink .6s cubic-bezier(.22, 1, .36, 1) infinite;
 }
 
-details[open] .safe-faq-typing i:nth-child(2) {
+.safe-faq-item[data-open="true"] .safe-faq-typing i:nth-child(2) {
   animation-delay: .1s;
 }
 
-details[open] .safe-faq-typing i:nth-child(3) {
+.safe-faq-item[data-open="true"] .safe-faq-typing i:nth-child(3) {
   animation-delay: .2s;
 }
 
@@ -89,12 +101,16 @@ details[open] .safe-faq-typing i:nth-child(3) {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  details[open] > .safe-faq-bubble,
-  details[open] .safe-faq-typing,
-  details[open] .safe-faq-answer,
-  details[open] .safe-faq-answer > * > *,
-  details[open] .safe-faq-typing i {
+  .safe-faq-item[data-open="true"] > .safe-faq-bubble,
+  .safe-faq-item[data-open="true"] .safe-faq-typing,
+  .safe-faq-item[data-open="true"] .safe-faq-answer,
+  .safe-faq-item[data-open="true"] .safe-faq-answer > * > *,
+  .safe-faq-item[data-open="true"] .safe-faq-typing i {
     animation: none;
+  }
+
+  .safe-faq-collapse {
+    transition: none;
   }
 
   .safe-faq-typing {
