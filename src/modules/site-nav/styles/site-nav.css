@@ -109,22 +109,31 @@ html {
  * Barra. Sobre a primeira dobra nao existe: entra a descer depois do primeiro
  * scroll (`data-scrolled` no cabecalho) e sai a subir quando a pagina volta ao
  * topo. Com o menu aberto fica sempre, porque e nela que vive o "Fechar".
- * `visibility` acompanha a opacidade para a barra escondida sair da ordem de
- * tabulacao e da arvore de acessibilidade.
+ * Escondida, a barra e `inert` (no componente), por isso aqui so ha opacidade
+ * e movimento. O cabecalho em si so e superficie de clique com a barra ou o
+ * menu presentes; sem eles deixava de haver barra mas continuava a engolir os
+ * cliques nos primeiros 6em da pagina.
  * ------------------------------------------------------------------------- */
+.site-nav {
+  pointer-events: none;
+}
+
+.site-nav[data-scrolled="true"],
+.site-nav[data-open="true"] {
+  pointer-events: auto;
+}
+
 .site-nav__bar {
   opacity: 0;
-  visibility: hidden;
   transform: translate3d(0, -100%, 0);
-  transition: opacity 0.35s ease, transform 0.5s ease, visibility 0s linear 0.5s;
+  transition: opacity 0.35s ease, transform 0.5s ease;
 }
 
 .site-nav[data-scrolled="true"] .site-nav__bar,
 .site-nav[data-open="true"] .site-nav__bar {
   opacity: 1;
-  visibility: visible;
   transform: none;
-  transition: opacity 0.5s ease, transform 0.7s var(--nav-out-circ), visibility 0s;
+  transition: opacity 0.5s ease, transform 0.7s var(--nav-out-circ);
 }
 
 /* Vidro da barra: desfoca e escurece o que passa por baixo. Vive num irmao da

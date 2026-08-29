@@ -44,7 +44,10 @@ export function SiteNav({ content, year }: SiteNavProps) {
     <header data-open={open} data-scrolled={scrolled} className="site-nav fixed inset-x-0 top-0 z-50">
       <span aria-hidden className="site-nav__glass pointer-events-none absolute inset-0" />
 
-      <div className="site-nav__bar safe-edge pointer-events-none relative z-10 flex min-h-[6em] items-center justify-between gap-[1.5em]">
+      {/* `inert` tira a barra escondida do foco, dos cliques e da arvore de
+          acessibilidade; `visibility` nao servia, porque as abas e o CTA a
+          redefinem para a coreografia do menu. */}
+      <div inert={!scrolled && !open} className="site-nav__bar safe-edge pointer-events-none relative z-10 flex min-h-[6em] items-center justify-between gap-[1.5em]">
         <BrandLogo label={content.brandLabel} onClick={() => navigate("/")} />
 
         <nav aria-label="Navegação principal" className="site-nav__links hidden items-center gap-[1.5em] lg:flex xl:gap-[2em]">
