@@ -773,5 +773,13 @@ risco, só a documentação.
 - [x] Trocar o scrim em gradiente por uma camada de vidro (`backdrop-filter` + fundo escuro) irmã da barra, nunca no `<header>`.
 - [x] Esconder a barra inteira sobre a primeira dobra e fazê-la descer depois do primeiro scroll (`data-scrolled`), com histerese no limiar.
 - [x] Retirar o `data-intro-reveal="bar"` da barra e o vocabulário morto da intro, para a visibilidade ter um só dono.
-- [x] Typecheck e lint (aprovados); QA a 375, 768, 1024 e 1440 (topo sem barra, barra com vidro depois do scroll, menu aberto intacto).
+- [x] Typecheck e lint (aprovados); QA em produção a 375, 768, 1024 e 1440 (topo sem barra, barra com vidro depois do scroll, menu aberto intacto).
 - [x] Commit por caminhos, push para `main`, confirmar a Action e a produção.
+
+### Revisão da navbar em vidro
+
+- Sobre a primeira dobra não há barra: `data-scrolled` entra depois dos 24px (sai abaixo dos 4px, com histerese) e a barra desce com `--nav-out-circ`; ao voltar ao topo sobe e apaga-se.
+- O vidro (`.site-nav__glass`: `backdrop-filter: blur(16px) saturate(1.4)`, fundo `rgba(5,5,5,.6)`, filete inferior a 8%) é um irmão da barra, nunca o `<header>`, para o painel `fixed` continuar a cobrir a janela. Apaga-se com o menu aberto. Fallback quase opaco sem `backdrop-filter`.
+- A barra escondida é `inert` e o `<header>` só tem `pointer-events` com a barra ou o menu presentes: a QA em produção tinha apanhado o CTA a receber foco a 768 e o cabeçalho a engolir cliques nos primeiros 6em.
+- `data-intro-reveal="bar"` saiu da barra e do vocabulário da intro: a visibilidade da barra tem um só dono.
+- Publicado em `76c7b62` e `6a862db` pela Action "Deploy Cloudflare"; QA com playwright-core sobre a produção nas quatro larguras, menu aberto e fechado, Tab desde o topo e `elementFromPoint`.
