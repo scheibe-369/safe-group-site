@@ -3,7 +3,6 @@ import { groupBySector } from "../utils/group-by-sector";
 import { CaseIndex } from "./CaseIndex";
 import { CasesBySector } from "./CasesBySector";
 import { CasesDemoNotice } from "./CasesDemoNotice";
-import { CasesEmptyState } from "./CasesEmptyState";
 import { CasesSectorNav } from "./CasesSectorNav";
 
 /**
@@ -15,16 +14,6 @@ import { CasesSectorNav } from "./CasesSectorNav";
  * contexto de scroll, ao contrario do hidden.
  */
 export function CasesDirectory() {
-  if (!caseStudies.length) {
-    return (
-      <section className="safe-section bg-[var(--safe-black)]">
-        <div className="safe-container">
-          <CasesEmptyState />
-        </div>
-      </section>
-    );
-  }
-
   const sectors = groupBySector(caseStudies);
 
   return (

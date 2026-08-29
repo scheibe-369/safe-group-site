@@ -3,7 +3,6 @@ import { SectionHeading } from "@/shared/ui/SectionHeading";
 import { caseStudies } from "../data/cases";
 import { CasesCarousel } from "./carousel/CasesCarousel";
 import { CasesDemoNotice } from "./CasesDemoNotice";
-import { CasesEmptyState } from "./CasesEmptyState";
 
 /**
  * Bloco de cases da home.
@@ -27,11 +26,7 @@ export function CasesRail() {
       <CasesDemoNotice className="safe-container mt-10" />
 
       <div className="safe-container mt-8">
-        {caseStudies.length ? (
-          <CasesCarousel items={caseStudies} label="cases Safe" />
-        ) : (
-          <CasesEmptyState compact />
-        )}
+        <CasesCarousel items={caseStudies} label="cases Safe" />
       </div>
     </section>
   );
