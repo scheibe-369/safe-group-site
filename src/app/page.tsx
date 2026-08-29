@@ -7,8 +7,9 @@ import { CasesRail } from "@/modules/cases/components/CasesRail";
 import { MethodSection } from "@/modules/method/components/MethodSection";
 import { SolutionsSection } from "@/modules/solutions/components/SolutionsSection";
 import { MarketsSection } from "@/modules/markets/components/MarketsSection";
+import { PartnersSection } from "@/modules/partners";
 
 export default function HomePage() {
   const diagnosticEnabled = Boolean(process.env.SAFE_DIAGNOSTIC_WEBHOOK_URL);
-  return <><Hero /><PositioningSection /><MarketsSection /><DiagnosticSection /><SolutionsSection /><MethodSection /><CasesRail /><FaqSection /><ClosingSection enabled={diagnosticEnabled} year={new Date().getFullYear()} /></>;
+  return <><Hero /><PartnersSection /><PositioningSection /><MarketsSection /><DiagnosticSection /><SolutionsSection /><MethodSection /><CasesRail /><FaqSection /><ClosingSection enabled={diagnosticEnabled} year={new Date().getFullYear()} /></>;
 }

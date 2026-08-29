@@ -702,3 +702,66 @@ cresce de 0 a 100% (2000ms). O pedido acrescenta um contador de 0 a 100%.
 - [x] Medido com o menu aberto (playwright-core, porta 3417): a 1920 a barra fica a 16px (abas 12px, CTA 13px/44px, marca 44px) e o painel a 21,3px (ligações 18px); a 1440 tudo a 16px; a 375 tudo a 15px como antes. Lint limpo.
 - [x] Ajuste fino a pedido (28/08/2026): títulos das colunas do painel de 0,66em para 0,72em (10,6px para 11,5px a 1440, 14,1px para 15,4px a 1920, o mesmo corpo dos kickers do resto do site) e CTA "Começar diagnóstico" de 0,8125em para 0,875em (13px para 14px, altura de 44px para 47px, proporção mantida), na barra e na versão do painel em telemóvel. Medido com o menu aberto; lint limpo.
 - [x] Abas da barra (Soluções, Método, Cases, Sobre) de 0,75em para 0,84375em (12px para 13,5px), só elas, a pedido. A 1024px a barra continua a caber com os 24px de intervalo mínimos entre marca, abas e CTA, sem quebra de linha; a 1280 e acima sobra folga.
+
+## Carrossel de parceiros oficiais na Home (28/08/2026)
+
+- [x] Confirmar com o utilizador se os 10 selos são certificações reais da Safe Group e se entram neste site (entram; ver exceção nova em `AGENTS.md`).
+- [x] Portar a mecânica de `partners-marquee.tsx` (Growth Hub): loop `requestAnimationFrame`, velocidade que abranda no hover, pausa por `IntersectionObserver`/`visibilitychange`, máscara de desvanecimento nas bordas.
+- [x] Criar o módulo `src/modules/partners/` com os 10 parceiros (Meta, Mercado Livre, OLX, WhatsApp, Instagram, OpenAI, Stripe, Asaas, Google Ads, Claude), traçados de marca próprios ou reaproveitados do `social-dock`.
+- [x] Ligar `PartnersSection` na Home, logo a seguir à Hero.
+- [x] Typecheck, lint, build de produção.
+- [x] Verificar em 375, 768, 1024 e 1440: cinza em repouso, cor e glow no hover, sem overflow horizontal, pausa fora do ecrã.
+
+### Revisão
+
+Módulo `src/modules/partners/` com `types/partner.ts`, `data/partners.ts` (os 10 selos),
+`components/BrandMark.tsx` (desenha qualquer glifo a partir do seu `viewBox`, largura
+derivada da proporção), `components/PartnersMarquee.tsx` (cliente, mecânica portada) e
+`components/PartnersSection.tsx` (cabeçalho `SectionHeading` dentro de `.safe-container`,
+faixa fora dele porque a máscara já é de borda a borda por natureza).
+
+Traçados: Meta, OpenAI, Stripe, Google Ads e Claude vieram do Simple Icons (CC0),
+instalado só num scratchpad fora do projeto para ler os `d`, sem entrar como dependência.
+WhatsApp e Instagram reaproveitam os `d` já em produção em
+`social-dock/components/NetworkGlyph.tsx`. Asaas é o wordmark tal como está no
+`AsaasMark` de origem (Growth Hub). Mercado Livre e OLX não existem no Simple Icons;
+vieram da Wikimedia Commons ("Mercado Livre wordmark (Portuguese version).svg" e "OLX
+Brasil logo.svg"), a OLX como único parceiro `multicolor` (mantém as 3 cores oficiais
+em vez de `currentColor`, é a única marca sem uma cor única representativa).
+
+Mecânica: loop `requestAnimationFrame` sobre 3 cópias da lista, velocidade a abrandar
+com o cursor por cima (60 para 20), pausa total por `IntersectionObserver` e
+`visibilitychange`, máscara de desvanecimento nas bordas. Ao contrário da origem, o loop
+nunca arranca se `prefers-reduced-motion: reduce` (a regra global do site cobre
+`animation`/`transition` CSS, não um `transform` escrito por JavaScript). Faixa visível
+fica `aria-hidden`; uma lista `sr-only` com os 10 nomes reais, uma vez cada, garante que
+a certificação continua legível a leitores de ecrã e motores de busca.
+
+Paperwork: pediu confirmação do utilizador antes de escrever código, porque colidia à
+letra com as regras de "não posicionar a Safe como agência" e "nunca inventar prova
+social sem evidência". Confirmado que são certificações reais detidas pela Safe Group.
+`AGENTS.md` ganhou uma exceção pontual à regra de agência para esta tira de selos, no
+mesmo formato já usado para aprovar o case da Growth Hub.
+
+Verificação: `npm run lint` aprovado (typecheck, guard de copy, 10 skills). `npm run
+build` com 27 rotas, Home em 32.7 kB / 168 kB de primeiro carregamento. Confirmado por
+dev server e HTML servido (`curl`/`grep`): os 10 rótulos aparecem 4 vezes cada (3 cópias
+visíveis da faixa + 1 na lista `sr-only`), os 5 `viewBox` próprios (24x24, 124.33x36.09
+da Asaas, 48x48 da OLX, 947.69x373.37675 da Mercado Livre) aparecem exatamente 3 vezes
+cada, e o CSS compilado tem a regra `.group-hover\:[...]:is(:where(.group):hover *) {
+filter: grayscale(0) drop-shadow(...) }` gerada corretamente pelo Tailwind. Visual em
+Chrome real a 375, 768 e ~1440 (harness de `<iframe>` de largura fixa para 375/768/1024,
+mais a janela real para o desktop, porque `resize_window` continua bloqueado neste
+ambiente): kicker, título e faixa alinhados com o `.safe-container`, ícones em cinza no
+repouso, sem overflow horizontal em nenhuma largura, sem colisão com o cabeçalho fixo
+nem com a secção seguinte.
+
+Ficheiros fora do módulo tocados: só `src/app/page.tsx` (import e posição de
+`PartnersSection`, logo a seguir à Hero). `Hero.tsx`, `globals.css`, `layout.tsx` e
+`site-nav/*` não foram tocados, por estarem a meio de edição por outras sessões em
+paralelo.
+
+Nota: esta secção substitui uma versão anterior escrita durante a mesma entrega, perdida
+duas vezes por corrida de escrita com outras sessões no mesmo `tasks/todo.md` (a segunda
+vez sem ficar registada em nenhum commit). O código do módulo em si nunca esteve em
+risco, só a documentação.
