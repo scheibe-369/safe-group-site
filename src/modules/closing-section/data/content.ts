@@ -71,10 +71,6 @@ export const closingSectionContent: ClosingSectionContent = {
       { href: "/contacto", label: "Contacto" },
     ],
     copyright: "Safe Group. Todos os direitos reservados.",
-    producedBy: {
-      label: "Desenvolvido por Method Growth Hub",
-      href: "https://methodgrowthhub.com.br",
-    },
     backToTop: "Voltar ao topo",
   },
 };

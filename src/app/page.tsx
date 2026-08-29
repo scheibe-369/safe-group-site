@@ -1,4 +1,5 @@
 import { ClosingSection } from "@/modules/closing-section";
+import { whatsappNotificationEnabled } from "@/modules/diagnostic/api/send-whatsapp-notification";
 import { DiagnosticSection } from "@/modules/home/components/DiagnosticSection";
 import { FaqSection } from "@/modules/faq/components/FaqSection";
 import { Hero } from "@/modules/home/components/Hero";
@@ -10,6 +11,6 @@ import { MarketsSection } from "@/modules/markets/components/MarketsSection";
 import { PartnersSection } from "@/modules/partners";
 
 export default function HomePage() {
-  const diagnosticEnabled = Boolean(process.env.SAFE_DIAGNOSTIC_WEBHOOK_URL);
+  const diagnosticEnabled = whatsappNotificationEnabled();
   return <><Hero /><PartnersSection /><PositioningSection /><MarketsSection /><DiagnosticSection /><SolutionsSection /><MethodSection /><CasesRail /><FaqSection /><ClosingSection enabled={diagnosticEnabled} year={new Date().getFullYear()} /></>;
 }

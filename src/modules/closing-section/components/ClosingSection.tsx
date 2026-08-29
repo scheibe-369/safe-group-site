@@ -16,7 +16,7 @@ import { VerticalMarquee } from "./VerticalMarquee";
 type Status = "idle" | "sending" | "success" | "error";
 
 export type ClosingSectionProps = {
-  /** Falso enquanto SAFE_DIAGNOSTIC_WEBHOOK_URL nao estiver definido. */
+  /** Falso enquanto EVOLUTION_API_KEY nao estiver definido. */
   enabled: boolean;
   /** Ano do copyright. Vem do servidor para nao divergir na hidratacao. */
   year: number;

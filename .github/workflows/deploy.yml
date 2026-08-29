@@ -35,6 +35,8 @@ jobs:
 
       - name: Build for Cloudflare
         run: npm run build:cloudflare
+        env:
+          EVOLUTION_API_KEY: ${{ secrets.EVOLUTION_API_KEY }}
 
       - name: Deploy Worker
         run: npm run deploy:cloudflare

@@ -12,8 +12,9 @@ formulario. Ficou so o que o site da Safe usa.
 
 ```tsx
 import { ClosingSection } from "@/modules/closing-section";
+import { whatsappNotificationEnabled } from "@/modules/diagnostic/api/send-whatsapp-notification";
 
-const diagnosticEnabled = Boolean(process.env.SAFE_DIAGNOSTIC_WEBHOOK_URL);
+const diagnosticEnabled = whatsappNotificationEnabled();
 <ClosingSection enabled={diagnosticEnabled} year={new Date().getFullYear()} />
 ```
 
@@ -29,8 +30,7 @@ variavel e passa a prop para baixo.
 
 - **Rodape so na Home.** A coluna direita fecha a pagina, por isso o `SiteFooter`
   global fica escondido em `/` pelo `SiteFooterSlot`. As restantes paginas
-  continuam com o rodape de sempre. Sao dois rodapes com o mesmo credito de
-  producao, nunca os dois na mesma pagina.
+  continuam com o rodape de sempre. Nunca os dois na mesma pagina.
 - **Redes sem ligacao enquanto nao houver perfil.** No conteudo, `href: null`
   mostra o nome sem link. Um `href` para lado nenhum promete destino e nao
   entrega.
@@ -39,7 +39,9 @@ variavel e passa a prop para baixo.
 - **Sem string fixa em JSX.** Toda a copy vive em `data/content.ts`, tipada por
   `types.ts`. Trocar copy nunca obriga a abrir um componente.
 - **Sem endpoint proprio.** O formulario usa `POST /api/diagnostic`, o mesmo do
-  `/contacto`, com o mesmo esquema, as mesmas opcoes e o mesmo honeypot.
+  `/contacto`, com o mesmo esquema, as mesmas opcoes e o mesmo honeypot. A rota
+  envia a lead por WhatsApp via Evolution API (instancia `helio-2`), ver
+  `src/modules/diagnostic/api/send-whatsapp-notification.ts`.
 
 ## Estrutura
 

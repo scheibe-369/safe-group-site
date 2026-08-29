@@ -9,7 +9,7 @@ const columnItem = "block py-1.5 text-sm text-white/55 transition-colors duratio
 
 /**
  * Rodape da coluna direita. Fecha a Home, por isso carrega as redes, a
- * navegacao e a barra legal com o credito de producao obrigatorio.
+ * navegacao e a barra legal.
  *
  * As redes aparecem sem ligacao enquanto os perfis nao estiverem confirmados.
  * Um `href` a apontar para lado nenhum e pior do que texto: promete destino e
@@ -56,14 +56,6 @@ export function ClosingFooter({ content, year }: { content: ClosingSectionConten
         <p>
           © {year} {f.copyright}
         </p>
-        <a
-          href={f.producedBy.href}
-          target="_blank"
-          rel="noopener"
-          className="transition-colors duration-300 hover:text-white"
-        >
-          {f.producedBy.label}
-        </a>
         <button
           type="button"
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
