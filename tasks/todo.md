@@ -899,3 +899,43 @@ margens e fica cortado de lado, o que funciona num logotipo de uma linha ("NYO")
 num lockup de duas ("SAFE" sobre "GROUP"). A banda cresceu em altura em vez de sangrar,
 para o lockup continuar legivel, e a margem continua a sair do eixo unico do site
 (`safe-container`).
+
+## Fecho no telemovel: espacamento medido contra a referencia (30/08/2026)
+
+O ajuste anterior nao chegou. O ponto que o cliente levantou foi o espacamento
+entre as linhas: na referencia o fecho encaixa num ecra e no nosso nao.
+
+- [x] Medida a referencia com Playwright a 390 px, em vez de estimar pela imagem.
+      Passo entre campos 42 px (campos **colados**, so o filete a separar), banda
+      do wordmark 131 px, passo entre linhas das listas 24 px, bloco banda-fim
+      418 px. No nosso: 71 px, 276 px, 32 px e 673 px.
+- [x] Linhas do formulario coladas abaixo de `md` (`space-y-0 md:space-y-5`).
+      E a medida que pesa mais: sao 7 intervalos de 20 px que desaparecem.
+- [x] Banda do wordmark de `aspect-[622/500]` para `aspect-[5/2]`: 276 px passam
+      a 137 px, contra os 131 px da referencia.
+- [x] Intervalo entre copias de `7%` para `2.5%` e fitas de fade de `18%` para
+      `10%`, abaixo de `lg`. Sem isto o passo do carrossel (0.474 da largura)
+      ficava maior do que a nova moldura (0.4) e o lockup voltava a ser cortado.
+- [x] Listas do rodape com `py-1 lg:py-1.5`, passo de 32 px para 28 px.
+- [x] Menos ar entre o botao e a banda (`mt-10 pt-10` no lugar de `mt-14 pt-12`)
+      e entre a banda e o rodape (`mt-10` no lugar de `mt-12`).
+- [x] Documentacao: bloco do `ClosingSection`, do `VerticalMarquee`, CSS do
+      modulo e `README.md`, este ultimo com a tabela de medidas lado a lado.
+- [x] `npm run lint`.
+
+### Revisao
+
+A seccao passou de 2220 px para 1910 px a 390 px. O bloco final (filete, banda do
+wordmark, as duas listas, filete, barra legal e "voltar ao topo") cabe agora num
+ecra de 844 px, que era o pedido. Verificado a 390, 768 e 1440; o desktop esta
+igual ao que estava, porque tudo o que mudou esta preso a `md` ou a `lg`.
+
+O campo continua com texto a 16 px, acima dos 13 px da referencia, e por isso o
+passo fica em 51 px contra 42 px. Abaixo de 16 px o Safari do iOS da zoom a
+pagina quando o campo recebe foco. E o unico ponto em que nao seguimos a medida
+da referencia, e e de proposito.
+
+Nota de ambiente: o `npm ci` no worktree desta passagem deixou o `node_modules`
+partido (ENOTEMPTY em `enhanced-resolve`, depois `styled-jsx` em falta) e o
+`next dev` nao arrancava la. A QA acabou por correr na arvore principal, na
+porta 4350.

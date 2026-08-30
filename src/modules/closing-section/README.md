@@ -77,19 +77,37 @@ Regra unica: **as medidas do carrossel sao proporcoes, nunca pixeis fixos**.
   em `cqw`, ou seja medido pela largura da propria coluna
   (`.safe-marquee-window` no CSS do modulo). Sem tecto, nas larguras de portatil
   a janela chegava a quatro wordmarks empilhados.
-- Abaixo de `lg` a janela e propositadamente mais alta do que o wordmark
-  (`aspect-[622/500]`) e **o tecto em `cqw` nao se aplica**. Ao racio nativo so
-  cabia um pedaco do lockup: via-se "SAFE" inteiro e restos de "GROUP" em cima e
-  em baixo, como se o logotipo estivesse cortado. Em `622/500` a janela vale
-  sempre mais do que um passo do carrossel mais uma copia, por isso ha um lockup
-  completo a vista em qualquer momento do ciclo.
-- O espaco entre copias e `7%` da largura, as fitas de fade `18%` da altura.
+- Abaixo de `lg` a janela tem racio proprio, `aspect-[5/2]`, e **o tecto em
+  `cqw` nao se aplica**. A regra que fixa esse racio: a janela tem de valer pelo
+  menos **um passo do carrossel** (copia mais intervalo). Se for menor, existe um
+  momento do ciclo em que nenhuma copia cabe inteira e o lockup aparece cortado,
+  com "SAFE" a vista e restos de "GROUP" em cima e em baixo.
+- O espaco entre copias e `7%` da largura e as fitas de fade `18%` da altura a
+  partir de `lg`; abaixo de `lg` sao `2.5%` e `10%`, porque a banda tem cerca de
+  metade da altura e os valores do monitor empurravam o passo para la da moldura.
 - O carrossel aparece em **todas** as larguras. Abaixo de `lg` a coluna direita
   empilha por baixo do formulario e o wordmark fecha a pagina antes das listas de
   redes e navegacao.
 
-No telemovel o rodape segue o mesmo desenho da referencia aprovada: a coluna da
-navegacao alinha a direita (`text-right lg:text-left`), de forma a que as duas
+## O telemovel foi medido contra a referencia
+
+Os numeros do fecho da Nyo a 390 px, tirados com Playwright sobre o site em
+producao, e o que o fecho da Safe faz hoje:
+
+| a 390 px | Nyo | Safe |
+| --- | --- | --- |
+| passo entre campos | 42 px | 51 px |
+| banda do wordmark | 131 px | 137 px |
+| passo entre linhas das listas | 24 px | 28 px |
+
+O que faz o fecho da referencia caber num ecra e o formulario ter as linhas
+**coladas**, separadas so pelo filete de cada campo. Por isso `space-y-0
+md:space-y-5`: no telemovel o intervalo de 20 px desaparece e sobra apenas a
+altura do campo. O campo nao encolhe mais porque o texto tem de ficar em 16 px,
+senao o Safari do iOS da zoom a pagina quando o campo recebe foco. E a unica
+medida em que ficamos deliberadamente acima da referencia.
+
+O rodape segue o mesmo desenho: a coluna da navegacao alinha a direita (`text-right lg:text-left`), de forma a que as duas
 listas encostem as margens da seccao, e a barra legal deixa de ser uma linha so.
 O copyright e o credito de producao empilham a esquerda e o "voltar ao topo"
 ganha uma linha propria ao centro. Em barra unica, as duas frases nao cabem numa

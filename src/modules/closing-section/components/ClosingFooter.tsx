@@ -5,7 +5,7 @@ import { ArrowIcon } from "@/shared/ui/ArrowIcon";
 import type { ClosingSectionContent } from "../types";
 
 const columnHeader = "text-[11px] uppercase tracking-[.18em] text-white/45";
-const columnItem = "block py-1.5 text-sm text-white/55 transition-colors duration-300 hover:text-white";
+const columnItem = "block py-1 text-sm text-white/55 transition-colors duration-300 hover:text-white lg:py-1.5";
 
 /**
  * Rodape da coluna direita. Fecha a Home, por isso carrega as redes, a

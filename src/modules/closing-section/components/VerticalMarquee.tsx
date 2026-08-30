@@ -16,7 +16,11 @@ type VerticalMarqueeProps = {
  * gradientes, nao a opacidade da imagem.
  *
  * O espaco entre copias e as fitas de fade sao percentagens, nao pixeis, e essa
- * e a regra que faz o carrossel funcionar em qualquer ecra. Em valores fixos so
+ * e a regra que faz o carrossel funcionar em qualquer ecra. Abaixo de `lg` sao
+ * mais curtos (`2.5%` e `10%`, contra `7%` e `18%`): a banda do telemovel foi
+ * medida pela referencia e tem cerca de metade da altura, por isso um intervalo
+ * de `7%` empurrava o passo do carrossel para la da moldura e voltava a cortar
+ * o lockup, e uma fita de `18%` comia quase toda a copia visivel. Em valores fixos so
  * havia uma largura onde as proporcoes batiam certo, a do monitor onde isto foi
  * afinado: no telemovel as fitas de 56 pixeis comiam quase toda a janela e o
  * intervalo de 64 pixeis entre copias esticava o ciclo. Em `7%` da largura e
@@ -52,8 +56,8 @@ export function VerticalMarquee({
 
   return (
     <div aria-hidden className="pointer-events-none absolute inset-0 select-none overflow-hidden">
-      <div className="absolute inset-x-0 top-0 z-10 h-[18%] bg-gradient-to-b from-[#070707] to-transparent" />
-      <div className="absolute inset-x-0 bottom-0 z-10 h-[18%] bg-gradient-to-t from-[#070707] to-transparent" />
+      <div className="absolute inset-x-0 top-0 z-10 h-[10%] bg-gradient-to-b from-[#070707] to-transparent lg:h-[18%]" />
+      <div className="absolute inset-x-0 bottom-0 z-10 h-[10%] bg-gradient-to-t from-[#070707] to-transparent lg:h-[18%]" />
       <div
         className="safe-marquee absolute inset-x-0 top-0 flex flex-col items-center"
         style={{ ["--safe-marquee-duration" as string]: `${speed}s` }}
@@ -68,7 +72,7 @@ export function VerticalMarquee({
             width={623}
             height={208}
             decoding="async"
-            className="block w-full py-[7%]"
+            className="block w-full py-[2.5%] lg:py-[7%]"
           />
         ))}
       </div>

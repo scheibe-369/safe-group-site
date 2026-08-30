@@ -45,17 +45,27 @@ export type ClosingSectionProps = {
  * fecho de marca justamente nos ecras onde a pagina e mais lida, e bastava um
  * portatil com o Windows a escalar o ecra para cair nesse ramo.
  *
+ * Nesse ramo as linhas do formulario ficam coladas (`space-y-0 md:space-y-5`),
+ * separadas so pelo filete de cada campo, que e o que faz o fecho da referencia
+ * caber num ecra. Medido a 390 px: la o passo entre campos e 42 px, aqui era 71
+ * (51 de campo mais 20 de intervalo) e passa a 51. O campo nao encolhe mais
+ * porque o texto tem de ficar em 16 px: abaixo disso o Safari do iOS da zoom a
+ * pagina quando o campo recebe foco.
+ *
  * A janela do carrossel nao leva altura fixa. Sai de um racio, por isso
  * acompanha a largura da coluna, e a partir de `lg` cresce (`grow`) para
  * absorver o espaco livre que sobra quando a coluna do formulario e mais alta.
  * O tecto desse crescimento vive no CSS do modulo, em `cqw`, e so vale de `lg`
  * para cima.
  *
- * Abaixo de `lg` o racio e mais alto do que o do proprio wordmark
- * (`622/500` contra `622/266`). No racio nativo a janela era mais curta do que
- * um passo do carrossel, e o lockup aparecia cortado ao meio: "SAFE" a vista e
- * restos de "GROUP" a entrar em cima e em baixo. Com `622/500` ha sempre um
- * lockup inteiro dentro da janela, seja qual for o momento do ciclo.
+ * Abaixo de `lg` a janela e `aspect-[5/2]`, medida contra a referencia: a 390 px
+ * da 137 px de altura, contra os 131 px da banda do fecho da Nyo. A regra que a
+ * fixa e simples: **a janela tem de valer pelo menos um passo do carrossel**
+ * (copia mais intervalo), senao existe um momento do ciclo em que nenhuma copia
+ * cabe inteira e o lockup aparece cortado ao meio, com "SAFE" a vista e restos
+ * de "GROUP" a entrar em cima e em baixo. Com o intervalo do telemovel em
+ * `2.5%` o passo vale `0.384` da largura e a janela `0.4`, por isso ha sempre um
+ * lockup completo dentro da moldura.
  *
  * A margem horizontal sai do eixo unico do site (`safe-container`), nunca de
  * uma escala interna. O ritmo vertical e mais apertado do que o `safe-section`
@@ -165,7 +175,7 @@ export function ClosingSection({ enabled, year, content = closingSectionContent 
                     <div className="grid gap-x-10 gap-y-10 md:grid-cols-2">
                       <div>
                         <h3 className={groupHeader}>{content.contactHeader}</h3>
-                        <div className="space-y-5">
+                        <div className="space-y-0 md:space-y-5">
                           <FloatingField id="closing-name" name="name" type="text" autoComplete="name" label={labels.name} error={errors.name} disabled={sending} />
                           <FloatingField id="closing-phone" name="phone" type="tel" autoComplete="tel" label={labels.phone} error={errors.phone} disabled={sending} />
                           <FloatingField id="closing-email" name="email" type="email" autoComplete="email" label={labels.email} error={errors.email} disabled={sending} />
@@ -175,7 +185,7 @@ export function ClosingSection({ enabled, year, content = closingSectionContent 
 
                       <div>
                         <h3 className={groupHeader}>{content.operationHeader}</h3>
-                        <div className="space-y-5">
+                        <div className="space-y-0 md:space-y-5">
                           <FloatingSelect id="closing-sector" name="sector" label={labels.sector} options={sectorOptions} placeholder={content.form.selectPlaceholder} error={errors.sector} disabled={sending} />
                           <FloatingSelect id="closing-size" name="operationSize" label={labels.operationSize} options={operationSizeOptions} placeholder={content.form.selectPlaceholder} error={errors.operationSize} disabled={sending} />
                           <FloatingSelect id="closing-priority" name="priority" label={labels.priority} options={priorityOptions} placeholder={content.form.selectPlaceholder} error={errors.priority} disabled={sending} />
@@ -212,11 +222,11 @@ export function ClosingSection({ enabled, year, content = closingSectionContent 
           </div>
 
           {/* Coluna direita: wordmark e rodape da pagina */}
-          <div className="safe-marquee-column mt-14 flex flex-col border-t border-white/10 pt-12 lg:mt-0 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0 xl:pl-12">
-            <div className="safe-marquee-window relative aspect-[622/500] w-full grow overflow-hidden lg:aspect-[622/266]">
+          <div className="safe-marquee-column mt-10 flex flex-col border-t border-white/10 pt-10 lg:mt-0 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0 xl:pl-12">
+            <div className="safe-marquee-window relative aspect-[5/2] w-full grow overflow-hidden lg:aspect-[622/266]">
               <VerticalMarquee />
             </div>
-            <div className="mt-12 lg:mt-auto lg:pt-16">
+            <div className="mt-10 lg:mt-auto lg:pt-16">
               <ClosingFooter content={content} year={year} />
             </div>
           </div>

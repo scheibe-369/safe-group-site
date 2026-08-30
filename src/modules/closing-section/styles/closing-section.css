@@ -31,10 +31,8 @@
 
 /* O tecto so faz sentido a partir de `lg`, o ramo onde a coluna do formulario
    e mais alta e a janela cresce para absorver o vazio. Abaixo de `lg` nao ha
-   espaco livre para absorver, e a janela e propositadamente mais alta do que o
-   racio do wordmark (`aspect-[622/500]`) para caber sempre um lockup inteiro:
-   com o tecto ativo, o `64cqw` cortava-o outra vez ao meio, deixando so "SAFE"
-   a vista com restos de "GROUP" em cima e em baixo. */
+   espaco livre para absorver e a janela tem racio proprio (`aspect-[5/2]` no
+   componente), por isso o tecto fica fora desse ramo. */
 @media (min-width: 1024px) {
   .safe-marquee-window {
     max-height: 64cqw;
