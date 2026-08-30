@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import type { FaqItem } from "../types/faq";
 
 type FaqItemBubbleProps = {
@@ -52,17 +51,24 @@ export function FaqItemBubble({ item, open, onToggle }: FaqItemBubbleProps) {
                 </div>
               </div>
             </div>
+            {/* Avatar do agente: o simbolo 3D da marca em vez do selo, que
+                perde o miolo e vira uma bolha ilegivel a 36px. Circulo escuro
+                (mesma superficie dos baloes) porque o simbolo e claro. */}
             <span
               aria-hidden="true"
-              className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white"
+              className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white/[.08] p-1.5 ring-1 ring-inset ring-white/10"
             >
-              <Image
-                src="/brand/safe-seal-icon.webp"
+              {/* SVG servido cru: o optimizador do `next/image` recusa SVG sem
+                  `dangerouslyAllowSVG`, e o ficheiro ja e leve. Mesmo padrao do
+                  wordmark no painel do menu. */}
+              <img
+                src="/brand/safe-mark-3d.svg"
                 alt=""
                 width={64}
                 height={64}
-                sizes="36px"
-                className="h-full w-full rounded-full object-contain"
+                loading="lazy"
+                decoding="async"
+                className="h-full w-full object-contain"
               />
             </span>
           </div>

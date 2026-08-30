@@ -17,8 +17,10 @@ async function inspect(path) {
 }
 
 await Promise.all(roots.map(inspect));
+const footer = await readFile("src/shared/layout/SiteFooter.tsx", "utf8");
+if (!footer.includes("Desenvolvido por Method Growth Hub") || !footer.includes("https://methodgrowthhub.com.br")) violations.push("Rodapé: crédito de produção ausente");
 if (violations.length) {
   console.error(violations.join("\n"));
   process.exit(1);
 }
-console.log("Copy validada.");
+console.log("Copy e crédito de produção validados.");

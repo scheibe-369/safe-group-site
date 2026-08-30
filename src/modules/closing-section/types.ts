@@ -63,6 +63,7 @@ export type ClosingSectionContent = {
     navLinks: readonly { href: string; label: string }[];
     /** O ano entra a parte, vindo do servidor. */
     copyright: string;
+    producedBy: { label: string; href: string };
     backToTop: string;
   };
 };

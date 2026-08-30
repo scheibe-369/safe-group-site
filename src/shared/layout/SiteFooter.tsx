@@ -19,8 +19,9 @@ export function SiteFooter() {
             {links.map(([label, href]) => <Link key={href} href={href} className="min-h-11 content-center text-white/60 transition-colors hover:text-white">{label}</Link>)}
           </nav>
         </div>
-        <div className="pt-7 text-xs text-white/45">
+        <div className="flex flex-col gap-4 pt-7 text-xs text-white/45 sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} Safe Group. Todos os direitos reservados.</p>
+          <a href="https://methodgrowthhub.com.br" target="_blank" rel="noopener" className="transition-colors hover:text-white">Desenvolvido por Method Growth Hub</a>
         </div>
       </div>
     </footer>

@@ -45,10 +45,17 @@ export type ClosingSectionProps = {
  * fecho de marca justamente nos ecras onde a pagina e mais lida, e bastava um
  * portatil com o Windows a escalar o ecra para cair nesse ramo.
  *
- * A janela do carrossel nao leva altura fixa. Sai do racio do wordmark
- * (`aspect-[622/266]`), por isso acompanha a largura da coluna, e cresce
- * (`grow`) para absorver o espaco livre que sobra quando a coluna do formulario
- * e mais alta. O tecto do crescimento vive no CSS do modulo, em `cqw`.
+ * A janela do carrossel nao leva altura fixa. Sai de um racio, por isso
+ * acompanha a largura da coluna, e a partir de `lg` cresce (`grow`) para
+ * absorver o espaco livre que sobra quando a coluna do formulario e mais alta.
+ * O tecto desse crescimento vive no CSS do modulo, em `cqw`, e so vale de `lg`
+ * para cima.
+ *
+ * Abaixo de `lg` o racio e mais alto do que o do proprio wordmark
+ * (`622/500` contra `622/266`). No racio nativo a janela era mais curta do que
+ * um passo do carrossel, e o lockup aparecia cortado ao meio: "SAFE" a vista e
+ * restos de "GROUP" a entrar em cima e em baixo. Com `622/500` ha sempre um
+ * lockup inteiro dentro da janela, seja qual for o momento do ciclo.
  *
  * A margem horizontal sai do eixo unico do site (`safe-container`), nunca de
  * uma escala interna. O ritmo vertical e mais apertado do que o `safe-section`
@@ -206,7 +213,7 @@ export function ClosingSection({ enabled, year, content = closingSectionContent 
 
           {/* Coluna direita: wordmark e rodape da pagina */}
           <div className="safe-marquee-column mt-14 flex flex-col border-t border-white/10 pt-12 lg:mt-0 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0 xl:pl-12">
-            <div className="safe-marquee-window relative aspect-[622/266] w-full grow overflow-hidden">
+            <div className="safe-marquee-window relative aspect-[622/500] w-full grow overflow-hidden lg:aspect-[622/266]">
               <VerticalMarquee />
             </div>
             <div className="mt-12 lg:mt-auto lg:pt-16">

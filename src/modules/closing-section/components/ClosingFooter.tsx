@@ -9,7 +9,7 @@ const columnItem = "block py-1.5 text-sm text-white/55 transition-colors duratio
 
 /**
  * Rodape da coluna direita. Fecha a Home, por isso carrega as redes, a
- * navegacao e a barra legal.
+ * navegacao e a barra legal com o credito de producao obrigatorio.
  *
  * As redes aparecem sem ligacao enquanto os perfis nao estiverem confirmados.
  * Um `href` a apontar para lado nenhum e pior do que texto: promete destino e
@@ -38,7 +38,7 @@ export function ClosingFooter({ content, year }: { content: ClosingSectionConten
           </ul>
         </div>
 
-        <div>
+        <div className="text-right lg:text-left">
           <h3 className={columnHeader}>{f.navHeader}</h3>
           <ul className="mt-4">
             {f.navLinks.map((link) => (
@@ -52,14 +52,27 @@ export function ClosingFooter({ content, year }: { content: ClosingSectionConten
         </div>
       </div>
 
-      <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-white/10 pt-6 text-xs text-white/40">
+      {/* Barra legal. Abaixo de `lg` empilha os creditos a esquerda e o
+          "voltar ao topo" ganha uma linha propria ao centro: a barra unica so
+          cabe em telemovel se o copyright e o credito de producao forem
+          truncados, e nenhum dos dois pode ser cortado. A partir de `lg` volta
+          a ser a barra de uma linha, com o botao encostado a direita. */}
+      <div className="mt-10 flex flex-col gap-y-2 border-t border-white/10 pt-6 text-xs text-white/40 lg:flex-row lg:flex-wrap lg:items-center lg:gap-x-6 lg:gap-y-3">
         <p>
           © {year} {f.copyright}
         </p>
+        <a
+          href={f.producedBy.href}
+          target="_blank"
+          rel="noopener"
+          className="transition-colors duration-300 hover:text-white"
+        >
+          {f.producedBy.label}
+        </a>
         <button
           type="button"
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="group ml-auto inline-flex items-center gap-1.5 py-1.5 transition-colors duration-300 hover:text-white"
+          className="group mt-4 inline-flex items-center justify-center gap-1.5 self-center py-1.5 transition-colors duration-300 hover:text-white lg:mt-0 lg:ml-auto lg:self-auto"
         >
           {f.backToTop}
           <ArrowIcon className="h-3.5 w-3.5 -rotate-90 transition-transform duration-300 group-hover:-translate-y-0.5" />

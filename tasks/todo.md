@@ -784,35 +784,118 @@ risco, só a documentação.
 - `data-intro-reveal="bar"` saiu da barra e do vocabulário da intro: a visibilidade da barra tem um só dono.
 - Publicado em `76c7b62` e `6a862db` pela Action "Deploy Cloudflare"; QA com playwright-core sobre a produção nas quatro larguras, menu aberto e fechado, Tab desde o topo e `elementFromPoint`.
 
-## WhatsApp na Home: ativa o envio e remove o credito de producao (29/08/2026)
+## Fila de marcas 3D no padrao da Hero da Tyvo (28/08/2026)
 
-Pedido: ligar o formulario de diagnostico da Home ao WhatsApp (Evolution API,
-numero +55 27 99958-4889) e remover o credito "Desenvolvido por Method Growth
-Hub" do rodape, por pedido explicito do cliente.
+Pedido: recriar para a Safe o componente da Hero da Tyvo, enfileirando varias copias da
+marca 3D ja criada para o menu, e mostrar em localhost antes de decidir onde entra. Um
+pedido anterior (marca em particulas, como o robo da Growth Hub) foi cancelado pelo
+utilizador a meio do planeamento, antes de qualquer codigo.
 
-- [x] `POST /api/diagnostic` passou a enviar a lead por `sendWhatsappNotification`
-      (`src/modules/diagnostic/api/send-whatsapp-notification.ts`), instancia
-      Evolution `helio-2` em `evo.cauania.online`. Chave em `EVOLUTION_API_KEY`,
-      nunca commitada; segredo no Worker (`wrangler secret put`) e no repo GitHub
-      (`gh secret set`, usado pelo passo de build).
-- [x] Bug encontrado durante a QA: a Home e estatica, e o flag `enabled` do
-      formulario (`src/app/page.tsx`) ainda lia `SAFE_DIAGNOSTIC_WEBHOOK_URL`,
-      variavel que ja nao existe. O botao continuava "Envio disponivel em breve"
-      em producao mesmo com a rota a funcionar. Trocado para
-      `whatsappNotificationEnabled()` e o workflow `deploy.yml` passou a receber
-      `EVOLUTION_API_KEY` no passo de build (era so segredo de runtime do Worker,
-      nao chegava ao build estatico do GitHub Actions).
-- [x] Removido "Desenvolvido por Method Growth Hub" do `SiteFooter` e do rodape
-      embutido da Home (`ClosingFooter`, campo `producedBy` em `content.ts`/`types.ts`),
-      e a checagem obrigatoria em `scripts/content-check.mjs` e a regra em
-      `AGENTS.md` que exigiam o credito, senao o lint quebrava no CI.
-- [x] Verificado ponta a ponta: `npm run lint` e `npm run build` limpos num
-      worktree isolado (`site-safe-formfix-92`, removido no fim); teste real via
-      Evolution API (mensagem chegou no WhatsApp); formulario real da Home
-      preenchido e submetido por browser em producao, "Pedido recebido."
-- [x] Deploy pela Action "Deploy Cloudflare" (push direto por trabalhar a partir
-      do worktree), producao confirmada em https://safe.methodgrowthhub.com.br.
+- [x] Ler a Hero da Tyvo: e uma cena Spline (`header_spline`, canvas fixo a ecra inteiro) com um `cloner` a repetir a marca extrudida em fila; ao scroll, a IX2 move o objeto de z -573 para 2300 e roda 0.5 rad, com um degrade preto a fechar a base (`header_fade-bottom`).
+- [x] Capturar o site ao vivo com playwright-core (a extensao do Chrome nao estava ligada): primeira copia enorme a esquerda, fila de costelas a recuar para a direita, enrolando ao longe.
+- [x] Modulo `src/modules/brand-lineup/`: `data/config.ts` (todos os valores afinaveis), `lib/build-mark-geometries.ts` (extrusao dos mesmos caminhos do menu, centrada e endireitada por rotacao, sem espelhar), `components/BrandLineupScene.tsx` (three puro, duas `InstancedMesh` para S e G, nevoeiro, ambiente de estudio, luz principal a orbitar, rato a inclinar, scroll da seccao a fazer a fila avancar sobre a camara), `components/BrandLineup.tsx` (seccao de 170vh com palco sticky, gate de WebGL e movimento reduzido, import dinamico do three, pausa fora do ecra, marca plana como estado inicial e fallback), `styles/brand-lineup.css`.
+- [x] Rota interna `/marca-3d` (noindex) com a copy da Hero por cima e uma seccao seguinte para dar percurso ao scroll.
+- [x] Afinacao por harness estatico no scratchpad (three do proprio `node_modules`, `config.ts` convertido para JS, capturas por playwright-core): v1 mostrava so a lateral das copias, v2 virou a cara para a camara mas a primeira copia caia fora do ecra, v3 cortava o monograma, v4 mostra o S+G inteiro a esquerda com a fila a recuar para a direita.
+- [x] `npm run lint` e captura da rota real em 1440 e 375.
 
-Credenciais Evolution foram trocadas a meio da tarefa (instancia `helio-forms`
-para `helio-2`); o codigo e os segredos (Worker e GitHub) ja refletem a
-credencial nova.
+### Estado
+
+Pre-visualizacao em `http://localhost:3471/marca-3d` (dev server proprio, `PORT=3471 node scripts/dev-server.mjs`, porque o `next dev` de outra sessao na 3592 morreu e havia um `next build` a correr na pasta principal). Sem commit, push ou deploy: o utilizador vai avaliar o visual primeiro. Fora do ambito ate ele decidir: onde a fila entra (Hero no lugar do video ou seccao propria), materiais dos lados (`darkSides` em `config.ts` troca a cor da marca por grafite lacado, o registo da Tyvo), e promover `safe-mark-paths.ts` para `src/shared/brand/` quando o `site-nav` estiver livre.
+
+### Ajuste: entrar no tunel dos aneis (29/08/2026)
+
+O utilizador reportou que ao fazer scroll nao "entrava no looping das logos": a fila voava
+ao lado da camara. Pedido explicito: entrar pelo centro delas.
+
+- [x] Coreografia do scroll reescrita em chaves interpoladas (`scroll.keys` em `config.ts`): ate 30 por cento a fila roda ate ficar de frente e desce 118 unidades, para a janela aberta do monograma (a area livre por cima da barra horizontal; o centro geometrico exato cai em cima da barra) ficar no eixo da camara; de 30 a 100 por cento a camara atravessa os 44 aneis e termina a saida do ultimo, com um `roll` leve na propria camara.
+- [x] Inclinacao e `roll` da fila deixaram de existir dentro do tunel: a fila roda em torno da primeira copia, e a 2700 unidades um decimo de radiano levantava o fundo do tunel 200 unidades, o suficiente para a camara sair pela parede (visto na v6 do harness). A torcao por copia baixou para 0.002 rad e a queda para 60.
+- [x] Seccao de 170vh para 320vh, para a travessia ter percurso (um anel por cada 20 px de scroll).
+- [x] Balanco e rato pesam menos a medida que a camara entra (`calm`).
+- [x] Verificado no harness (v5 a v9) e na rota real a 1440: aos 45 e 60 por cento a camara olha pelo interior dos aneis, arcos do S por cima e barras a fazer de chao; aos 85 ve a saida; aos 100 esta a saida do ultimo anel. `npm run lint` limpo.
+- Nota de QA: o site tem `scroll-behavior: smooth`, e com o SwiftShader a 2 fps o `window.scrollTo` demora dezenas de segundos a chegar; capturas da rota real precisam de `behavior: "instant"` e mesmo assim o `smoothing` da cena fica atrasado. A coreografia valida-se no harness (tempo fixo, progresso sem suavizacao); a rota real serve para confirmar que monta e desenha.
+
+
+## Fecho da Home responsivo em todas as resolucoes (29/08/2026)
+
+Pedido: a seccao final so estava certa no monitor do utilizador. No portatil e no
+telemovel ficava mal e "nem o carrossel aparece ali". Referencia dada por ele para o
+comportamento responsivo: `https://nyo.ia.br`.
+
+- [x] Diagnostico com medicao no `localhost:3000` em 375, 912, 1024, 1366, 1440 e 2560:
+      a 912 e abaixo o carrossel estava simplesmente escondido (`hidden lg:block`) e
+      sobrava um buraco entre o botao e o rodape; a 1024 e 1440 o wordmark ficava pequeno
+      dentro de uma janela grande de mais, com um vazio de ~400 px ate ao rodape.
+- [x] Causa: todas as medidas do carrossel eram fixas (`h-72 xl:h-80 2xl:h-96` na janela,
+      `py-16` entre copias, `h-14` nas fitas de fade). So batiam certo na largura onde a
+      seccao foi afinada. Explica tambem a queixa do portatil: com o Windows a escalar o
+      ecra, um portatil de 1366 px reporta ~910 px de CSS e caia no ramo sem carrossel.
+- [x] Medida a referencia com Playwright, desktop e mobile: a janela da Nyo tem o mesmo
+      racio largura/altura nas duas (2.73 e 2.70), ou seja esta travada ao racio do proprio
+      wordmark; e no mobile o carrossel nao desaparece, passa para baixo do formulario.
+- [x] Janela do carrossel travada ao racio do wordmark (`aspect-[622/266]`, dos 622.2x208.4
+      do SVG) e visivel em todas as larguras. Aos 2560 da os mesmos 384 px do `h-96`.
+- [x] `grow` para a janela absorver o vazio da coluna a partir de `lg`, com tecto de uma vez
+      e meia a altura natural (`max-height: 64cqw` em `.safe-marquee-window`, com
+      `container-type: inline-size` na coluna). Sem tecto, a 1024 empilhava quatro wordmarks.
+- [x] Espaco entre copias em `7%` da largura e fitas de fade em `18%` da altura, no lugar dos
+      64 px e 56 px fixos. Aos 2560 valem o mesmo de antes.
+- [x] `mt-12` no rodape da coluna para respirar quando empilha; `lg:mt-auto` fica como rede,
+      caso o `aspect-ratio` dentro de flex falhe nalgum browser.
+- [x] Documentacao: comentarios de bloco do `ClosingSection` e do `VerticalMarquee`, CSS do
+      modulo e `README.md` do modulo, com a regra "proporcoes, nunca pixeis fixos".
+- [x] `npm run lint` e `npm run build`.
+
+### Revisao
+
+Medido em 375, 390, 768, 912, 1024, 1280, 1366, 1440, 1920 e 2560. Em todas: o wordmark
+inteiro cabe na janela, o carrossel anima, e a partir de `lg` o rodape fica encostado ao
+fundo da coluna. O vazio entre carrossel e rodape passou de ~450 px para 279 px a 1280,
+241 px a 1440, 119 px a 1920 e 64 px a 2560, ou seja da ordem dos 32 por cento da coluna,
+que e a proporcao da propria referencia.
+
+Aos 2560 a marca e o intervalo entre copias ficam ao pixel como antes (imagem 299 px,
+intervalo 62 px, contra 301 px e 64 px): a unica diferenca no monitor e a janela subir de
+384 px para 471 px, que e o que fecha o vazio. Abaixo de `lg` o wordmark ocupa a largura
+toda e fecha a pagina entre o botao e as listas de redes e navegacao, como na referencia.
+
+Fora do ambito, fica registado: a 375/390 a pagina tem ~96 px de scroll horizontal, e
+**nao vem desta seccao** (o `#diagnostico` clipa tudo). Vem das listras da
+`hero-transition` (`.hero-transition__stripe`, chegam a 487 px de aresta a 375 px) e do
+trilho de logos com `w-max`. Nao mexi sem pedido.
+
+## Fecho da Home no telemovel, no formato da referencia (30/08/2026)
+
+Pedido: no telemovel, a seccao final tem de ficar com a formatacao da referencia
+(fecho do site da Nyo), de onde ja saiu o carrossel do wordmark.
+
+- [x] Comparada a referencia com a captura atual a 390 px. Tres desvios: o lockup do
+      wordmark aparecia cortado ao meio, a coluna da navegacao estava alinhada a esquerda
+      quando na referencia encosta a direita, e o "voltar ao topo" nao tinha linha propria.
+- [x] Janela do carrossel com racio proprio abaixo de `lg` (`aspect-[622/500]`, contra os
+      `622/266` de `lg` para cima) e tecto em `cqw` limitado a `lg`. No racio nativo a
+      janela era mais curta do que um passo do carrossel, por isso via-se "SAFE" inteiro
+      com restos de "GROUP" a entrar em cima e em baixo. Agora ha sempre um lockup
+      completo dentro da janela, em qualquer momento do ciclo.
+- [x] Coluna da navegacao a direita no telemovel (`text-right lg:text-left`), para as duas
+      listas encostarem as margens da seccao como na referencia.
+- [x] Barra legal empilhada abaixo de `lg`: copyright e credito de producao a esquerda,
+      "voltar ao topo" centrado numa linha propria. Em barra unica as duas frases nao
+      cabem numa largura de telemovel sem cortar texto. De `lg` para cima fica a barra de
+      uma linha, com o botao encostado a direita, tal como estava.
+- [x] Documentacao: bloco do `ClosingSection`, CSS do modulo e `README.md` do modulo.
+- [x] `npx tsc --noEmit` e `node scripts/content-check.mjs`.
+
+### Revisao
+
+Verificado a 375, 390 e 1440 num worktree proprio (`site-safe-closing-mobile`), porque a
+arvore principal estava a meio de um `next build` de outra sessao e o `.next` foi apagado
+por baixo do dev server. A 1440 a seccao esta identica a antes: duas colunas, navegacao a
+esquerda e barra legal de uma linha. A 375 e 390 aparecem dois lockups inteiros na banda do
+wordmark, a navegacao encosta a direita e o "voltar ao topo" fica centrado por baixo dos
+creditos, na mesma ordem da referencia.
+
+O que **nao** foi copiado da referencia, e porque: la o wordmark sangra para fora das
+margens e fica cortado de lado, o que funciona num logotipo de uma linha ("NYO") e nao
+num lockup de duas ("SAFE" sobre "GROUP"). A banda cresceu em altura em vez de sangrar,
+para o lockup continuar legivel, e a margem continua a sair do eixo unico do site
+(`safe-container`).
