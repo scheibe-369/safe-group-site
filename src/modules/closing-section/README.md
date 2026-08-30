@@ -57,7 +57,8 @@ src/modules/closing-section/
     FormFields.tsx             rotulos flutuantes em CSS puro
     VerticalMarquee.tsx        carrossel do wordmark
     Reveal.tsx                 entrada por scroll
-  styles/closing-section.css   keyframes do carrossel e do metalico
+  styles/closing-section.css   keyframes do carrossel (a varredura metalica do
+                                titulo vive em shared/styles/metallic-shine.css)
 ```
 
 O wordmark do carrossel esta em `public/brand/safe-wordmark.svg`, extraido do

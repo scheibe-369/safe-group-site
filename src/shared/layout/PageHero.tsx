@@ -1,4 +1,4 @@
-type PageHeroProps = { kicker: string; title: string; copy: string };
+type PageHeroProps = { kicker: string; title: React.ReactNode; copy: string };
 
 export function PageHero({ kicker, title, copy }: PageHeroProps) {
   return (

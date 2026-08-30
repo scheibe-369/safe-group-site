@@ -7,7 +7,11 @@ export function MethodSection() {
     <section id="metodo" className="safe-section scroll-mt-28 border-y border-white/10 bg-[#090909]">
       <div className="safe-container">
         <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
-          <SectionHeading kicker="Método Safe" title="Ler primeiro. Decidir melhor. Executar com foco." copy="Uma sequência para sair de decisões isoladas, concentrar recursos e acompanhar o que muda na operação." />
+          <SectionHeading
+            kicker="Método Safe"
+            title={<>Ler primeiro. Decidir melhor. Executar com <span className="safe-shine safe-shine--silver">foco</span>.</>}
+            copy="Uma sequência para sair de decisões isoladas, concentrar recursos e acompanhar o que muda na operação."
+          />
           <ButtonLink href="#diagnostico" variant="secondary" className="shrink-0">Começar diagnóstico</ButtonLink>
         </div>
         <MethodTimeline />

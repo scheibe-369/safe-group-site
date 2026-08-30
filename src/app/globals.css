@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "../shared/styles/metallic-shine.css";
 @import "../modules/closing-section/styles/closing-section.css";
 @import "../modules/site-nav/styles/site-nav.css";
 @import "../modules/faq/styles/faq.css";

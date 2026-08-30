@@ -1,0 +1,53 @@
+/* =============================================================================
+ * Varredura metalica de texto, reutilizada em qualquer modulo para evidenciar
+ * uma palavra dentro de um titulo ou frase. Duas variantes de cor: vermelho
+ * (marca, usada com moderacao) e prateado (para seccoes onde o vermelho ja
+ * satura, como a Hero). `will-change` mais `translateZ(0)` promovem o
+ * elemento a camada propria, para o repaint do gradiente nao sujar os
+ * vizinhos.
+ * ========================================================================== */
+
+.safe-shine {
+  background-size: 200% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: safe-shine-sweep 5s linear infinite;
+  will-change: background-position;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.safe-shine--red {
+  background-image: linear-gradient(
+    120deg,
+    var(--safe-red-dark) 38%,
+    var(--safe-red) 47%,
+    var(--safe-white) 50%,
+    var(--safe-red) 53%,
+    var(--safe-red-dark) 62%
+  );
+}
+
+.safe-shine--silver {
+  background-image: linear-gradient(
+    120deg,
+    #5c5e63 38%,
+    var(--safe-steel) 47%,
+    var(--safe-white) 50%,
+    var(--safe-steel) 53%,
+    #5c5e63 62%
+  );
+}
+
+@keyframes safe-shine-sweep {
+  0% { background-position: 100% 0%; }
+  100% { background-position: -100% 0%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .safe-shine {
+    animation: none;
+  }
+}

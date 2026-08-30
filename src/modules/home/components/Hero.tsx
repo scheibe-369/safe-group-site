@@ -43,7 +43,9 @@ export function Hero() {
             <p className="text-base leading-7 text-white/75 sm:text-lg">A Safe liga estratégia comercial, marketing, dados e tecnologia para encontrar o bloqueio prioritário e estruturar a resposta certa.</p>
           </div>
           <div className="intro-mask mt-4" data-intro-step="4">
-            <p className="text-[.65rem] font-medium uppercase tracking-[.15em] text-white/50 sm:text-xs">Procura <span className="mx-2 text-[var(--safe-red)]">•</span> Comercial <span className="mx-2 text-[var(--safe-red)]">•</span> Tecnologia</p>
+            <p className="text-[.65rem] font-medium uppercase tracking-[.15em] text-white/50 sm:text-xs">
+              <span className="safe-shine safe-shine--silver">Procura</span> <span className="mx-2 text-white/25">•</span> <span className="safe-shine safe-shine--silver">Comercial</span> <span className="mx-2 text-white/25">•</span> <span className="safe-shine safe-shine--silver">Tecnologia</span>
+            </p>
           </div>
           <div className="mt-9 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-8">
             <span className="intro-mask intro-mask--loose inline-flex" data-intro-step="5"><ButtonLink href="/contacto" arrow="none">Fazer o diagnóstico</ButtonLink></span>

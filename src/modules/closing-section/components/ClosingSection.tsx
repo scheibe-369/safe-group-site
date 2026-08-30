@@ -119,7 +119,7 @@ export function ClosingSection({ enabled, year, content = closingSectionContent 
                     <span aria-hidden className="absolute inset-0 -z-10 blur-2xl" style={{ color: "rgba(227,6,36,.45)" }}>
                       {content.titleAccent}
                     </span>
-                    <span className="safe-metallic">{content.titleAccent}</span>
+                    <span className="safe-shine safe-shine--red">{content.titleAccent}</span>
                   </span>{" "}
                   {content.titleLine3}
                 </h2>

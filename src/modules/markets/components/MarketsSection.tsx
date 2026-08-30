@@ -5,7 +5,11 @@ export function MarketsSection() {
   return (
     <section className="safe-section border-y border-white/10 bg-[#080808]">
       <div className="safe-container">
-        <SectionHeading kicker="Operações high ticket" title="O contexto muda. A leitura mantém-se exigente." copy="A experiência atravessa operações automóvel, financeiras e de software. O diagnóstico parte do modelo de negócio, não de um sector pré-definido." />
+        <SectionHeading
+          kicker="Operações high ticket"
+          title={<>O contexto muda. A leitura mantém-se <span className="safe-shine safe-shine--silver">exigente</span>.</>}
+          copy="A experiência atravessa operações automóvel, financeiras e de software. O diagnóstico parte do modelo de negócio, não de um sector pré-definido."
+        />
         <div className="mt-14 grid gap-px border border-white/10 bg-white/10 lg:grid-cols-3">
           {markets.map(({ name, description, capabilities, icon: Icon }) => (
             <article key={name} className="bg-[#0c0c0d] p-7 sm:p-9">

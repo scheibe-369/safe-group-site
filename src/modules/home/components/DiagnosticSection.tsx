@@ -12,7 +12,11 @@ export function DiagnosticSection() {
   return (
     <section className="safe-section safe-grid border-y border-white/10 bg-[#090909]">
       <div className="safe-container">
-        <SectionHeading kicker="Diagnóstico 360" title="O sintoma é visível. A causa nem sempre." copy="O mesmo problema pode nascer na procura, na operação comercial, nos dados ou na tecnologia. O diagnóstico encontra a decisão que mais altera o todo." />
+        <SectionHeading
+          kicker="Diagnóstico 360"
+          title={<>O sintoma é visível. A <span className="safe-shine safe-shine--silver">causa</span> nem sempre.</>}
+          copy="O mesmo problema pode nascer na procura, na operação comercial, nos dados ou na tecnologia. O diagnóstico encontra a decisão que mais altera o todo."
+        />
         <div className="mt-14 grid gap-px overflow-hidden border border-white/10 bg-white/10 md:grid-cols-2">
           {scenarios.map(({ icon: Icon, title, copy }) => (
             <article key={title} className="group bg-[#0c0c0d] p-7 sm:p-9">

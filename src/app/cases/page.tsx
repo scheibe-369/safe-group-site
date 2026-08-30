@@ -13,5 +13,14 @@ export const metadata: Metadata = {
 };
 
 export default function CasesPage() {
-  return <><PageHero kicker="Cases" title="Antes do resultado, existe uma decisão bem estruturada." copy="Cada case mostra o contexto, a prioridade, a intervenção e a prova disponível. Sem métricas soltas e sem promessas sem fonte." /><CasesDirectory /></>;
+  return (
+    <>
+      <PageHero
+        kicker="Cases"
+        title={<>Antes do resultado, existe uma <span className="safe-shine safe-shine--silver">decisão</span> bem estruturada.</>}
+        copy="Cada case mostra o contexto, a prioridade, a intervenção e a prova disponível. Sem métricas soltas e sem promessas sem fonte."
+      />
+      <CasesDirectory />
+    </>
+  );
 }

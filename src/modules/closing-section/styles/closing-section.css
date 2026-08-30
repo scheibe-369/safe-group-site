@@ -54,37 +54,12 @@
   will-change: transform;
 }
 
-/* Varredura metalica da linha de destaque do titulo, em vermelho Safe com um
-   clarao branco ao centro. `will-change` mais `translateZ(0)` promovem o
-   elemento a camada propria, para o repaint do gradiente nao sujar os vizinhos. */
-.safe-metallic {
-  background: linear-gradient(
-    120deg,
-    var(--safe-red-dark) 38%,
-    var(--safe-red) 47%,
-    var(--safe-white) 50%,
-    var(--safe-red) 53%,
-    var(--safe-red-dark) 62%
-  );
-  background-size: 200% 100%;
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
-  animation: safe-metallic-shine 5s linear infinite;
-  will-change: background-position;
-  transform: translateZ(0);
-  backface-visibility: hidden;
-}
-
-@keyframes safe-metallic-shine {
-  0% { background-position: 100% 0%; }
-  100% { background-position: -100% 0%; }
-}
+/* A varredura metalica do titulo ("encontre") saiu para
+   `shared/styles/metallic-shine.css`: deixou de ser exclusiva desta seccao
+   assim que passou a evidenciar palavras noutros modulos do site. */
 
 @media (prefers-reduced-motion: reduce) {
-  .safe-marquee,
-  .safe-metallic {
+  .safe-marquee {
     animation: none;
   }
 }
