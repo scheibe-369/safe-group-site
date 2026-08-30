@@ -41,4 +41,7 @@ Read `README.md`, `tasks/todo.md`, `tasks/lessons.md`, `skills/safe-brand-contex
 - Run typecheck, lint and production build before completion.
 - Verify key pages at 375, 768, 1024 and 1440 pixels.
 - Do not commit, push or deploy without explicit user instruction.
+- Several sessions share this working directory. Stage only the files your own session changed, by explicit path (`git add src/modules/faq/components/FaqItemBubble.tsx`). Never use `git add -A`, `git add .`, `git commit -a` or any sweep of the working tree: it ships another session's unverified work under your commit message.
+- Before staging, run `git status --short` and `git diff` on each path you intend to commit, and leave everything else untouched. If a file you did not change is already staged, unstage it.
+- If your change is missing after another session pushed, check `git log -- <path>` before redoing it: it may already be committed and deployed inside their commit.
 - Never store credentials in tracked files.
