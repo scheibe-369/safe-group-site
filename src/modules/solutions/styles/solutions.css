@@ -43,12 +43,20 @@
   z-index: 5;
   display: flex;
   justify-content: flex-end;
-  align-items: flex-start;
+  /* Centrado na altura do ecrã, a pedido do utilizador. O original encosta a
+     coluna ao topo com `align-items: flex-start` e um padding grande, o que
+     aqui a deixava colada à barra de navegação e desequilibrada com o texto do
+     painel, que vive em baixo. A altura de um ecrã inteiro é o que dá ao
+     `center` uma caixa para centrar dentro. */
+  align-items: center;
   width: 100%;
+  height: 100vh;
+  height: 100dvh;
   /* O menu é decorativo e não deve roubar o clique ao painel, que é todo ele
      um link. Os itens não são interativos no original. */
   pointer-events: none;
-  padding-block: clamp(4.5rem, 6.7vw, 8.6rem);
+  /* Já não posiciona nada, só garante folga se o ecrã for muito baixo. */
+  padding-block: clamp(1.5rem, 3vw, 3rem);
   padding-right: clamp(1.5rem, 4.4vw, 5.7rem);
 }
 
