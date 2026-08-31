@@ -103,7 +103,7 @@ export function PartnersMarquee() {
             <div key={`${partner.id}-${index}`} className="group flex h-24 shrink-0 flex-col items-center justify-center gap-3 px-10">
               <div
                 style={{ "--brand": partner.brand, "--glow": partner.glow ?? `${partner.brand}8C` } as CSSProperties}
-                className="flex h-12 items-center justify-center text-white/40 [filter:grayscale(1)] transition-all duration-[400ms] [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-2 group-hover:text-[var(--brand)] group-hover:[filter:grayscale(0)_drop-shadow(0_0_14px_var(--glow))]"
+                className="flex h-16 items-center justify-center text-white/40 [filter:grayscale(1)] transition-all duration-[400ms] [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-2 group-hover:text-[var(--brand)] group-hover:[filter:grayscale(0)_drop-shadow(0_0_14px_var(--glow))]"
               >
                 <BrandMark partner={partner} height={40} />
               </div>

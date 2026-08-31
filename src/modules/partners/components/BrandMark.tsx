@@ -9,18 +9,20 @@ type BrandMarkProps = {
 /**
  * Desenha a marca de um parceiro a partir da sua proporcao natural: a
  * largura sai do viewBox (traçado próprio) ou das dimensões do ficheiro
- * (selo pronto), a altura é o único número fixo. Evita repetir a conta que a
- * origem (Growth Hub) fazia a mão só para o wordmark da Asaas.
+ * (selo pronto), a altura é o único número fixo, ajustável por selo com
+ * `scale`. Evita repetir a conta que a origem (Growth Hub) fazia a mão só
+ * para o wordmark da Asaas.
  */
 export function BrandMark({ partner, height = 40, className }: BrandMarkProps) {
   if (partner.kind === "image") {
-    const width = (height * partner.width) / partner.height;
+    const scaled = height * (partner.scale ?? 1);
+    const width = (scaled * partner.width) / partner.height;
     return (
       <img
         src={partner.src}
         alt={partner.label}
         width={width}
-        height={height}
+        height={scaled}
         loading="lazy"
         decoding="async"
         className={className}

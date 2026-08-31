@@ -30,6 +30,13 @@ export type ImagePartner = PartnerBase & {
   src: string;
   width: number;
   height: number;
+  /**
+   * Multiplica a altura base do selo. Serve para equilibrar selos com
+   * proporcoes muito diferentes: um bloco quase quadrado ou de tres linhas
+   * fica visualmente minusculo ao lado de um wordmark comprido com a mesma
+   * altura. Ausente equivale a 1.
+   */
+  scale?: number;
 };
 
 export type Partner = VectorPartner | ImagePartner;

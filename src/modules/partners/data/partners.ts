@@ -11,6 +11,12 @@ import type { Partner } from "../types/partner";
  * imagem, por isso estes nao repetem o rotulo por baixo (ver
  * `PartnersMarquee`).
  *
+ * Meta e Instagram foram recortados a margem transparente que traziam de
+ * origem, e o selo do Google Ads perdeu o fundo branco do JPG (o texto
+ * cinzento passou a branco, para se ler sobre o preto da seccao). As larguras
+ * e alturas abaixo sao as do ficheiro ja recortado. O `scale` compensa
+ * proporcoes muito diferentes entre selos, ver `types/partner.ts`.
+ *
  * WhatsApp, OLX e Asaas nao tinham selo fornecido e continuam com tracado
  * vetorial proprio:
  * - WhatsApp reaproveita o "d" ja em producao em
@@ -27,8 +33,9 @@ export const partners: Partner[] = [
     label: "Meta Tech Provider",
     kind: "image",
     src: "/brand/partners/meta.webp",
-    width: 900,
-    height: 600,
+    width: 756,
+    height: 421,
+    scale: 1.25,
     brand: "#0866FF",
   },
   {
@@ -39,6 +46,7 @@ export const partners: Partner[] = [
     src: "/brand/partners/mercado-livre.webp",
     width: 620,
     height: 430,
+    scale: 1.5,
     brand: "#2D3277",
   },
   {
@@ -83,8 +91,9 @@ export const partners: Partner[] = [
     label: "Instagram API",
     kind: "image",
     src: "/brand/partners/instagram.webp",
-    width: 456,
-    height: 225,
+    width: 421,
+    height: 133,
+    scale: 1.15,
     brand: "#E1306C",
   },
   {
@@ -95,6 +104,7 @@ export const partners: Partner[] = [
     src: "/brand/partners/openai.webp",
     width: 1040,
     height: 518,
+    scale: 1.45,
     brand: "#FFFFFF",
   },
   {
@@ -129,8 +139,8 @@ export const partners: Partner[] = [
     label: "Google Ads Certified Partner",
     kind: "image",
     src: "/brand/partners/google-ads.webp",
-    width: 570,
-    height: 199,
+    width: 535,
+    height: 157,
     brand: "#FBBC04",
   },
   {
