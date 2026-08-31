@@ -32,8 +32,14 @@ O Lenis resolveria o mesmo, mas aqui não compensava:
 - **`behavior: "instant"` é obrigatório** na chamada. O `globals.css` declara
   `scroll-behavior: smooth` no `<html>`, e sem isso o browser abria a sua
   própria animação a cada frame, a competir com esta.
-- **O impulso soma-se ao destino**, não à posição actual. Rodar a roda três
-  vezes depressa anda o triplo; sem isso cada volta anulava a anterior.
+- **O impulso lê-se de duas maneiras, conforme continua ou contraria a viagem.**
+  No mesmo sentido soma-se ao destino, e rodar a roda três vezes depressa anda o
+  triplo. Em sentido contrário parte-se da posição actual e deita-se fora o que
+  faltava percorrer. Somar sempre ao destino, como estava no início, fazia com
+  que rodar para cima a meio de uma descida apenas encurtasse a descida: a
+  página continuava a descer antes de inverter, e no vai e vem sentia-se como
+  uma travada. Medido depois da correcção: inverte no primeiro frame, com zero
+  pixels de excesso no sentido antigo.
 - **O passo por frame tem um piso de um pixel físico.** A curva expo-out fecha
   cerca de 6 por cento da distância que falta em cada frame, por isso nos
   últimos ~14px o passo cai abaixo do que o ecrã consegue desenhar: a posição

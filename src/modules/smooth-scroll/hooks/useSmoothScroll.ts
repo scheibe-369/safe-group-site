@@ -113,10 +113,20 @@ export function useSmoothScroll() {
 
       // Guarda da resposta negativa da procura de caixa rolável.
       let lastTarget: Element | null = null;
+      let lastDirection = 0;
       let lastTargetAt = 0;
       const overPage = (target: EventTarget | null, delta: number) => {
         const now = performance.now();
-        if (target instanceof Element && target === lastTarget && now - lastTargetAt < 400) {
+        const direction = Math.sign(delta);
+        // A resposta depende do sentido: uma caixa que esta no fundo devolve
+        // "e da pagina" para baixo e "e minha" para cima. Guardar sem o sentido
+        // dava a resposta errada logo na inversao.
+        if (
+          target instanceof Element &&
+          target === lastTarget &&
+          direction === lastDirection &&
+          now - lastTargetAt < 400
+        ) {
           return true;
         }
         if (insideOwnScroller(target, delta)) {
@@ -124,6 +134,7 @@ export function useSmoothScroll() {
           return false;
         }
         lastTarget = target instanceof Element ? target : null;
+        lastDirection = direction;
         lastTargetAt = now;
         return true;
       };
@@ -198,11 +209,24 @@ export function useSmoothScroll() {
       };
 
       const push = (delta: number) => {
-        // O impulso soma-se ao destino e nao a posicao actual: rodar a roda tres
-        // vezes depressa anda o triplo, como no original. Sem isto, cada volta
-        // da roda anulava a anterior.
-        const base = frame ? to : window.scrollY;
-        travelTo(base + delta);
+        const here = frame ? applied : window.scrollY;
+        // Distancia que ainda falta percorrer da viagem em curso.
+        const pending = frame ? to - here : 0;
+
+        // Duas leituras, conforme o impulso continua ou contraria a viagem:
+        //
+        // No mesmo sentido, soma-se ao destino. Rodar a roda tres vezes
+        // depressa anda o triplo, como no original, em vez de cada volta
+        // anular a anterior.
+        //
+        // Em sentido contrario, parte-se da posicao actual e deita-se fora o
+        // que faltava. Antes somava-se sempre ao destino, e como durante um
+        // deslize o destino esta muito a frente da posicao, rodar para cima
+        // apenas encurtava a descida: a pagina continuava a descer mais um
+        // bocado antes de inverter, e sentia-se como uma travada no vai e vem.
+        // O scroll nativo inverte na hora, e este passa a inverter tambem.
+        const invertido = pending !== 0 && Math.sign(delta) !== Math.sign(pending);
+        travelTo((invertido ? here : here + pending) + delta);
       };
 
       const onWheel = (event: WheelEvent) => {
