@@ -22,6 +22,7 @@ export const siteNavContent: SiteNavContent = {
   barLinks: [
     { href: "/#metodo", label: "Método" },
     { href: "/#cases", label: "Cases" },
+    { href: "/#faq", label: "FAQ" },
   ],
   cta: { href: "/#diagnostico", label: "Começar diagnóstico" },
   toggle: {
@@ -39,6 +40,7 @@ export const siteNavContent: SiteNavContent = {
     { href: "/", label: "Início" },
     { href: "/#metodo", label: "Método" },
     { href: "/#cases", label: "Cases" },
+    { href: "/#faq", label: "Perguntas frequentes" },
     { href: "/#diagnostico", label: "Contacto" },
   ],
   cases: menuCases.map((study) => ({ slug: study.slug, href: `/cases/${study.slug}`, label: study.client, cover: study.cover })),

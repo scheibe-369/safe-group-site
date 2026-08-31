@@ -3,7 +3,7 @@ import { FaqList } from "./FaqList";
 
 export function FaqSection() {
   return (
-    <section className="safe-section bg-[#080808]">
+    <section id="faq" className="safe-section scroll-mt-28 bg-[#080808]">
       <div className="safe-container flex flex-col items-center">
         {/* Mesma escala de titulo das outras seccoes (SectionHeading), sem
             kicker e centrado, como na referencia. */}
