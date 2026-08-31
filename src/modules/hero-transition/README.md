@@ -4,20 +4,21 @@ Envolve a `Hero` real (`<HeroTransition><Hero /></HeroTransition>`, ver
 `src/app/page.tsx`): listras diagonais pretas cobrem a propria Hero em
 cascata durante o scroll, seguram um instante a preto e depois a proxima
 seccao sobe pelo scroll natural. Nao duplica a Hero nem o seu video, o
-overlay fica por cima do conteudo real.
+overlay fica por cima do conteudo real. Corre em qualquer largura, mas com
+duas leituras da mesma coreografia.
 
-- `components/HeroTransition.tsx`: recebe a Hero como `children` e poe um
-  `.hero-transition__stage` a volta dela. So a partir do `lg` e fora de
-  `prefers-reduced-motion: reduce` e que o wrapper ganha 220vh de altura e o
-  stage vira `sticky`, prendendo a Hero no ecra durante o scroll extra
-  enquanto as listras (`.hero-transition__stripes`, sibling da Hero dentro do
-  stage) a cobrem por cima. O sticky faz o papel de "pin" sem o custo de
-  reflow do `ScrollTrigger.pin`; como a Partners tambem e quase preta, cobrir
-  a preto e deixar o sticky soltar ja basta como revelacao.
-- `hooks/useStripeWipe.ts`: carrega GSAP + ScrollTrigger de forma dinamica e
-  liga o `scaleX` das listras ao progresso do scroll do wrapper, so em modo
-  `scrub` (sem pin). Sai cedo em `prefers-reduced-motion: reduce` ou abaixo
-  de `1024px`.
+- `components/HeroTransition.tsx`: recebe a Hero como `children`, poe um
+  `.hero-transition__stage` a volta dela e um `.hero-transition__hold` a
+  seguir. O `hold` e o espaco de scroll que o sticky precisa para segurar no
+  telemovel e tem de ser um irmao real do palco: o sticky so se desloca
+  dentro da content box do wrapper, por isso dar essa folga por
+  `padding-bottom` nao prendia nada (custou uma iteracao inteira a perceber).
+- `hooks/useStripeWipe.ts`: carrega GSAP + ScrollTrigger de forma dinamica,
+  arma o palco pelo `data-wipe` do wrapper e liga o `scaleX` das listras ao
+  progresso do scroll, so em modo `scrub` (sem pin). Sai cedo em
+  `prefers-reduced-motion: reduce`. Usa `gsap.matchMedia`, nao um `if`, para
+  que rodar o telemovel ou redimensionar o browser troque de leitura e
+  reverta os estilos inline da leitura antiga.
 - `styles/hero-transition.css`: geometria das 9 listras (skew + overflow
   hidden do stage escondem a folga do skew nas bordas) e o filete
   `--safe-red` na aresta que avança. O overlay das listras leva
@@ -28,7 +29,23 @@ overlay fica por cima do conteudo real.
   directamente ao nivel do stage. Sem esse z-index maior aqui, o texto da
   Hero ficava por cima do overlay mesmo entrando depois no DOM.
 
-Sem JavaScript, sem `gsap` carregado, abaixo de `1024px`, ou com
-`prefers-reduced-motion: reduce`, o wrapper fica com altura automatica (a da
-propria Hero) e nao ha efeito nenhum: a Hero renderiza exatamente como sem
-este modulo.
+## As duas leituras (`data-wipe`)
+
+- `pinned` (>= 1024px): a Hero cabe no ecra, o wrapper ganha 220vh e o stage
+  vira `sticky` a 100vh, prendendo a Hero durante o scroll extra. O sticky
+  faz o papel de "pin" sem o custo de reflow do `ScrollTrigger.pin`; como a
+  seccao seguinte tambem e quase preta, cobrir a preto e deixar o sticky
+  soltar ja basta como revelacao.
+- `compact` (< 1024px): a Hero passa dos 760px e nao cabe no ecra, e o 100vh
+  salta com a barra de endereco. O stage fica com a altura real da Hero
+  (`min-height: 100svh` para o caso inverso, tablet em retrato, onde estica) e
+  o `--hero-transition-pin-top`, negativo e medido no hook, encosta o **fundo**
+  da Hero ao fundo do ecra enquanto ela esta presa: e la que estao o CTA e a
+  assinatura, e um pin pelo topo escondia-os. O scroll extra vem do `hold`
+  (85svh), menos que no desktop para nao pesar no telemovel.
+
+O `data-wipe` so entra por JavaScript, de proposito: sem JS, sem GSAP, ou com
+`prefers-reduced-motion: reduce`, nao ha listras para correr e o scroll extra
+ficaria a mostrar preto parado. Sem o atributo o wrapper fica com altura
+automatica (a da propria Hero) e nao ha efeito nenhum: a Hero renderiza
+exatamente como sem este modulo.

@@ -1,28 +1,72 @@
 /*
- * Por omissao (mobile, tablet, prefers-reduced-motion) a Hero fica exatamente
- * como sem este modulo: sem altura extra, sem sticky, sem overlay a fazer
- * nada. So a partir do lg e fora de reduced-motion e que o palco prende a
- * Hero no ecra durante o scroll extra para a cobertura acontecer.
+ * A geometria so entra quando o hook arma o palco (`data-wipe`), nunca por
+ * CSS sozinho: sem JavaScript ou sem GSAP nao ha listras para correr, e o
+ * scroll extra ficaria a mostrar preto parado. Sem o atributo, a Hero
+ * renderiza exatamente como sem este modulo.
+ *
+ * `pinned` (>= lg): a Hero cabe no ecra, o palco vale 100vh e o scroll extra
+ * vem da altura do wrapper.
+ * `compact` (< lg): a Hero e mais alta que o ecra e o 100vh salta com a barra
+ * de endereco, por isso o palco fica com a altura real da Hero e o scroll
+ * extra vem do espacador `__hold`.
  */
 .hero-transition {
   height: auto;
 }
 
+/*
+ * `overflow: hidden` vale nas duas leituras: e o que esconde a folga que o
+ * skew deixa sair pelas bordas laterais.
+ */
 .hero-transition__stage {
   position: relative;
+  overflow: hidden;
 }
 
-@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
-  .hero-transition {
-    height: 220vh;
-  }
+.hero-transition[data-wipe="pinned"] {
+  height: 220vh;
+}
 
-  .hero-transition__stage {
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    overflow: hidden;
-  }
+.hero-transition[data-wipe="pinned"] .hero-transition__stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+/*
+ * No telemovel o palco nao pode ser cortado a 100vh: a Hero passa dos 760px e
+ * e no fundo dela que estao o CTA e a assinatura. Fica com a altura real e o
+ * `--hero-transition-pin-top` (negativo, medido no hook) encosta o fundo da
+ * Hero ao fundo do ecra enquanto ela esta presa. Em ecras mais altos que a
+ * Hero (tablet em retrato) o `min-height` estica o palco ate ao ecra inteiro,
+ * para a cobertura nunca deixar a seccao seguinte a espreitar por baixo.
+ */
+/*
+ * A folga tem de ser um irmao dentro da content box do wrapper: o sticky so
+ * se desloca dentro dela, e dar a mesma altura por `padding-bottom` deixava o
+ * palco a scrollar como se nao fosse sticky.
+ */
+.hero-transition__hold {
+  display: none;
+}
+
+.hero-transition[data-wipe="compact"] .hero-transition__hold {
+  display: block;
+  height: 85vh;
+  height: 85svh;
+}
+
+.hero-transition[data-wipe="compact"] .hero-transition__stage {
+  position: sticky;
+  top: var(--hero-transition-pin-top, 0px);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100svh;
+}
+
+.hero-transition[data-wipe="compact"] .hero-transition__stage > :not(.hero-transition__stripes) {
+  flex: 1 0 auto;
 }
 
 /*
@@ -33,29 +77,42 @@
  * e o `z-10` do texto/CTAs (`safe-edge relative z-10` e `hero-signature`)
  * escapa para competir directamente neste nivel. Sem um z-index explicito
  * maior aqui, esse texto ganhava ao overlay mesmo entrando depois no DOM.
+ *
+ * O desvio horizontal do skew cresce com a altura da listra; num ecra
+ * estreito esse desvio e enorme face a largura de cada coluna, por isso o
+ * telemovel leva menos angulo e mais folga lateral do que o desktop.
  */
 .hero-transition__stripes {
+  --stripe-skew: -12deg;
+  --stripe-overhang: 3.5rem;
   position: absolute;
   inset: 0;
   z-index: 20;
   pointer-events: none;
 }
 
+@media (min-width: 1024px) {
+  .hero-transition__stripes {
+    --stripe-skew: -18deg;
+    --stripe-overhang: 2rem;
+  }
+}
+
 .hero-transition__stripe {
   position: absolute;
   top: -25%;
-  left: calc(var(--i) * (100% / 9) - 2rem);
-  width: calc(100% / 9 + 4rem);
+  left: calc(var(--i) * (100% / 9) - var(--stripe-overhang));
+  width: calc(100% / 9 + var(--stripe-overhang) * 2);
   height: 150%;
   box-sizing: border-box;
   background: var(--safe-black);
   border-right: 3px solid var(--safe-red);
-  transform: skewX(-18deg) scaleX(0);
+  transform: skewX(var(--stripe-skew)) scaleX(0);
   transform-origin: left center;
 }
 
 /*
- * O desvio horizontal do skew cresce com a altura do ecra (tan(18deg) * metade
+ * O desvio horizontal do skew cresce com a altura do ecra (tan(angulo) * metade
  * da altura da listra) e em ecras altos ultrapassa a folga das listras,
  * deixando cantos por cobrir. Este forro cobre o palco inteiro e entra por
  * cima nos ultimos instantes da animacao (ver useStripeWipe.ts), garantindo

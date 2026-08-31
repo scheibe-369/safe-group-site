@@ -16,6 +16,11 @@ type HeroTransitionProps = {
  * proxima seccao sobe pelo scroll natural. O overlay e puramente decorativo
  * (aria-hidden, pointer-events-none) para nao tapar os cliques nos CTAs da
  * Hero antes de a cobertura la chegar.
+ *
+ * O `__hold` e o espaco que o sticky precisa para segurar no telemovel, e tem
+ * de ser um irmao real do palco: o sticky so se pode deslocar dentro da
+ * content box do wrapper, por isso dar essa folga por `padding-bottom` nao
+ * prendia nada. No desktop nao existe (a altura vem do proprio wrapper).
  */
 export function HeroTransition({ children }: HeroTransitionProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -34,6 +39,7 @@ export function HeroTransition({ children }: HeroTransitionProps) {
           <span className="hero-transition__cover" />
         </div>
       </div>
+      <div aria-hidden="true" className="hero-transition__hold" />
     </div>
   );
 }
