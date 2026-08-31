@@ -30,6 +30,10 @@ function isEditable(node: EventTarget | null): boolean {
 /**
  * Se o ponteiro estiver sobre uma caixa que rola por dentro e ainda tem para
  * onde rolar naquele sentido, o evento é dela e não da página.
+ *
+ * Percorre os antepassados a ler estilo calculado, o que é caro para correr a
+ * cada evento da roda. Quem chama passa por `overPage`, que guarda a resposta
+ * negativa, que é a comum e não muda enquanto o ponteiro estiver no mesmo sítio.
  */
 function insideOwnScroller(node: EventTarget | null, delta: number): boolean {
   // O alvo nem sempre e um elemento: um evento disparado sobre `window` ou
@@ -87,9 +91,42 @@ export function useSmoothScroll() {
       let startedAt = 0;
       let frame = 0;
       let applied = window.scrollY;
+      /** Passo do último frame, usado para medir a deriva com tolerância justa. */
+      let step = 0;
 
-      const maxScroll = () => Math.max(0, root.scrollHeight - window.innerHeight);
-      const clamp = (value: number) => Math.min(Math.max(value, 0), maxScroll());
+      // O limite fica em cache. Lê-lo a cada evento da roda, como estava antes,
+      // obrigava o browser a um cálculo de layout sincrono por evento, com a
+      // pilha de 600vh e os painéis `sticky` lá dentro. Era a causa principal
+      // dos engasgos quando se rodava a roda várias vezes seguidas.
+      let limit = 0;
+      const measure = () => {
+        limit = Math.max(0, root.scrollHeight - window.innerHeight);
+      };
+      measure();
+
+      const clamp = (value: number) => Math.min(Math.max(value, 0), limit);
+
+      // Apanha crescimento de conteúdo (imagens preguiçosas, o acordeão a
+      // abrir) fora do caminho crítico do evento.
+      const observer = new ResizeObserver(measure);
+      observer.observe(document.body);
+
+      // Guarda da resposta negativa da procura de caixa rolável.
+      let lastTarget: Element | null = null;
+      let lastTargetAt = 0;
+      const overPage = (target: EventTarget | null, delta: number) => {
+        const now = performance.now();
+        if (target instanceof Element && target === lastTarget && now - lastTargetAt < 400) {
+          return true;
+        }
+        if (insideOwnScroller(target, delta)) {
+          lastTarget = null;
+          return false;
+        }
+        lastTarget = target instanceof Element ? target : null;
+        lastTargetAt = now;
+        return true;
+      };
 
       const stop = () => {
         if (frame) {
@@ -101,18 +138,44 @@ export function useSmoothScroll() {
       const tick = (now: number) => {
         const elapsed = now - startedAt;
         const t = Math.min(1, elapsed / DURATION);
-        const value = from + (to - from) * easeOutExpo(t);
+        let value = from + (to - from) * easeOutExpo(t);
 
+        // Piso do passo, em pixels físicos do ecrã.
+        //
+        // A curva expo-out fecha cerca de 6 por cento da distância que falta em
+        // cada frame, por isso nos últimos ~14px o passo cai abaixo de um pixel
+        // físico. O ecrã não consegue desenhar meio pixel: a posição ficava
+        // presa um ou dois frames e depois saltava, o que se via como engasgo
+        // no fim de cada gesto. Medido: com o ecrã a 60fps e zero frames
+        // perdidos, as paragens estavam todas nos últimos 10px, a andar de 0,8
+        // em 0,8, que é exactamente o pixel físico a 1.25 de densidade.
+        //
+        // Com um piso de um pixel físico o remate faz-se a velocidade
+        // constante, sem paragens e sem salto.
+        const quantum = 1 / (window.devicePixelRatio || 1);
+        const direction = Math.sign(to - from) || 1;
+        const remaining = direction * (to - applied);
+
+        if (remaining > quantum && direction * (value - applied) < quantum) {
+          value = applied + direction * quantum;
+        }
+
+        // Chegou: encaixa no destino em vez de arrastar uma cauda que ninguém vê.
+        let done = t >= 1 || remaining <= quantum || direction * (value - to) >= 0;
+        if (done) value = to;
+
+        step = Math.abs(value - applied);
         applied = value;
         // `behavior: "instant"` e obrigatorio: o `globals.css` declara
         // `scroll-behavior: smooth` no `<html>`, e sem isto o browser abria a
         // sua propria animacao a cada frame, a competir com esta.
         window.scrollTo({ top: value, behavior: "instant" });
 
-        if (t < 1) {
-          frame = window.requestAnimationFrame(tick);
-        } else {
+        if (done) {
           frame = 0;
+          step = 0;
+        } else {
+          frame = window.requestAnimationFrame(tick);
         }
       };
 
@@ -127,6 +190,9 @@ export function useSmoothScroll() {
 
         to = next;
         from = here;
+        // O piso do passo mede-se contra `applied`, por isso ele tem de
+        // acompanhar o ponto de partida quando a viagem comeca fora do loop.
+        applied = here;
         startedAt = performance.now();
         if (!frame) frame = window.requestAnimationFrame(tick);
       };
@@ -145,7 +211,7 @@ export function useSmoothScroll() {
         const intro = root.dataset.intro;
         if (intro === "pending" || intro === "loading") return;
         if (event.ctrlKey) return; // zoom do browser
-        if (insideOwnScroller(event.target, event.deltaY)) return;
+        if (!overPage(event.target, event.deltaY)) return;
 
         let delta = event.deltaY;
         if (event.deltaMode === 1) delta *= LINE_HEIGHT;
@@ -161,7 +227,10 @@ export function useSmoothScroll() {
 
         if (event.key === "Home" || event.key === "End") {
           event.preventDefault();
-          travelTo(event.key === "Home" ? 0 : maxScroll());
+          // O `End` e o unico sitio onde vale a pena remedir na hora, porque
+          // salta para o fundo do documento e tem de acertar.
+          measure();
+          travelTo(event.key === "Home" ? 0 : limit);
           return;
         }
 
@@ -172,9 +241,16 @@ export function useSmoothScroll() {
       };
 
       const onScroll = () => {
+        if (!frame) return;
         // Se a posicao nao e a que este modulo escreveu, foi outra coisa a
         // mandar. Larga a animacao em vez de disputar.
-        if (frame && Math.abs(window.scrollY - applied) > DRIFT) stop();
+        //
+        // A tolerancia acompanha o passo do ultimo frame: o evento de scroll
+        // chega depois do frame seguinte ja ter escrito, por isso a diferenca
+        // legitima e da ordem de um passo. Com a tolerancia fixa de 1.5px que
+        // estava aqui, qualquer glide rapido matava-se a si proprio a meio.
+        const tolerance = Math.max(DRIFT, step * 2 + 2);
+        if (Math.abs(window.scrollY - applied) > tolerance) stop();
       };
 
       const onAnchorClick = (event: MouseEvent) => {
@@ -204,6 +280,7 @@ export function useSmoothScroll() {
         window.history.pushState(null, "", url.hash);
       };
 
+      window.addEventListener("resize", measure);
       window.addEventListener("wheel", onWheel, { passive: false });
       window.addEventListener("keydown", onKeyDown);
       window.addEventListener("scroll", onScroll, { passive: true });
@@ -212,6 +289,8 @@ export function useSmoothScroll() {
 
       teardown = () => {
         stop();
+        observer.disconnect();
+        window.removeEventListener("resize", measure);
         window.removeEventListener("wheel", onWheel);
         window.removeEventListener("keydown", onKeyDown);
         window.removeEventListener("scroll", onScroll);

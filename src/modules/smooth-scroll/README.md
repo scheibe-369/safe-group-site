@@ -34,6 +34,19 @@ O Lenis resolveria o mesmo, mas aqui não compensava:
   própria animação a cada frame, a competir com esta.
 - **O impulso soma-se ao destino**, não à posição actual. Rodar a roda três
   vezes depressa anda o triplo; sem isso cada volta anulava a anterior.
+- **O passo por frame tem um piso de um pixel físico.** A curva expo-out fecha
+  cerca de 6 por cento da distância que falta em cada frame, por isso nos
+  últimos ~14px o passo cai abaixo do que o ecrã consegue desenhar: a posição
+  ficava presa um ou dois frames e depois saltava, e era isso que se sentia
+  como engasgo no fim de cada gesto. Com o piso, o remate faz-se a velocidade
+  constante. Medido antes e depois: 26 paragens num scroll contínuo de 2400px,
+  contra zero.
+- **O limite do documento fica em cache**, revisto por `ResizeObserver`. Lê-lo a
+  cada evento da roda obrigava a um cálculo de layout síncrono por evento, com
+  a pilha de 600vh e os painéis `sticky` lá dentro.
+- **A tolerância da deriva acompanha o passo do último frame.** O evento de
+  scroll chega depois de o frame seguinte já ter escrito, por isso uma
+  tolerância fixa fazia qualquer deslize rápido matar-se a si próprio a meio.
 - **Âncoras** (`/#metodo`, `#cases`) são animadas com a mesma curva e respeitam
   o `scroll-margin-top` que as secções já declaram (`scroll-mt-28`).
 - **Teclado** (setas, PageUp/PageDown, Espaço, Home, End) passa pelo mesmo
