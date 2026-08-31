@@ -1,13 +1,78 @@
 import type { Solution } from "../types/solution";
 
 /**
- * Seis solucoes, na ordem pedida pelo utilizador. O esqueleto de copy segue o
+ * Seis solucoes. A ordem do array manda em tudo: nos paineis, na coluna do
+ * menu, na grelha de "outras solucoes" e no sitemap. Foi definida pelo
+ * utilizador a 31/08/2026, nao e alfabetica nem acidental.
+ * O esqueleto de copy segue o
  * layout do original (chapeu, nome curto, teaser, pitch de uma linha, titulo de
  * introducao, paragrafo, tres ofertas e frase de fecho), mas o texto e escrito
  * na voz estrutural da Safe: decisao, responsavel e metrica a frente do
  * servico. Sem metricas, clientes ou resultados inventados.
  */
 export const solutions: Solution[] = [
+  {
+    slug: "website",
+    name: "Website",
+    menuLabel: "website",
+    teaser:
+      "Site construído para converter procura em conversa qualificada. Velocidade, leitura clara da oferta e ligação direta ao atendimento, para o site deixar de ser cartão de visita e passar a ser a primeira etapa do funil.",
+    pitch: "Um site que abre conversa qualificada, não apenas visitas",
+    introHeading: "Um site que trabalha como primeira etapa do funil",
+    introBody:
+      "Um site bonito que não gera conversa é uma despesa. Construímos a partir da decisão que o visitante tem de tomar: perceber o que a operação resolve, reconhecer-se no problema e avançar para contacto. Cada página é medida por oportunidades geradas, e a estrutura fica preparada para ligar ao CRM e ao atendimento desde o primeiro dia.",
+    offerings: [
+      {
+        title: "Páginas orientadas à decisão do visitante",
+        body: "Estrutura, texto e desenho orientados à decisão do visitante, com desempenho e leitura em telemóvel tratados como requisito e não como afinação final.",
+      },
+      {
+        title: "Do formulário ao CRM",
+        body: "Formulários, WhatsApp e eventos ligados ao CRM, para cada contacto entrar identificado com origem e contexto.",
+      },
+      {
+        title: "Medição e iteração",
+        body: "Leitura de tráfego, conversão e origem para melhorar as páginas com dados da operação a correr.",
+      },
+    ],
+    statement:
+      "Uma página passa a valer quando é medida por conversas abertas, e não por visitas.",
+    image: "/solucoes/website.webp",
+    imageAlt: "Página de entrada de um site da Safe apresentada num ecrã",
+    metaDescription:
+      "Sites e landing pages construídos para abrir conversa qualificada, ligados ao CRM e ao atendimento desde o primeiro dia.",
+  },
+  {
+    slug: "trafego-pago",
+    name: "Tráfego Pago",
+    menuLabel: "tráfego pago",
+    teaser:
+      "Investimento em procura ligado ao que acontece depois do clique. A leitura começa no custo por oportunidade qualificada e na margem do negócio fechado, não no custo por clique nem no alcance da campanha.",
+    pitch: "Procura paga medida pelo negócio fechado, não pelo clique",
+    introHeading: "Aquisição paga tratada como alavanca da operação",
+    introBody:
+      "A campanha é a ponta visível de uma cadeia que começa na oferta e acaba na margem. Por isso ligamos a compra de procura ao atendimento, ao CRM e à leitura de resultado antes de aumentar investimento. Quando o funil está a converter, escalar é uma decisão de dados. Quando não está, aumentar o orçamento apenas amplia o problema mais depressa.",
+    offerings: [
+      {
+        title: "Estrutura de campanha",
+        body: "Contas, públicos, criativos e orçamentos organizados por objetivo de negócio, com um responsável e uma métrica por frente.",
+      },
+      {
+        title: "Ligação ao funil",
+        body: "Conversões, eventos e origem do contacto ligados ao CRM, para saber que campanha gerou o negócio e não apenas o formulário.",
+      },
+      {
+        title: "Leitura e escala",
+        body: "Cadência de análise sobre custo por oportunidade qualificada, taxa de fecho e margem, para decidir onde aumentar e onde parar.",
+      },
+    ],
+    statement:
+      "Investimento que sobe quando o funil aguenta, e não porque o painel de anúncios mostrou um bom resultado isolado.",
+    image: "/solucoes/trafego-pago.webp",
+    imageAlt: "Painel de campanhas pagas, com leitura de custo e de conversão, num ecrã",
+    metaDescription:
+      "Aquisição paga ligada ao atendimento, ao CRM e à margem, medida por oportunidade qualificada e negócio fechado.",
+  },
   {
     slug: "funcionarios-ia",
     name: "Funcionários IA",
@@ -71,37 +136,6 @@ export const solutions: Solution[] = [
       "Plataformas, produtos SaaS e integrações construídos a partir da operação, entregues em ciclos curtos e já em uso.",
   },
   {
-    slug: "trafego-pago",
-    name: "Tráfego Pago",
-    menuLabel: "tráfego pago",
-    teaser:
-      "Investimento em procura ligado ao que acontece depois do clique. A leitura começa no custo por oportunidade qualificada e na margem do negócio fechado, não no custo por clique nem no alcance da campanha.",
-    pitch: "Procura paga medida pelo negócio fechado, não pelo clique",
-    introHeading: "Aquisição paga tratada como alavanca da operação",
-    introBody:
-      "A campanha é a ponta visível de uma cadeia que começa na oferta e acaba na margem. Por isso ligamos a compra de procura ao atendimento, ao CRM e à leitura de resultado antes de aumentar investimento. Quando o funil está a converter, escalar é uma decisão de dados. Quando não está, aumentar o orçamento apenas amplia o problema mais depressa.",
-    offerings: [
-      {
-        title: "Estrutura de campanha",
-        body: "Contas, públicos, criativos e orçamentos organizados por objetivo de negócio, com um responsável e uma métrica por frente.",
-      },
-      {
-        title: "Ligação ao funil",
-        body: "Conversões, eventos e origem do contacto ligados ao CRM, para saber que campanha gerou o negócio e não apenas o formulário.",
-      },
-      {
-        title: "Leitura e escala",
-        body: "Cadência de análise sobre custo por oportunidade qualificada, taxa de fecho e margem, para decidir onde aumentar e onde parar.",
-      },
-    ],
-    statement:
-      "Investimento que sobe quando o funil aguenta, e não porque o painel de anúncios mostrou um bom resultado isolado.",
-    image: "/solucoes/trafego-pago.webp",
-    imageAlt: "Painel de campanhas pagas, com leitura de custo e de conversão, num ecrã",
-    metaDescription:
-      "Aquisição paga ligada ao atendimento, ao CRM e à margem, medida por oportunidade qualificada e negócio fechado.",
-  },
-  {
     slug: "estrategia",
     name: "Estratégia",
     menuLabel: "estratégia",
@@ -162,37 +196,6 @@ export const solutions: Solution[] = [
     imageAlt: "Mapa de processos e responsabilidades de uma operação num ecrã",
     metaDescription:
       "Processo, papéis, tecnologia e cadência organizados para a operação escalar sem perder controlo.",
-  },
-  {
-    slug: "website",
-    name: "Website",
-    menuLabel: "website",
-    teaser:
-      "Site construído para converter procura em conversa qualificada. Velocidade, leitura clara da oferta e ligação direta ao atendimento, para o site deixar de ser cartão de visita e passar a ser a primeira etapa do funil.",
-    pitch: "Um site que abre conversa qualificada, não apenas visitas",
-    introHeading: "Um site que trabalha como primeira etapa do funil",
-    introBody:
-      "Um site bonito que não gera conversa é uma despesa. Construímos a partir da decisão que o visitante tem de tomar: perceber o que a operação resolve, reconhecer-se no problema e avançar para contacto. Cada página é medida por oportunidades geradas, e a estrutura fica preparada para ligar ao CRM e ao atendimento desde o primeiro dia.",
-    offerings: [
-      {
-        title: "Páginas orientadas à decisão do visitante",
-        body: "Estrutura, texto e desenho orientados à decisão do visitante, com desempenho e leitura em telemóvel tratados como requisito e não como afinação final.",
-      },
-      {
-        title: "Do formulário ao CRM",
-        body: "Formulários, WhatsApp e eventos ligados ao CRM, para cada contacto entrar identificado com origem e contexto.",
-      },
-      {
-        title: "Medição e iteração",
-        body: "Leitura de tráfego, conversão e origem para melhorar as páginas com dados da operação a correr.",
-      },
-    ],
-    statement:
-      "Uma página passa a valer quando é medida por conversas abertas, e não por visitas.",
-    image: "/solucoes/website.webp",
-    imageAlt: "Página de entrada de um site da Safe apresentada num ecrã",
-    metaDescription:
-      "Sites e landing pages construídos para abrir conversa qualificada, ligados ao CRM e ao atendimento desde o primeiro dia.",
   },
 ];
 
