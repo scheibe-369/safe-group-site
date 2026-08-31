@@ -24,7 +24,8 @@ const OUTPUT_DIR = path.join(process.cwd(), "public", "solucoes");
 // "&". Mapear a mao evita depender de normalizacao de Unicode do sistema de
 // ficheiros, que difere entre Windows e o runner do Linux.
 const MAP = [
-  { slug: "funcionarios-ia", source: "agentes ia.png" },
+  // A primeira versao ("agentes ia.png") fica no disco como recuo.
+  { slug: "funcionarios-ia", source: "agentes ia 2.png" },
   { slug: "software-saas", source: "software & saas.png" },
   { slug: "trafego-pago", source: "tráfego pago.png" },
   { slug: "estrategia", source: "Estratégia.png" },
