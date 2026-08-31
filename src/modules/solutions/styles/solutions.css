@@ -1,0 +1,413 @@
+/* Secção de Soluções.
+ *
+ * Réplica da mecânica da secção de serviços do template Tyvo
+ * (tyvo-athostudio.webflow.io), a pedido do utilizador. O que foi medido no
+ * original e está reproduzido aqui:
+ *
+ *  - 100vh de scroll por painel. A secção tem `--solutions-count` painéis.
+ *  - Cada painel é `position: sticky; top: 0`, por isso o painel seguinte sobe
+ *    por cima do anterior em vez de o empurrar. O empilhamento é do CSS, nunca
+ *    `ScrollTrigger.pin`, pela mesma razão documentada em
+ *    `src/modules/hero-transition/hooks/useStripeWipe.ts`.
+ *  - O reveal do conteúdo entra de cima para baixo dentro de uma máscara, com
+ *    800ms, easeOutCirc e cascata de 0/200/400ms.
+ *  - O menu vertical fica sticky à direita, com a borda esquerda de cada item a
+ *    formar uma linha contínua (`margin-top: -1px`).
+ *
+ * O original escala tudo a partir de um `body { font-size: 1.111vw }` com todas
+ * as medidas em `em`. Esse sistema de escala não entra aqui: competiria com o
+ * `.safe-container` (lição registada em `tasks/lessons.md`). Cada valor foi
+ * convertido para o `vw` equivalente e fechado num `clamp()`, o que preserva a
+ * proporção do original sem criar uma segunda raiz de escala no site.
+ *
+ * Uma diferença deliberada: a margem esquerda usa o eixo do site
+ * (`clamp(2rem, 5vw, 7.5rem)`, o mesmo do cabeçalho e da Hero) e não os 2.78vw
+ * do original, para o título não desalinhar da barra de navegação por cima.
+ */
+
+.solutions {
+  position: relative;
+  /* Fallback primeiro, `dvh` a seguir: no telemóvel a barra de endereço faz o
+     ecrã crescer a meio do scroll e o `vh` fica preso ao estado inicial. */
+  height: calc(var(--solutions-count, 6) * 100vh);
+  height: calc(var(--solutions-count, 6) * 100dvh);
+  overflow: clip;
+  background: var(--safe-black);
+}
+
+/* Menu vertical -------------------------------------------------------- */
+
+.solutions__menu {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+  width: 100%;
+  /* O menu é decorativo e não deve roubar o clique ao painel, que é todo ele
+     um link. Os itens não são interativos no original. */
+  pointer-events: none;
+  padding-block: clamp(4.5rem, 6.7vw, 8.6rem);
+  padding-right: clamp(1.5rem, 4.4vw, 5.7rem);
+}
+
+.solutions__menu-list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.solutions__menu-item {
+  border-left: 1px solid #5a5a5a;
+  /* Encosta a borda do item seguinte à do anterior, para a coluna ler como uma
+     linha contínua em vez de traços soltos. */
+  margin-top: -1px;
+  padding: .875em;
+  color: rgba(245, 245, 243, .5);
+  font-size: clamp(.68rem, .84vw, 1.05rem);
+  /* Caixa alta em pt-PT precisa de folga para os acentos de Ã, É e Ç. */
+  line-height: 1.16;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  text-shadow: 0 0 3px rgba(5, 5, 5, .85), 0 1px 14px rgba(5, 5, 5, .95);
+  transition: color 500ms ease, border-color 500ms ease;
+}
+
+/* Desvio deliberado ao original, por contraste. Na Tyvo o item aceso é o verde
+   de marca sobre texto branco, e resulta porque o verde é claro. O vermelho da
+   Safe é escuro: medido sobre a fotografia de Tráfego Pago dava 1,6:1, muito
+   abaixo do mínimo. A marca de estado passa para a borda, que não tem de ser
+   legível, e o texto aceso fica branco sobre os outros esbatidos. O contraste
+   sobe para 4,6:1 e a leitura de "qual é o painel actual" mantém-se. */
+.solutions__menu-item[data-active="true"] {
+  color: var(--safe-white);
+  border-left-color: var(--safe-red);
+}
+
+/* Pilha de painéis ------------------------------------------------------ */
+
+.solutions__stack {
+  position: absolute;
+  inset: 0;
+}
+
+.solutions__list {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.solutions__panel {
+  position: sticky;
+  top: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--safe-black);
+}
+
+.solutions__inner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: stretch;
+  height: 100vh;
+  height: 100dvh;
+  padding-bottom: clamp(3.5rem, 8.9vw, 11.5rem);
+  padding-inline: clamp(2rem, 5vw, 7.5rem);
+}
+
+.solutions__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* O ecrã do mockup está à direita do centro. Ancorar aí mantém-no visível
+     quando o recorte aperta em ecrãs estreitos. */
+  object-position: 58% 50%;
+}
+
+/* Véu que o original não precisava: as fotos da Tyvo eram todas escuras, as da
+   Safe não. Estratégia é um documento claro e Tráfego Pago é um painel de
+   anúncios quase branco, e os dois apagavam o texto.
+   São duas camadas dirigidas aos dois sítios onde há texto, em vez de um
+   escurecimento geral que mataria os mockups:
+     1. a coluna da direita, onde fica o menu;
+     2. o canto inferior esquerdo, onde ficam o chapéu, o título e o teaser.
+   O centro e o topo da imagem ficam limpos. */
+.solutions__scrim {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(
+      90deg,
+      rgba(5, 5, 5, 0) 60%,
+      rgba(5, 5, 5, .72) 80%,
+      rgba(5, 5, 5, .97) 100%
+    ),
+    linear-gradient(
+      to top right,
+      rgba(5, 5, 5, .94) 0%,
+      rgba(5, 5, 5, .68) 22%,
+      rgba(5, 5, 5, .3) 40%,
+      rgba(5, 5, 5, 0) 58%
+    );
+  pointer-events: none;
+}
+
+.solutions__fade {
+  position: absolute;
+  inset: auto 0 0;
+  height: clamp(12rem, 29.6vw, 38rem);
+  background-image: linear-gradient(180deg, rgba(5, 5, 5, 0), var(--safe-black));
+  pointer-events: none;
+}
+
+.solutions__content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: clamp(1rem, 2.2vw, 2.9rem);
+  width: 100%;
+  max-width: clamp(20rem, 53vw, 68rem);
+}
+
+.solutions__mask {
+  overflow: hidden;
+  /* Sem isto o `translateY(-100%)` do filho encolhe a máscara na primeira
+     pintura e o texto entra num sítio errado. */
+  width: 100%;
+}
+
+/* O estado inicial escondido depende de `data-motion`, que só entra por
+   JavaScript. Sem o bundle, ou com reduced-motion, o texto renderiza no sítio
+   em vez de ficar preso fora da máscara. Mesmo princípio do `data-wipe` em
+   `hero-transition`. */
+.solutions__list[data-motion="on"] .solutions__reveal {
+  transform: translateY(-100%);
+  transition: transform 800ms cubic-bezier(0, .55, .45, 1);
+  transition-delay: var(--solutions-delay, 0ms);
+}
+
+.solutions__list[data-motion="on"] .solutions__panel[data-revealed="true"] .solutions__reveal {
+  transform: translateY(0);
+}
+
+.solutions__hat {
+  color: var(--safe-red);
+  font-size: clamp(.7rem, .84vw, 1.1rem);
+  letter-spacing: 0;
+  text-shadow: 0 0 3px rgba(5, 5, 5, .85), 0 1px 14px rgba(5, 5, 5, .95);
+}
+
+.solutions__title {
+  margin: 0;
+  font-size: clamp(2.5rem, 6.7vw, 8.5rem);
+  font-weight: 500;
+  /* O original usa 1, mas caixa alta em pt-PT precisa de folga para os acentos
+     de Ã, É e Ç quando o título quebra em duas linhas. */
+  line-height: 1.14;
+  letter-spacing: -.02em;
+  text-transform: uppercase;
+  text-shadow: 0 0 3px rgba(5, 5, 5, .85), 0 1px 14px rgba(5, 5, 5, .95);
+}
+
+.solutions__teaser {
+  /* A indentação do parágrafo é uma assinatura do layout original: o texto
+     arranca alinhado com o interior do título, não com a margem. */
+  width: 100%;
+  max-width: clamp(18rem, 35.8vw, 46rem);
+  padding-left: clamp(0rem, 7.6vw, 9.8rem);
+  color: var(--safe-white);
+  font-size: clamp(.95rem, 1.11vw, 1.45rem);
+  line-height: 1.5;
+  text-shadow: 0 0 3px rgba(5, 5, 5, .85), 0 1px 14px rgba(5, 5, 5, .95);
+}
+
+.solutions__link {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+
+.solutions__link-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* No telemóvel é o convite visível, como no original. No desktop o convite é o
+   cursor, por isso o botão fica escondido à leitura, mas continua focável e
+   reaparece assim que recebe foco por teclado. Sem isto o único caminho de
+   teclado para a página era o link que cobre o painel, que fica tapado pelo
+   painel seguinte quando recebe foco. */
+.solutions__button {
+  border: 1px solid var(--safe-white);
+  border-radius: 6.25em;
+  padding: .75em 2.125em;
+  color: var(--safe-white);
+  font-size: .8125rem;
+  letter-spacing: .12em;
+  line-height: 1.2;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background-color 500ms ease, color 500ms ease;
+}
+
+.solutions__button:hover {
+  background: var(--safe-white);
+  color: var(--safe-black);
+}
+
+@media (min-width: 992px) {
+  .solutions__button {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .solutions__button:focus-visible {
+    position: static;
+    width: auto;
+    height: auto;
+    padding: .75em 2.125em;
+    overflow: visible;
+    clip-path: none;
+  }
+}
+
+/* Cursor ---------------------------------------------------------------- */
+
+.solutions__cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  /* Abaixo da barra de navegacao, que corre a `z-50`. A `z-60` o circulo
+     desenhava por cima do cabecalho quando o ponteiro subia ao topo. */
+  z-index: 45;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: clamp(3.5rem, 5.6vw, 7rem);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--safe-red);
+  color: var(--safe-white);
+  font-size: clamp(.6rem, .8vw, .85rem);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  pointer-events: none;
+  transform: translate3d(-50%, -50%, 0) scale(0);
+  transition: transform 500ms cubic-bezier(.6, -.28, .735, .045);
+}
+
+.solutions__cursor[data-visible="true"] {
+  transform: translate3d(-50%, -50%, 0) scale(1);
+  transition-timing-function: cubic-bezier(.34, 1.56, .64, 1);
+  /* Promovido a camada só enquanto se move. Permanente era uma promessa que
+     nunca se levantava. */
+  will-change: transform;
+}
+
+/* O ponteiro do sistema seria ruído por cima do círculo. Só se esconde quando
+   o cursor customizado está de facto montado, que é só em ponteiro fino. */
+.solutions[data-cursor="on"] .solutions__link {
+  cursor: none;
+}
+
+/* Leituras estreitas ---------------------------------------------------- */
+
+@media (max-width: 991px) {
+  .solutions__menu {
+    display: none;
+  }
+
+  /* Sem menu e sem cursor, o painel deixa de ser um alvo de clique inteiro:
+     fica só o botão, que aqui é sempre visível. */
+  .solutions__link {
+    display: none;
+  }
+
+  .solutions__inner {
+    justify-content: flex-start;
+    padding-top: clamp(6.5rem, 18vw, 12rem);
+    padding-bottom: clamp(3rem, 8vw, 6rem);
+  }
+
+  /* Com o conteúdo em cima, o gradiente de leitura também sobe. */
+  .solutions__fade {
+    inset: 0 0 auto;
+    height: 70%;
+    background-image: linear-gradient(
+      180deg,
+      var(--safe-black) 0%,
+      rgba(5, 5, 5, .72) 38%,
+      rgba(5, 5, 5, .45) 62%,
+      rgba(5, 5, 5, 0) 100%
+    );
+  }
+
+  .solutions__teaser {
+    padding-left: 0;
+    max-width: 34rem;
+  }
+}
+
+@media (max-width: 991px) {
+  /* Sem menu à direita, e com o texto a subir para o topo, o véu vira ao
+     contrário: canto superior esquerdo em vez de inferior. */
+  .solutions__scrim {
+    background-image: linear-gradient(
+      to bottom right,
+      rgba(5, 5, 5, .92) 0%,
+      rgba(5, 5, 5, .66) 26%,
+      rgba(5, 5, 5, .28) 46%,
+      rgba(5, 5, 5, 0) 66%
+    );
+  }
+}
+
+@media (max-width: 767px) {
+  .solutions__inner {
+    padding-inline: 2.5rem;
+  }
+
+  .solutions__title {
+    font-size: clamp(2rem, 10vw, 3.5rem);
+  }
+
+  .solutions__teaser {
+    font-size: .9375rem;
+  }
+}
+
+@media (max-width: 479px) {
+  .solutions__inner {
+    padding-inline: 1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Segunda camada, a par do interruptor global do `globals.css`: o hook já não
+     arma o `data-motion`, mas isto garante o estado final mesmo que a leitura
+     mude depois da montagem. */
+  .solutions__list[data-motion="on"] .solutions__reveal {
+    transform: translateY(0);
+    transition: none;
+  }
+}

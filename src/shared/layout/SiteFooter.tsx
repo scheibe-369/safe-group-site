@@ -1,8 +1,11 @@
 import Link from "next/link";
 import { SiteLogo } from "./SiteLogo";
 
+// Este rodape aparece em todas as rotas menos a Home. E o unico caminho de
+// volta a lista de solucoes para quem aterra em `/solucoes/<slug>`, por isso a
+// entrada "Solucoes" tem de estar aqui.
 const links = [
-  ["Método", "/#metodo"], ["Cases", "/#cases"], ["Contacto", "/#diagnostico"],
+  ["Método", "/#metodo"], ["Soluções", "/#solucoes"], ["Cases", "/#cases"], ["Contacto", "/#diagnostico"],
 ];
 
 export function SiteFooter() {

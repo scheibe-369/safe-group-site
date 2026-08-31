@@ -1,0 +1,423 @@
+/* Página de detalhe de uma solução: /solucoes/[slug]
+ *
+ * Mesma conversão de escala descrita em `solutions.css`: cada medida em `em`
+ * do original foi passada ao `vw` equivalente e fechada num `clamp()`. A ordem
+ * das subsecções, as proporções das colunas e a mecânica de cada bloco vêm do
+ * template de serviço do original.
+ */
+
+/* Reveal de entrada, sem JavaScript. O interruptor global de reduced-motion no
+   `globals.css` reduz a duração a 0.01ms e o conteúdo aterra no sítio. */
+@keyframes solution-rise {
+  from { transform: translateY(-100%); }
+  to { transform: translateY(0); }
+}
+
+.solution-rise {
+  animation: solution-rise 800ms cubic-bezier(0, .55, .45, 1) both;
+  animation-delay: var(--solutions-delay, 0ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* O interruptor global do `globals.css` zera a duração mas não o atraso. Com
+     `fill: both`, o conteúdo ficava preso fora da máscara durante 200 e 400ms e
+     depois aparecia de repente. Isso não é movimento reduzido, é conteúdo em
+     falta. */
+  .solution-rise {
+    animation-delay: 0s;
+  }
+}
+
+/* Hero ------------------------------------------------------------------ */
+
+.solution-hero {
+  position: relative;
+  height: 100vh;
+  height: 100dvh;
+  overflow: clip;
+  background: var(--safe-black);
+}
+
+.solution-hero__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 58% 50%;
+}
+
+/* Duas camadas. A vertical escurece o topo para a barra de navegação ter
+   contraste e fecha a preto em baixo, por trás do título. A horizontal é o
+   mesmo véu de margem da secção da Home: as fotos da Safe não são todas
+   escuras e a coluna direita, com o pitch e o botão, cai por cima da imagem. */
+.solution-hero__fade {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(
+      90deg,
+      rgba(5, 5, 5, .3) 0%,
+      rgba(5, 5, 5, 0) 34%,
+      rgba(5, 5, 5, 0) 56%,
+      rgba(5, 5, 5, .78) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(5, 5, 5, .62) 0%,
+      rgba(5, 5, 5, 0) 26%,
+      rgba(5, 5, 5, 0) 47%,
+      var(--safe-black) 100%
+    );
+  pointer-events: none;
+}
+
+@media (max-width: 991px) {
+  /* Com as duas colunas empilhadas, o véu lateral deixa de fazer sentido. */
+  .solution-hero__fade {
+    background-image: linear-gradient(
+      180deg,
+      rgba(5, 5, 5, .62) 0%,
+      rgba(5, 5, 5, 0) 26%,
+      rgba(5, 5, 5, .1) 47%,
+      var(--safe-black) 100%
+    );
+  }
+}
+
+.solution-hero__inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 100%;
+  padding-bottom: clamp(3rem, 4.8vw, 6rem);
+  padding-inline: clamp(2rem, 5vw, 7.5rem);
+}
+
+.solution-hero__content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: clamp(1.5rem, 3vw, 4rem);
+  width: 100%;
+  padding-right: clamp(0rem, 5.6vw, 5rem);
+}
+
+.solution-hero__heading {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(.75rem, 2.2vw, 2.5rem);
+  width: 59%;
+  max-width: 68rem;
+}
+
+.solution-hero__title {
+  margin: 0;
+  font-size: clamp(2.5rem, 7.1vw, 9rem);
+  font-weight: 500;
+  line-height: 1.02;
+  letter-spacing: -.02em;
+}
+
+.solution-hero__aside {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: clamp(1rem, 2.2vw, 2.5rem);
+  width: 26%;
+  max-width: clamp(16rem, 21.4vw, 21.5rem);
+}
+
+.solution-hero__pitch {
+  margin: 0;
+  font-size: clamp(.9375rem, 1.11vw, 1.4rem);
+  line-height: 1.4;
+}
+
+@media (max-width: 991px) {
+  .solution-hero__content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: clamp(1.5rem, 5vw, 2.5rem);
+  }
+
+  .solution-hero__heading,
+  .solution-hero__aside {
+    width: 100%;
+  }
+}
+
+@media (max-width: 767px) {
+  .solution-hero__inner {
+    padding-inline: 1.25rem;
+  }
+}
+
+.solution-hero__hat {
+  /* No original este chapéu é branco, ao contrário do da secção da Home, que é
+     na cor de destaque. */
+  color: var(--safe-white);
+  font-size: clamp(.7rem, .84vw, 1.1rem);
+  letter-spacing: 0;
+  text-shadow: 0 0 3px rgba(5, 5, 5, .85), 0 1px 14px rgba(5, 5, 5, .95);
+}
+
+/* Introdução ------------------------------------------------------------ */
+
+.solution-intro__grid {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: clamp(2rem, 4vw, 5rem);
+}
+
+.solution-intro__lead {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: clamp(1.25rem, 2.2vw, 2.5rem);
+  width: 53%;
+  max-width: 42rem;
+}
+
+.solution-intro__title {
+  margin: 0;
+  font-size: clamp(1.75rem, 4.4vw, 4.5rem);
+  font-weight: 500;
+  line-height: 1.12;
+  letter-spacing: -.02em;
+}
+
+.solution-intro__body {
+  width: 33%;
+  max-width: 26rem;
+  margin: 0;
+  color: rgba(245, 245, 243, .68);
+  font-size: clamp(.9375rem, .97vw, 1.25rem);
+  line-height: 1.6;
+}
+
+@media (max-width: 991px) {
+  .solution-intro__grid {
+    flex-direction: column;
+  }
+
+  .solution-intro__lead,
+  .solution-intro__body {
+    width: 100%;
+    max-width: 42rem;
+  }
+}
+
+/* Faixa da marca -------------------------------------------------------- */
+
+.solution-band {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* Único valor do original em `rem` e não em `em`: é fixo, com dois degraus,
+     não escala com a largura. */
+  height: 30.25rem;
+  background: #0b0b0b;
+  overflow: hidden;
+}
+
+@media (max-width: 991px) {
+  .solution-band {
+    height: 20rem;
+  }
+}
+
+@media (max-width: 479px) {
+  .solution-band {
+    height: 10rem;
+  }
+}
+
+.solution-band__mark {
+  width: clamp(6rem, 13vw, 15rem);
+  height: auto;
+  opacity: .9;
+}
+
+/* Acordeão de ofertas --------------------------------------------------- */
+
+.solution-offerings__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.solution-offerings__trigger {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+  width: 100%;
+  padding: clamp(1rem, 1.65vw, 1.75rem) clamp(0rem, 1.65vw, 1.5rem);
+  border: 0;
+  background: none;
+  color: var(--safe-steel);
+  font-family: inherit;
+  font-size: clamp(.875rem, 1.11vw, 1.35rem);
+  /* O original usa `line-height: .8`, que em caixa alta pt-PT corta os acentos
+     de Ã, É e Ç. Fica no mínimo de 1.16 que o projeto exige. */
+  line-height: 1.16;
+  letter-spacing: -.04em;
+  text-align: left;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 300ms ease;
+}
+
+.solution-offerings__trigger:hover,
+.solution-offerings__item[data-open="true"] .solution-offerings__trigger {
+  color: var(--safe-white);
+}
+
+.solution-offerings__chevron {
+  flex: none;
+  width: 1.125em;
+  height: 1.125em;
+  transition: transform 400ms ease;
+}
+
+.solution-offerings__item[data-open="true"] .solution-offerings__chevron {
+  transform: rotate(180deg);
+}
+
+/* `grid-template-rows` de 0fr para 1fr anima a altura sem medir nada em
+   JavaScript e sem prender o conteúdo a uma altura fixa. */
+.solution-offerings__panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 400ms ease;
+}
+
+.solution-offerings__item[data-open="true"] .solution-offerings__panel {
+  grid-template-rows: 1fr;
+}
+
+.solution-offerings__panel > div {
+  overflow: hidden;
+}
+
+.solution-offerings__body {
+  margin: 0;
+  padding: 0 clamp(0rem, 1.65vw, 1.5rem) clamp(1.25rem, 1.65vw, 1.75rem) clamp(0rem, 12.6vw, 16rem);
+  color: var(--safe-steel);
+  font-size: clamp(.9375rem, .97vw, 1.25rem);
+  line-height: 1.6;
+}
+
+.solution-offerings__line {
+  height: 1px;
+  background: var(--safe-border);
+}
+
+/* Números ---------------------------------------------------------------- */
+
+.solution-figures__list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.solution-figures__card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  height: clamp(14rem, 24.8vw, 22.375rem);
+  padding: 1.5rem;
+  border: 1px solid var(--safe-border);
+}
+
+.solution-figures__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  color: var(--safe-steel);
+  font-size: .875rem;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.solution-figures__value {
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  line-height: 1;
+}
+
+@media (max-width: 767px) {
+  .solution-figures__list {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Outras soluções -------------------------------------------------------- */
+
+.solution-others__list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.solution-others__link {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: clamp(9rem, 15vw, 13.5rem);
+  overflow: hidden;
+}
+
+.solution-others__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 58% 50%;
+  transition: transform 600ms cubic-bezier(.22, .61, .36, 1);
+}
+
+.solution-others__link:hover .solution-others__img {
+  transform: scale(1.04);
+}
+
+.solution-others__fade {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, .3);
+  transition: background 400ms ease;
+}
+
+.solution-others__link:hover .solution-others__fade {
+  background: rgba(0, 0, 0, .12);
+}
+
+/* No original esta etiqueta não tem pílula: `.button.is-icon.is-cases` remove
+   borda e padding e deixa só o texto sobre a imagem. */
+.solution-others__label {
+  position: relative;
+  z-index: 1;
+  font-size: clamp(1rem, 1.67vw, 2rem);
+  line-height: 1.16;
+  text-transform: uppercase;
+  text-shadow: 0 0 3px rgba(5, 5, 5, .85), 0 1px 14px rgba(5, 5, 5, .95);
+}
+
+@media (max-width: 767px) {
+  .solution-others__list {
+    grid-template-columns: 1fr;
+  }
+}

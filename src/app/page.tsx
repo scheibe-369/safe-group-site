@@ -8,8 +8,9 @@ import { CasesRail } from "@/modules/cases/components/CasesRail";
 import { MethodSection } from "@/modules/method/components/MethodSection";
 import { MarketContextSection } from "@/modules/market-context/components/MarketContextSection";
 import { PartnersSection } from "@/modules/partners";
+import { SolutionsSection } from "@/modules/solutions";
 
 export default function HomePage() {
   const diagnosticEnabled = whatsappNotificationEnabled();
-  return <><HeroTransition><Hero /></HeroTransition><StatementSection /><PartnersSection /><MarketContextSection /><MethodSection /><CasesRail /><FaqSection /><ClosingSection enabled={diagnosticEnabled} year={new Date().getFullYear()} /></>;
+  return <><HeroTransition><Hero /></HeroTransition><StatementSection /><PartnersSection /><MarketContextSection /><MethodSection /><SolutionsSection /><CasesRail /><FaqSection /><ClosingSection enabled={diagnosticEnabled} year={new Date().getFullYear()} /></>;
 }
