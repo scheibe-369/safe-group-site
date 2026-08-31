@@ -8,9 +8,9 @@ export function MethodSection() {
       <div className="safe-container">
         <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <SectionHeading
-            kicker="Método Safe"
-            title={<>Ler primeiro. Decidir melhor. Executar com <span className="safe-shine safe-shine--silver">foco</span>.</>}
-            copy="Uma sequência para sair de decisões isoladas, concentrar recursos e acompanhar o que muda na operação."
+            kicker="Metodologia Safe"
+            title={<>Não começamos por serviços. <span className="text-white/35">Começamos pelo bloqueio.</span></>}
+            copy="Lemos procura, operação comercial, dados e tecnologia como partes do mesmo sistema, em operações automóvel, financeiras ou de software, sempre high ticket. Da leitura à otimização, uma sequência evita decisões isoladas e concentra recursos na prioridade que mais muda a operação."
           />
           <ButtonLink href="#diagnostico" variant="secondary" className="shrink-0">Começar diagnóstico</ButtonLink>
         </div>

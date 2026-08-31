@@ -2,8 +2,7 @@ import Link from "next/link";
 import { SiteLogo } from "./SiteLogo";
 
 const links = [
-  ["Soluções", "/#solucoes"], ["Método", "/#metodo"], ["Cases", "/#cases"],
-  ["Sobre", "/#sobre"], ["Contacto", "/#diagnostico"],
+  ["Método", "/#metodo"], ["Cases", "/#cases"], ["Contacto", "/#diagnostico"],
 ];
 
 export function SiteFooter() {

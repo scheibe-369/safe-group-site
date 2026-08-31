@@ -30,11 +30,9 @@ export type SiteNavContent = {
   columns: {
     navigation: string;
     cases: string;
-    solutions: string;
   };
   /** Coluna de navegação dentro do menu, mais completa do que a barra. */
   menuLinks: NavLink[];
-  solutions: NavLink[];
   cases: MenuCaseLink[];
   /** Ligação para o índice completo, no fim da coluna dos cases. */
   casesAll: NavLink;

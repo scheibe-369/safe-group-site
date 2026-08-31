@@ -1,6 +1,5 @@
 import { caseStudies } from "@/modules/cases/data/cases";
 import { socialNetworks } from "@/modules/social-dock/data/networks";
-import { solutions } from "@/modules/solutions/data/solutions";
 import type { SiteNavContent } from "../types";
 
 /**
@@ -14,17 +13,15 @@ const menuCases = (realCases.length ? realCases : caseStudies).filter((study, in
 /**
  * Copy e destinos do menu. O site é um one-page com âncoras, por isso a maior
  * parte das ligações aponta para secções da Home; só o detalhe de cada case
- * tem rota própria. As colunas de cases e de soluções são derivadas dos dados
- * dos módulos respetivos para não manter uma segunda cópia da lista. Este
- * ficheiro é lido no servidor (layout) e só chega ao cliente como dados simples.
+ * tem rota própria. A coluna de cases é derivada dos dados do módulo
+ * respetivo para não manter uma segunda cópia da lista. Este ficheiro é lido
+ * no servidor (layout) e só chega ao cliente como dados simples.
  */
 export const siteNavContent: SiteNavContent = {
   brandLabel: "Safe Group, página inicial",
   barLinks: [
-    { href: "/#solucoes", label: "Soluções" },
     { href: "/#metodo", label: "Método" },
     { href: "/#cases", label: "Cases" },
-    { href: "/#sobre", label: "Sobre" },
   ],
   cta: { href: "/#diagnostico", label: "Começar diagnóstico" },
   toggle: {
@@ -37,17 +34,13 @@ export const siteNavContent: SiteNavContent = {
   columns: {
     navigation: "Navegação",
     cases: "Cases",
-    solutions: "Soluções",
   },
   menuLinks: [
     { href: "/", label: "Início" },
-    { href: "/#solucoes", label: "Soluções" },
     { href: "/#metodo", label: "Método" },
     { href: "/#cases", label: "Cases" },
-    { href: "/#sobre", label: "Sobre" },
     { href: "/#diagnostico", label: "Contacto" },
   ],
-  solutions: solutions.map((solution) => ({ href: `/#${solution.id}`, label: solution.title })),
   cases: menuCases.map((study) => ({ slug: study.slug, href: `/cases/${study.slug}`, label: study.client, cover: study.cover })),
   casesAll: { href: "/#cases", label: "Todos os cases" },
   casesNote: menuCases.some((study) => study.isDemo) ? "Inclui conteúdo de demonstração" : undefined,

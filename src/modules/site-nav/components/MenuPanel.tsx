@@ -66,8 +66,8 @@ export function MenuPanel({ id, open, content, year, onNavigate }: MenuPanelProp
       <div className="site-nav__panel relative z-[5] max-h-dvh w-full overflow-y-auto overscroll-contain bg-[var(--safe-white)] pb-[1.5em] pt-[7.5em] shadow-[0_6px_10px_rgba(0,0,0,.08)] lg:min-h-[72dvh] lg:pb-[2em] lg:pt-[10em]">
         <div className="safe-edge">
           <div className="flex w-full flex-col gap-[2.25em] lg:w-[58%] lg:max-w-[46.8em] lg:gap-[4.5em]">
-            <div className="grid grid-cols-2 gap-x-[1em] gap-y-[2em] sm:grid-cols-3 sm:gap-x-[0.75em] lg:max-w-[35.7em]">
-              <Column heading={content.columns.navigation} className="max-sm:col-span-2" listClassName="max-sm:grid max-sm:grid-cols-2 max-sm:gap-x-6">
+            <div className="grid grid-cols-2 gap-x-[1em] gap-y-[2em] sm:gap-x-[0.75em] lg:max-w-[35.7em]">
+              <Column heading={content.columns.navigation}>
                 {content.menuLinks.map((link) => (
                   <MenuLink key={link.href} link={link} onNavigate={onNavigate} />
                 ))}
@@ -77,11 +77,6 @@ export function MenuPanel({ id, open, content, year, onNavigate }: MenuPanelProp
                   <MenuLink key={study.slug} link={study} onNavigate={onNavigate} onEnter={() => setActiveCase(study.slug)} onLeave={() => setActiveCase(null)} />
                 ))}
                 <MenuLink link={content.casesAll} onNavigate={onNavigate} emphasis />
-              </Column>
-              <Column heading={content.columns.solutions}>
-                {content.solutions.map((link) => (
-                  <MenuLink key={link.href} link={link} onNavigate={onNavigate} />
-                ))}
               </Column>
             </div>
 
