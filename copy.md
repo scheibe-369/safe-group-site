@@ -18,7 +18,6 @@
 **Aplicado em:** `src/shared/layout/SiteFooter.tsx`
 
 - `Estratégia, inteligência comercial e tecnologia para decisões que movem operações high ticket.`
-- `Desenvolvido por Method Growth Hub`
 
 ## Home
 
