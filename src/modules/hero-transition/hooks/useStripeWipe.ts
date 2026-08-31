@@ -19,8 +19,9 @@ const COVER_SELECTOR = ".hero-transition__cover";
  *   inicial (0.4) para a Hero respirar presa antes das listras entrarem.
  * - `compact` (< lg): a Hero passa dos 760px, por isso o palco fica com a
  *   altura real dela e o pin encosta o fundo (CTA e assinatura) ao fundo do
- *   ecra, via `--hero-transition-pin-top`. A folga inicial e menor, porque o
- *   scroll extra tambem e menor.
+ *   ecra, com o CSS a ancorar em `dvh` e daqui a ir so a altura medida
+ *   (`--hero-transition-stage`). A folga inicial e menor, porque o scroll
+ *   extra tambem e menor.
  *
  * `gsap.matchMedia` e obrigatorio em vez de um `if` no efeito: rodar o
  * telemovel ou redimensionar o browser troca de leitura sem remontar o
@@ -53,16 +54,20 @@ export function useStripeWipe(wrapperRef: RefObject<HTMLDivElement | null>, stag
           const pinned = Boolean(context.conditions?.pinned);
           wrapper.dataset.wipe = pinned ? "pinned" : "compact";
 
-          // O palco so ganha altura depois do atributo entrar, por isso a
-          // medida do pin tem de vir a seguir (e outra vez em cada refresh do
-          // ScrollTrigger, que e onde a rotacao do ecra aparece).
-          const measurePin = () => {
+          // O CSS ancora o fundo do palco ao fundo do ecra com
+          // `calc(100dvh - <altura do palco>)`, e so a altura precisa de vir
+          // daqui: e uma medida de layout, nao depende do ecra, ao contrario
+          // do `dvh`, que muda quando a barra de endereco se esconde e por
+          // isso tem de ficar a cargo do browser. O palco so ganha altura
+          // depois do atributo entrar, por isso a medida vem a seguir (e
+          // outra vez em cada refresh do ScrollTrigger, onde aparece a
+          // rotacao do ecra).
+          const measureStage = () => {
             if (pinned) return;
-            const overflow = Math.min(0, window.innerHeight - stage.offsetHeight);
-            wrapper.style.setProperty("--hero-transition-pin-top", `${overflow}px`);
+            wrapper.style.setProperty("--hero-transition-stage", `${stage.offsetHeight}px`);
           };
-          measurePin();
-          ScrollTrigger.addEventListener("refreshInit", measurePin);
+          measureStage();
+          ScrollTrigger.addEventListener("refreshInit", measureStage);
 
           const stripes = stage.querySelectorAll<HTMLElement>(STRIPE_SELECTOR);
           const cover = stage.querySelector<HTMLElement>(COVER_SELECTOR);
@@ -85,8 +90,8 @@ export function useStripeWipe(wrapperRef: RefObject<HTMLDivElement | null>, stag
             .to(cover, { opacity: 1, ease: "power1.in", duration: 0.4 }, "-=0.2");
 
           return () => {
-            ScrollTrigger.removeEventListener("refreshInit", measurePin);
-            wrapper.style.removeProperty("--hero-transition-pin-top");
+            ScrollTrigger.removeEventListener("refreshInit", measureStage);
+            wrapper.style.removeProperty("--hero-transition-stage");
             delete wrapper.dataset.wipe;
           };
         },

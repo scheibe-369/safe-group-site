@@ -36,13 +36,22 @@ duas leituras da mesma coreografia.
   faz o papel de "pin" sem o custo de reflow do `ScrollTrigger.pin`; como a
   seccao seguinte tambem e quase preta, cobrir a preto e deixar o sticky
   soltar ja basta como revelacao.
-- `compact` (< 1024px): a Hero passa dos 760px e nao cabe no ecra, e o 100vh
-  salta com a barra de endereco. O stage fica com a altura real da Hero
-  (`min-height: 100svh` para o caso inverso, tablet em retrato, onde estica) e
-  o `--hero-transition-pin-top`, negativo e medido no hook, encosta o **fundo**
-  da Hero ao fundo do ecra enquanto ela esta presa: e la que estao o CTA e a
-  assinatura, e um pin pelo topo escondia-os. O scroll extra vem do `hold`
-  (85svh), menos que no desktop para nao pesar no telemovel.
+- `compact` (< 1024px): a Hero passa dos 760px e nao cabe no ecra. O stage
+  fica com a altura real dela e o `top` negativo encosta o **fundo** da Hero ao
+  fundo do ecra enquanto esta presa: e la que estao o CTA e a assinatura, e um
+  pin pelo topo escondia-os. O scroll extra vem do `hold` (85svh), menos que no
+  desktop para nao pesar no telemovel.
+
+  Esse `top` e `min(0px, calc(100dvh - var(--hero-transition-stage)))`, e a
+  parte do `dvh` e o ponto todo: quando a barra de endereco do telemovel se
+  esconde, o ecra cresce uns 80px, e um pin medido uma vez em JavaScript fica
+  curto, deixando a seccao seguinte a espreitar numa faixa por baixo da
+  cobertura (foi exatamente o defeito reportado). Do hook vai so a altura do
+  palco, que e medida de layout e nao muda com a barra; o resto e o browser a
+  reavaliar o `dvh`. Pela mesma razao o `min-height` do palco usa `lvh` (o ecra
+  na medida maior, sem barra): garante `top` sempre <= 0, ou seja, cobertura de
+  ecra inteiro em qualquer estado da barra, incluindo em ecras mais altos que a
+  Hero (tablet em retrato, onde o palco estica).
 
 O `data-wipe` so entra por JavaScript, de proposito: sem JS, sem GSAP, ou com
 `prefers-reduced-motion: reduce`, nao ha listras para correr e o scroll extra

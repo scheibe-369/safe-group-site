@@ -36,10 +36,19 @@
 /*
  * No telemovel o palco nao pode ser cortado a 100vh: a Hero passa dos 760px e
  * e no fundo dela que estao o CTA e a assinatura. Fica com a altura real e o
- * `--hero-transition-pin-top` (negativo, medido no hook) encosta o fundo da
- * Hero ao fundo do ecra enquanto ela esta presa. Em ecras mais altos que a
- * Hero (tablet em retrato) o `min-height` estica o palco ate ao ecra inteiro,
- * para a cobertura nunca deixar a seccao seguinte a espreitar por baixo.
+ * `top` negativo encosta o fundo da Hero ao fundo do ecra enquanto ela esta
+ * presa.
+ *
+ * Esse `top` tem de vir em `dvh`, nao de uma medida em JavaScript: quando a
+ * barra de endereco do telemovel se esconde, o ecra cresce (uns 80px) e um
+ * valor medido uma vez fica curto, deixando a seccao seguinte a espreitar
+ * por baixo da cobertura. O `dvh` e reavaliado pelo browser enquanto a barra
+ * entra e sai, por isso o fundo do palco fica sempre colado ao fundo visivel.
+ *
+ * O `min-height` usa `lvh` (o ecra na sua medida maior, sem barra) pela mesma
+ * razao: garante `top` sempre negativo ou zero, ou seja, palco a cobrir o ecra
+ * inteiro em qualquer estado da barra, incluindo em ecras mais altos que a
+ * Hero (tablet em retrato).
  */
 /*
  * A folga tem de ser um irmao dentro da content box do wrapper: o sticky so
@@ -58,11 +67,12 @@
 
 .hero-transition[data-wipe="compact"] .hero-transition__stage {
   position: sticky;
-  top: var(--hero-transition-pin-top, 0px);
+  top: min(0px, calc(100vh - var(--hero-transition-stage, 100vh)));
+  top: min(0px, calc(100dvh - var(--hero-transition-stage, 100dvh)));
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  min-height: 100svh;
+  min-height: 100lvh;
 }
 
 .hero-transition[data-wipe="compact"] .hero-transition__stage > :not(.hero-transition__stripes) {
