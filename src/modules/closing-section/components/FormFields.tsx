@@ -16,8 +16,15 @@ const labelBase =
 const staticLabel =
   "pointer-events-none absolute left-0 top-0 text-[10px] uppercase tracking-[.2em] text-white/40";
 
+/**
+ * Cabecalho de grupo do formulario. Segue o idioma de rotulo do site (a mesma
+ * caixa alta e o mesmo peso do `safe-kicker`), mas a contraste cheio: e um
+ * separador de conteudo, nao uma legenda de apoio. O muted de `white/45` a
+ * 11 px desaparecia ao lado dos campos e o formulario lia-se como uma lista
+ * unica de oito linhas, sem os dois blocos que a referencia deixa evidentes.
+ */
 export const groupHeader =
-  "mb-6 border-b border-white/10 pb-2.5 text-[11px] uppercase tracking-[.18em] text-white/45";
+  "mb-6 border-b border-white/15 pb-3 text-[13px] font-semibold uppercase tracking-[.16em] text-white";
 
 type BaseProps = {
   id: string;

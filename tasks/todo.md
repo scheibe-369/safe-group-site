@@ -939,3 +939,39 @@ Nota de ambiente: o `npm ci` no worktree desta passagem deixou o `node_modules`
 partido (ENOTEMPTY em `enhanced-resolve`, depois `styled-jsx` em falta) e o
 `next dev` nao arrancava la. A QA acabou por correr na arvore principal, na
 porta 4350.
+
+## Cabecalhos do formulario evidentes, no desenho da referencia (30/08/2026)
+
+- [x] Medidos os cabecalhos de grupo da Nyo a 390 px: 13 px, peso **700**, caixa
+      alta, preto cheio sobre branco. Os nossos eram 11 px, peso normal, em
+      `white/45`, ou seja legenda de apoio e nao separador de bloco.
+- [x] "Contacto" passa a "Informacoes de contacto" e "Operacao" a "Informacoes
+      sobre a empresa", os mesmos dois blocos da referencia.
+- [x] `groupHeader` a 13 px, peso 600, `tracking-[.16em]`, contraste cheio e
+      filete mais marcado. Mantem o idioma de rotulo do site (a caixa alta e o
+      peso do `safe-kicker`), so deixa de ser mudo.
+- [x] Corrigida a regra da moldura do carrossel, que estava errada na passagem
+      anterior. Nao basta `janela >= um passo`: tem de ser
+      **`janela >= 2 x marca + intervalo`**. Com 137 px de janela, a amostragem do
+      ciclo dava 3 instantes em 24 com um lockup inteiro, nos outros 21 aparecia
+      cortado. A copia passa a `70%` da largura abaixo de `lg` e a janela a
+      `aspect-[19/10]` (180 px): 24 em 24 amostras com pelo menos um lockup
+      inteiro, e agora aparecem dois, como na referencia.
+- [x] `npm run lint`.
+
+### Revisao
+
+Verificado a 390 e 1440. A seccao fica em 1964 px a 390 px (eram 1910), os 54 px
+a mais sao a banda a crescer de 137 para 180 px, e o bloco final continua a caber
+num ecra de 844 px.
+
+**Fica em aberto, fora do pedido:** o ramo `lg` tem o mesmo defeito de moldura. A
+1440 a janela tem 303 px e a conta pedia 385 px, por isso ha 7 instantes em 24
+sem lockup inteiro. Corrigi-lo obriga a subir o tecto de `64cqw`, que foi posto
+de proposito no commit 7120fbe para a banda nao virar parede de logotipos, por
+isso nao mexi sem pedido.
+
+**A confirmar com o cliente:** o site e pt-PT (`lang="pt-PT"`, regra no
+`AGENTS.md`), por isso o cabecalho ficou "Informacoes de **contacto**". O pedido
+dizia "contato", que e a forma do pt-BR e a que a referencia usa. Trocar e uma
+linha em `data/content.ts`.

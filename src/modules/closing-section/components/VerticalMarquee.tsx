@@ -17,10 +17,15 @@ type VerticalMarqueeProps = {
  *
  * O espaco entre copias e as fitas de fade sao percentagens, nao pixeis, e essa
  * e a regra que faz o carrossel funcionar em qualquer ecra. Abaixo de `lg` sao
- * mais curtos (`2.5%` e `10%`, contra `7%` e `18%`): a banda do telemovel foi
- * medida pela referencia e tem cerca de metade da altura, por isso um intervalo
- * de `7%` empurrava o passo do carrossel para la da moldura e voltava a cortar
- * o lockup, e uma fita de `18%` comia quase toda a copia visivel. Em valores fixos so
+ * mais curtos (`1.5%` e `10%`, contra `7%` e `18%`), e a copia ocupa `70%` da
+ * largura em vez da largura toda.
+ *
+ * Essa reducao no telemovel nao e estetica, e aritmetica. Para haver **sempre**
+ * um lockup inteiro dentro da moldura, ela tem de valer `2 x marca + intervalo`,
+ * nao `marca + intervalo`: as copias estao a um passo fixo umas das outras, por
+ * isso, se a folga da moldura for menor do que um passo, existem instantes em
+ * que nenhuma cai inteira. A marca a largura toda pedia 247 px de moldura, o
+ * dobro da banda da referencia; a `70%` pede 180 px e cabe. Em valores fixos so
  * havia uma largura onde as proporcoes batiam certo, a do monitor onde isto foi
  * afinado: no telemovel as fitas de 56 pixeis comiam quase toda a janela e o
  * intervalo de 64 pixeis entre copias esticava o ciclo. Em `7%` da largura e
@@ -72,7 +77,7 @@ export function VerticalMarquee({
             width={623}
             height={208}
             decoding="async"
-            className="block w-full py-[2.5%] lg:py-[7%]"
+            className="block w-[70%] py-[1.5%] lg:w-full lg:py-[7%]"
           />
         ))}
       </div>

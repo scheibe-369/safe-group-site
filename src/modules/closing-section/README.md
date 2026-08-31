@@ -77,14 +77,22 @@ Regra unica: **as medidas do carrossel sao proporcoes, nunca pixeis fixos**.
   em `cqw`, ou seja medido pela largura da propria coluna
   (`.safe-marquee-window` no CSS do modulo). Sem tecto, nas larguras de portatil
   a janela chegava a quatro wordmarks empilhados.
-- Abaixo de `lg` a janela tem racio proprio, `aspect-[5/2]`, e **o tecto em
-  `cqw` nao se aplica**. A regra que fixa esse racio: a janela tem de valer pelo
-  menos **um passo do carrossel** (copia mais intervalo). Se for menor, existe um
-  momento do ciclo em que nenhuma copia cabe inteira e o lockup aparece cortado,
-  com "SAFE" a vista e restos de "GROUP" em cima e em baixo.
-- O espaco entre copias e `7%` da largura e as fitas de fade `18%` da altura a
-  partir de `lg`; abaixo de `lg` sao `2.5%` e `10%`, porque a banda tem cerca de
-  metade da altura e os valores do monitor empurravam o passo para la da moldura.
+- Abaixo de `lg` a janela tem racio proprio, `aspect-[19/10]`, e **o tecto em
+  `cqw` nao se aplica**.
+- **A regra da moldura: `janela >= 2 x marca + intervalo`.** As copias estao a um
+  passo fixo umas das outras, por isso, se a folga (`janela - marca`) for menor
+  do que um passo, existem instantes do ciclo em que nenhuma copia cai inteira e
+  o lockup aparece cortado, com "SAFE" a vista e restos de "GROUP" em cima e em
+  baixo. Nao chega a janela valer um passo: isso da uma copia inteira apenas numa
+  fraccao do ciclo. Medido a 390 px com uma janela de 137 px: 3 instantes em 24.
+- Abaixo de `lg` a copia ocupa `70%` da largura, nao a largura toda, e e essa
+  reducao que faz a conta fechar num tamanho de banda razoavel: a largura toda
+  pedia 247 px de moldura, a `70%` pede 180 px. O intervalo entre copias e `1.5%`
+  da largura e as fitas de fade `10%` da altura (a partir de `lg`, `7%` e `18%`).
+- **Nao verificado no ramo `lg`.** A 1440 a janela tem 303 px e a conta pedia
+  385 px, por isso ha instantes sem lockup inteiro (medido: 7 em 24). Corrigi-lo
+  obriga a subir o tecto de `64cqw`, que foi posto de proposito para a banda nao
+  virar parede de logotipos, por isso fica em aberto.
 - O carrossel aparece em **todas** as larguras. Abaixo de `lg` a coluna direita
   empilha por baixo do formulario e o wordmark fecha a pagina antes das listas de
   redes e navegacao.
@@ -97,8 +105,9 @@ producao, e o que o fecho da Safe faz hoje:
 | a 390 px | Nyo | Safe |
 | --- | --- | --- |
 | passo entre campos | 42 px | 51 px |
-| banda do wordmark | 131 px | 137 px |
+| banda do wordmark | 131 px | 180 px |
 | passo entre linhas das listas | 24 px | 28 px |
+| cabecalho de grupo | 13 px, peso 700 | 13 px, peso 600 |
 
 O que faz o fecho da referencia caber num ecra e o formulario ter as linhas
 **coladas**, separadas so pelo filete de cada campo. Por isso `space-y-0
@@ -106,6 +115,16 @@ md:space-y-5`: no telemovel o intervalo de 20 px desaparece e sobra apenas a
 altura do campo. O campo nao encolhe mais porque o texto tem de ficar em 16 px,
 senao o Safari do iOS da zoom a pagina quando o campo recebe foco. E a unica
 medida em que ficamos deliberadamente acima da referencia.
+
+A banda fica acima da referencia porque o wordmark da Safe e um lockup de duas
+linhas ("SAFE" sobre "GROUP") e o da Nyo e uma palavra so. Cortar uma palavra de
+uma linha le-se como gesto de composicao; cortar o lockup deixa "GROUP" orfao e
+le-se como defeito.
+
+Os cabecalhos de grupo ("Informacoes de contacto" e "Informacoes sobre a
+empresa") sao dois blocos evidentes, nao legendas de apoio: caixa alta, peso 600
+e contraste cheio, com filete por baixo. Em `white/45` a 11 px desapareciam ao
+lado dos campos e o formulario lia-se como uma lista unica de oito linhas.
 
 O rodape segue o mesmo desenho: a coluna da navegacao alinha a direita (`text-right lg:text-left`), de forma a que as duas
 listas encostem as margens da seccao, e a barra legal deixa de ser uma linha so.

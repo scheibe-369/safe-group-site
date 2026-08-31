@@ -58,14 +58,18 @@ export type ClosingSectionProps = {
  * O tecto desse crescimento vive no CSS do modulo, em `cqw`, e so vale de `lg`
  * para cima.
  *
- * Abaixo de `lg` a janela e `aspect-[5/2]`, medida contra a referencia: a 390 px
- * da 137 px de altura, contra os 131 px da banda do fecho da Nyo. A regra que a
- * fixa e simples: **a janela tem de valer pelo menos um passo do carrossel**
- * (copia mais intervalo), senao existe um momento do ciclo em que nenhuma copia
- * cabe inteira e o lockup aparece cortado ao meio, com "SAFE" a vista e restos
- * de "GROUP" a entrar em cima e em baixo. Com o intervalo do telemovel em
- * `2.5%` o passo vale `0.384` da largura e a janela `0.4`, por isso ha sempre um
- * lockup completo dentro da moldura.
+ * Abaixo de `lg` a janela e `aspect-[19/10]`, ou seja 180 px a 390 px de ecra.
+ * A regra que a fixa: **a janela tem de valer `2 x marca + intervalo`**. As
+ * copias estao a um passo fixo umas das outras, por isso, se a folga da moldura
+ * (`janela - marca`) for menor do que um passo, ha instantes em que nenhuma cai
+ * inteira e o lockup aparece cortado, com "SAFE" a vista e restos de "GROUP" a
+ * entrar em cima e em baixo. Nao chega a janela valer um passo: isso da uma
+ * copia inteira apenas numa fraccao do ciclo (medido: 3 instantes em 24).
+ *
+ * E por isso que a copia encolhe para `70%` da largura neste ramo, no
+ * `VerticalMarquee`. A marca a largura toda obrigava a uma moldura de 247 px,
+ * quase o dobro da banda da referencia, e era o fecho a deixar de caber num
+ * ecra. A 70 por cento a conta fecha em 180 px.
  *
  * A margem horizontal sai do eixo unico do site (`safe-container`), nunca de
  * uma escala interna. O ritmo vertical e mais apertado do que o `safe-section`
@@ -223,7 +227,7 @@ export function ClosingSection({ enabled, year, content = closingSectionContent 
 
           {/* Coluna direita: wordmark e rodape da pagina */}
           <div className="safe-marquee-column mt-10 flex flex-col border-t border-white/10 pt-10 lg:mt-0 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0 xl:pl-12">
-            <div className="safe-marquee-window relative aspect-[5/2] w-full grow overflow-hidden lg:aspect-[622/266]">
+            <div className="safe-marquee-window relative aspect-[19/10] w-full grow overflow-hidden lg:aspect-[622/266]">
               <VerticalMarquee />
             </div>
             <div className="mt-10 lg:mt-auto lg:pt-16">

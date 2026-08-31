@@ -19,8 +19,8 @@ export const closingSectionContent: ClosingSectionContent = {
     "Frentes ligadas ao mesmo objectivo",
     "Responsáveis e métricas claros",
   ],
-  contactHeader: "Contacto",
-  operationHeader: "Operação",
+  contactHeader: "Informações de contacto",
+  operationHeader: "Informações sobre a empresa",
   submitHint: "Os dados servem apenas para preparar a primeira conversa.",
 
   form: {
