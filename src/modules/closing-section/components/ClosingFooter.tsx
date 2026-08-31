@@ -9,7 +9,7 @@ const columnItem = "block py-1 text-sm text-white/55 transition-colors duration-
 
 /**
  * Rodape da coluna direita. Fecha a Home, por isso carrega as redes, a
- * navegacao e a barra legal com o credito de producao obrigatorio.
+ * navegacao e a barra legal.
  *
  * As redes aparecem sem ligacao enquanto os perfis nao estiverem confirmados.
  * Um `href` a apontar para lado nenhum e pior do que texto: promete destino e
@@ -52,23 +52,14 @@ export function ClosingFooter({ content, year }: { content: ClosingSectionConten
         </div>
       </div>
 
-      {/* Barra legal. Abaixo de `lg` empilha os creditos a esquerda e o
-          "voltar ao topo" ganha uma linha propria ao centro: a barra unica so
-          cabe em telemovel se o copyright e o credito de producao forem
-          truncados, e nenhum dos dois pode ser cortado. A partir de `lg` volta
-          a ser a barra de uma linha, com o botao encostado a direita. */}
+      {/* Barra legal. Abaixo de `lg` o copyright fica a esquerda e o "voltar ao
+          topo" ganha uma linha propria ao centro, para o copyright nunca ser
+          truncado em telemovel. A partir de `lg` volta a ser a barra de uma
+          linha, com o botao encostado a direita. */}
       <div className="mt-10 flex flex-col gap-y-2 border-t border-white/10 pt-6 text-xs text-white/40 lg:flex-row lg:flex-wrap lg:items-center lg:gap-x-6 lg:gap-y-3">
         <p>
           © {year} {f.copyright}
         </p>
-        <a
-          href={f.producedBy.href}
-          target="_blank"
-          rel="noopener"
-          className="transition-colors duration-300 hover:text-white"
-        >
-          {f.producedBy.label}
-        </a>
         <button
           type="button"
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}

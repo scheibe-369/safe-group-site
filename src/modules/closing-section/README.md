@@ -30,8 +30,8 @@ variavel e passa a prop para baixo.
 
 - **Rodape so na Home.** A coluna direita fecha a pagina, por isso o `SiteFooter`
   global fica escondido em `/` pelo `SiteFooterSlot`. As restantes paginas
-  continuam com o rodape de sempre. Sao dois rodapes com o mesmo credito de
-  producao, nunca os dois na mesma pagina.
+  continuam com o rodape de sempre. Sao dois rodapes com o mesmo copyright,
+  nunca os dois na mesma pagina.
 - **Redes sem ligacao enquanto nao houver perfil.** No conteudo, `href: null`
   mostra o nome sem link. Um `href` para lado nenhum promete destino e nao
   entrega.
@@ -128,10 +128,9 @@ lado dos campos e o formulario lia-se como uma lista unica de oito linhas.
 
 O rodape segue o mesmo desenho: a coluna da navegacao alinha a direita (`text-right lg:text-left`), de forma a que as duas
 listas encostem as margens da seccao, e a barra legal deixa de ser uma linha so.
-O copyright e o credito de producao empilham a esquerda e o "voltar ao topo"
-ganha uma linha propria ao centro. Em barra unica, as duas frases nao cabem numa
-largura de telemovel sem cortar texto, e nenhuma das duas pode ser cortada. A
-partir de `lg` volta tudo a barra de uma linha, com o botao encostado a direita.
+O copyright fica a esquerda e o "voltar ao topo" ganha uma linha propria ao
+centro, para o copyright nunca ser truncado em telemovel. A partir de `lg` volta
+tudo a barra de uma linha, com o botao encostado a direita.
 
 Nao repor alturas fixas aqui. Foi esse o defeito que obrigou a esta passagem: a
 seccao so estava certa na largura do monitor onde tinha sido afinada, e num
