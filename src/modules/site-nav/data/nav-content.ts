@@ -21,6 +21,7 @@ export const siteNavContent: SiteNavContent = {
   brandLabel: "Safe Group, página inicial",
   barLinks: [
     { href: "/#metodo", label: "Método" },
+    { href: "/#solucoes", label: "Soluções" },
     { href: "/#cases", label: "Cases" },
     { href: "/#faq", label: "FAQ" },
   ],
@@ -39,6 +40,7 @@ export const siteNavContent: SiteNavContent = {
   menuLinks: [
     { href: "/", label: "Início" },
     { href: "/#metodo", label: "Método" },
+    { href: "/#solucoes", label: "Soluções" },
     { href: "/#cases", label: "Cases" },
     { href: "/#faq", label: "Perguntas frequentes" },
     { href: "/#diagnostico", label: "Contacto" },
