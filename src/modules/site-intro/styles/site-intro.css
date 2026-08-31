@@ -7,15 +7,24 @@
  *
  *   (ausente)  sem JavaScript ou com movimento reduzido: nada acontece e a
  *              pagina nasce no estado final.
- *   pending    o script correu, a cortina cobre a janela e a marca entra.
- *   loading    o componente hidratou e conduz o contador ate 100.
- *   ready      a cortina desce e a primeira dobra entra por mascaras.
+ *   pending    o script correu e a cortina cobre a janela.
+ *   loading    o componente hidratou e conta o tempo que falta para abrir.
+ *   ready      a cortina apaga-se e a primeira dobra entra por mascaras.
  *   done       a cortina saiu do fluxo e as mascaras deixam de recortar. As
  *              transicoes ficam declaradas para nada saltar.
  *
- * Os tempos e as curvas sao os da referencia (Webflow IX2 da Home da Tyvo):
- * marca a cair com `swingTo`, a sair com `swingFrom`, cortina e textos em
- * `outCirc`, escalonamento de 100ms a partir de 400ms.
+ * A coreografia da cortina nao depende do JavaScript: e uma serie de animacoes
+ * com atraso, e a cortina so existe (`display`) enquanto `data-intro` esta
+ * posto, por isso as animacoes arrancam exactamente na primeira pintura, sem
+ * esperar pela hidratacao. Cada elemento tem no maximo dois instantes, escritos
+ * pelo componente: `--intro-in`, quando entra em cena, e `--intro-out`, quando
+ * sai. Sao dois envolucros encaixados (`.site-intro__enter` por fora,
+ * `.site-intro__leave` por dentro), para nunca haver duas animacoes a disputar
+ * a mesma propriedade no mesmo elemento.
+ *
+ * Os tempos, as curvas e o percurso da barra sao os da referencia (nyo.ia.br,
+ * linha temporal Webflow IX3 da Home): quatro paragens em `expo.inOut`, com a
+ * barra a revelar a linha de estado e o contador a saltar de 00 a 100.
  *
  * Vocabulario que qualquer modulo usa sem importar nada:
  *   .intro-mask               recorta o filho direto, que desce de -100% ate
@@ -31,12 +40,16 @@
 
 :root {
   --intro-out-circ: cubic-bezier(0.075, 0.82, 0.165, 1);
-  --intro-swing-to: cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  --intro-swing-from: cubic-bezier(0.6, -0.28, 0.735, 0.045);
+  --intro-expo: cubic-bezier(0.87, 0, 0.13, 1);
   --intro-delay: 400ms;
+  /* Multiplica atrasos e duracoes da cortina de uma vez. Acima de 1 fica mais
+     lenta, abaixo mais rapida. O gancho le este valor para a primeira dobra
+     entrar a horas. */
+  --intro-speed: 1;
+  --intro-mono: ui-monospace, "SFMono-Regular", "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
 }
 
-/* Enquanto a cortina esta fechada a pagina nao rola. A goteira da barra de
+/* Enquanto a cortina esta em cima a pagina nao rola. A goteira da barra de
    scroll ja e estavel (`scrollbar-gutter` no modulo do menu). */
 html[data-intro="pending"],
 html[data-intro="loading"] {
@@ -51,12 +64,16 @@ html[data-intro="loading"] {
   inset: 0;
   z-index: 120;
   display: none;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   background: var(--safe-black);
   color: var(--safe-white);
-  transform: translate3d(0, 0, 0);
+  font-family: var(--intro-mono);
+  font-size: clamp(0.6875rem, 0.83vw, 0.9375rem);
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 html[data-intro="pending"] .site-intro,
@@ -65,132 +82,177 @@ html[data-intro="ready"] .site-intro {
   display: flex;
 }
 
+/* A primeira dobra comeca a entrar por baixo da cortina, que ate aqui ja esta
+   vazia: preto sobre preto, o corte nao se ve. */
 html[data-intro="ready"] .site-intro {
-  transform: translate3d(0, 100%, 0);
-  transition: transform 0.8s var(--intro-out-circ);
-}
-
-/* Marca: entra a cair com overshoot assim que o script escreve o estado, sem
-   esperar pela hidratacao; sai para baixo com antecipacao quando o contador
-   chega a 100. Cada fase e uma animacao com `from` explicito, para a saida
-   nao partir do estado base. */
-.site-intro__mark {
-  height: clamp(4.5rem, 9vw, 7rem);
-  width: auto;
   opacity: 0;
-  transform: translate3d(0, -130%, 0);
+  pointer-events: none;
+  transition: opacity 0.25s linear;
 }
 
-html[data-intro="pending"] .site-intro__mark,
-html[data-intro="loading"] .site-intro__mark {
-  animation: intro-mark-fade-in 0.5s ease both, intro-mark-drop 0.5s var(--intro-swing-to) 0.2s both;
-}
-
-.site-intro[data-phase="exit"] .site-intro__mark {
-  animation: intro-mark-leave 0.5s var(--intro-swing-from) both, intro-mark-fade-out 0.5s ease 0.3s both;
-}
-
-/* Rodape da cortina: contador a esquerda, assinatura a direita, no mesmo
-   eixo de margem da Hero. */
-.site-intro__foot {
-  position: absolute;
-  inset-inline: 0;
-  bottom: 0;
+.site-intro__wrap {
   display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 2rem;
-  padding-bottom: clamp(2rem, 5vh, 3.5rem);
+  flex-direction: column;
+  gap: 1em;
+  width: fit-content;
 }
 
-.site-intro__foot > * {
-  opacity: 0;
+/* ---------------------------------------------------------------------------
+ * Linha de estado e barra.
+ *
+ * A linha esta escrita a preto sobre o preto da cortina, portanto invisivel.
+ * Quem a revela e a barra branca que entra por baixo dela, em quatro tempos:
+ * a leitura do contador e a fatia de linha revelada dizem sempre o mesmo.
+ * ------------------------------------------------------------------------- */
+.site-intro__item {
+  position: relative;
+  width: fit-content;
+  overflow: hidden;
 }
 
-html[data-intro="pending"] .site-intro__foot > *,
-html[data-intro="loading"] .site-intro__foot > * {
-  animation: intro-rise 0.8s var(--intro-out-circ) 0.45s both;
-}
-
-.site-intro[data-phase="exit"] .site-intro__foot > * {
-  animation: intro-fade-out 0.35s ease both;
-}
-
-.site-intro__label {
+.site-intro__tag {
+  position: relative;
+  z-index: 1;
   margin: 0;
-  font-size: 0.7rem;
-  font-weight: 500;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.45);
+  color: var(--safe-black);
+  white-space: nowrap;
 }
 
-.site-intro__count {
-  margin: 0.6rem 0 0;
-  font-family: var(--font-heading), Arial, sans-serif;
-  font-size: clamp(3.5rem, 9vw, 8rem);
-  font-weight: 600;
-  line-height: 1;
-  letter-spacing: -0.03em;
-  font-variant-numeric: tabular-nums;
+.site-intro__tag .site-intro__leave {
+  animation: intro-fade-out calc(0.05s * var(--intro-speed)) linear calc(var(--intro-out) * var(--intro-speed)) both;
 }
 
-.site-intro__count small {
-  margin-left: 0.12em;
-  font-size: 0.32em;
-  font-weight: 500;
-  letter-spacing: 0;
-  color: var(--safe-steel);
+.site-intro__bar {
+  position: absolute;
+  inset: 0;
+  background: var(--safe-white);
+  transform: translate3d(-105%, 0, 0);
+  animation: intro-bar calc(5.56s * var(--intro-speed)) linear both;
 }
 
-.site-intro__signature {
-  display: none;
-  text-align: right;
+/* ---------------------------------------------------------------------------
+ * Contador e marca.
+ * ------------------------------------------------------------------------- */
+.site-intro__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1em;
 }
 
-@media (min-width: 640px) {
-  .site-intro__signature {
-    display: block;
+/* Janela de uma linha. A primeira leitura fica no fluxo, ao nivel da janela;
+   as outras esperam uma linha abaixo, fora do recorte, e sobem quando lhes
+   toca. Sair e subir outra vez, agora por cima. */
+.site-intro__odometer {
+  position: relative;
+  flex: none;
+  width: 4ch;
+  height: 1.3em;
+  margin: 0;
+  overflow: hidden;
+}
+
+.site-intro__step {
+  position: absolute;
+  inset: 100% auto auto 0;
+  display: block;
+}
+
+.site-intro__step:first-child {
+  position: static;
+}
+
+.site-intro__enter,
+.site-intro__leave {
+  display: inline-block;
+  /* Alinhar pelo topo e nao pela linha de base: um bloco em linha alinhado
+     pela base desce a caixa que o contem, e a janela do contador deixava de
+     ter a altura de uma linha exacta. */
+  vertical-align: top;
+}
+
+/* A primeira leitura acende-se caractere a caractere, ao lado da marca, e sobe
+   quando a segunda entra. */
+.site-intro__step:first-child > .site-intro__enter {
+  animation: intro-fade-in calc(0.05s * var(--intro-speed)) linear calc(var(--intro-in) * var(--intro-speed)) both;
+}
+
+/* As do meio sobem para o lugar e, uma volta depois, sobem para fora. */
+.site-intro__step:not(:first-child) > .site-intro__enter,
+.site-intro__step:not(:last-child) > .site-intro__enter > .site-intro__leave {
+  animation: intro-roll calc(0.5s * var(--intro-speed)) var(--intro-expo) both;
+}
+
+.site-intro__step:not(:first-child) > .site-intro__enter {
+  animation-delay: calc(var(--intro-in) * var(--intro-speed));
+}
+
+.site-intro__step:not(:last-child) > .site-intro__enter > .site-intro__leave {
+  animation-delay: calc(var(--intro-out) * var(--intro-speed));
+}
+
+/* A ultima fica no lugar e apaga-se com a marca. */
+.site-intro__step:last-child > .site-intro__enter > .site-intro__leave,
+.site-intro__lockup {
+  animation: intro-fade-out calc(0.1s * var(--intro-speed)) linear calc(var(--intro-out) * var(--intro-speed)) both;
+}
+
+.site-intro__logo {
+  animation: intro-fade-in calc(0.05s * var(--intro-speed)) linear calc(var(--intro-in) * var(--intro-speed)) both;
+}
+
+/* Simbolo Safe: o "S" acompanha a cor da cortina, o "G" e sempre vermelho. */
+.site-intro__lockup {
+  display: inline-flex;
+  align-items: center;
+}
+
+.site-intro__mark {
+  height: 1.8em;
+  width: auto;
+}
+
+/* ---------------------------------------------------------------------------
+ * Fotogramas da cortina.
+ * ------------------------------------------------------------------------- */
+
+/* Percurso da barra, em quatro tempos de 1.01s com paragens pelo meio, sobre
+   uma janela de 5.56s: entra ate 23%, ate 65%, ate 100% e sai pela direita.
+   Cada paragem leva a curva do tempo seguinte. */
+@keyframes intro-bar {
+  0%,
+  13.309% {
+    transform: translate3d(-105%, 0, 0);
+    animation-timing-function: cubic-bezier(0.87, 0, 0.13, 1);
+  }
+  31.475%,
+  31.655% {
+    transform: translate3d(-78%, 0, 0);
+    animation-timing-function: cubic-bezier(0.87, 0, 0.13, 1);
+  }
+  49.82%,
+  50% {
+    transform: translate3d(-33%, 0, 0);
+    animation-timing-function: cubic-bezier(0.87, 0, 0.13, 1);
+  }
+  68.165%,
+  81.835% {
+    transform: translate3d(0, 0, 0);
+    animation-timing-function: cubic-bezier(0.87, 0, 0.13, 1);
+  }
+  100% {
+    transform: translate3d(105%, 0, 0);
   }
 }
 
-/* Filete de progresso: a linha vermelha luminosa da identidade, a crescer
-   com o contador. A escala e escrita pelo hook. */
-.site-intro__line {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  height: 2px;
-  width: 100%;
-  background: var(--safe-red);
-  box-shadow: 0 0 22px rgba(227, 6, 36, 0.72);
-  transform-origin: left center;
-  transform: scale3d(0, 1, 1);
+@keyframes intro-roll {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(0, -100%, 0); }
 }
 
-@keyframes intro-mark-fade-in {
+@keyframes intro-fade-in {
   from { opacity: 0; }
   to { opacity: 1; }
-}
-
-@keyframes intro-mark-drop {
-  from { transform: translate3d(0, -130%, 0); }
-  to { transform: translate3d(0, 0, 0); }
-}
-
-@keyframes intro-mark-leave {
-  from { transform: translate3d(0, 0, 0); }
-  to { transform: translate3d(0, 130%, 0); }
-}
-
-@keyframes intro-mark-fade-out {
-  from { opacity: 1; }
-  to { opacity: 0; }
-}
-
-@keyframes intro-rise {
-  from { opacity: 0; transform: translate3d(0, 0.6em, 0); }
-  to { opacity: 1; transform: translate3d(0, 0, 0); }
 }
 
 @keyframes intro-fade-out {
