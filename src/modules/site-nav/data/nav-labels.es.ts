@@ -6,6 +6,7 @@ import type { SiteNavLabels } from "../types";
  */
 export const siteNavLabelsEs: SiteNavLabels = {
   brandLabel: "Safe Group, página de inicio",
+  navAriaLabel: "Navegación principal",
   barLinks: [
     { hash: "metodo", label: "Método" },
     { hash: "solucoes", label: "Soluciones" },

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { LanguageSwitcher } from "@/modules/language-switcher";
 import type { SiteNavContent } from "../types";
 import { useActiveHref, useSiteNav } from "../hooks/useSiteNav";
 import { BrandLogo } from "./BrandLogo";
@@ -11,7 +12,7 @@ import { TextMask } from "./TextMask";
 
 const MENU_ID = "site-menu";
 
-const cta = "nav-mask-trigger group pointer-events-auto h-[3.385em] items-center gap-[0.77em] border px-[1.54em] text-[0.875em] font-semibold uppercase tracking-[.1em] hover:border-[var(--safe-red)] hover:bg-[var(--safe-red)]";
+const cta = "nav-mask-trigger group pointer-events-auto whitespace-nowrap h-[3.385em] items-center gap-[0.77em] border px-[1.54em] text-[0.875em] font-semibold uppercase tracking-[.1em] hover:border-[var(--safe-red)] hover:bg-[var(--safe-red)]";
 
 type SiteNavProps = {
   /** Calculado no servidor (layout) para a prosa dos cases e os icones das solucoes nao irem no bundle do cliente. */
@@ -50,7 +51,7 @@ export function SiteNav({ content, year }: SiteNavProps) {
       <div inert={!scrolled && !open} className="site-nav__bar safe-edge pointer-events-none relative z-10 flex min-h-[6em] items-center justify-between gap-[1.5em]">
         <BrandLogo label={content.brandLabel} onClick={() => navigate("/")} />
 
-        <nav aria-label="Navegação principal" className="site-nav__links hidden items-center gap-[1.5em] lg:flex xl:gap-[2em]">
+        <nav aria-label={content.navAriaLabel} className="site-nav__links hidden items-center gap-[1.5em] lg:flex xl:gap-[2em]">
           {content.barLinks.map((link) => {
             const active = isActive(link.href);
             return (
@@ -62,6 +63,19 @@ export function SiteNav({ content, year }: SiteNavProps) {
         </nav>
 
         <div className="flex items-center gap-[1.25em] lg:gap-[2em]">
+          {/* O seletor de idioma acompanha as abas: partilha a classe
+              `site-nav__links`, por isso desaparece com elas quando o menu
+              abre, e la dentro o painel tem o seu.
+
+              So a partir de `xl`. A 1024 a barra ja leva a marca, quatro abas,
+              o CTA e o alternador, e os cinco codigos punham o CTA a partir em
+              duas linhas dentro da propria caixa nos idiomas de rotulo mais
+              longo (medido em espanhol: faltavam 130px). Abaixo de 1280 o
+              seletor vive no painel do menu, a um toque de distancia. */}
+          <span className="site-nav__links pointer-events-auto hidden xl:inline-flex">
+            <LanguageSwitcher variant="bar" />
+          </span>
+
           {/* Os dois CTAs partilham a mesma casa na barra: o claro serve o site,
               o escuro entra por cima quando o menu abre e a barra fica sobre o
               painel claro. Em ecra largo o escuro salta para o limite direito

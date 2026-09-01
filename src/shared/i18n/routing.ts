@@ -1,5 +1,5 @@
 import { defineRouting } from "next-intl/routing";
-import { defaultLocale, localePrefixes, locales } from "./locales";
+import { defaultLocale, localePrefixes, locales, type Locale } from "./locales";
 
 /**
  * Encaminhamento dos cinco idiomas.
@@ -63,3 +63,29 @@ export const routing = defineRouting({
 });
 
 export type AppPathname = keyof typeof routing.pathnames;
+
+/**
+ * Converte um caminho sem prefixo (que e sempre o da lingua de origem, porque
+ * os valores pt-PT do mapa acima sao iguais as chaves internas) no endereco
+ * completo do idioma pedido, prefixo incluido.
+ *
+ * Serve o redireccionamento por pais no middleware, que corre antes do
+ * next-intl e por isso nao pode usar o `getPathname` do `navigation.ts`, que
+ * conta com o contexto do pedido ja resolvido. Um caminho que nao esteja no
+ * mapa leva so o prefixo, para uma rota nova nunca ficar sem redireccionamento.
+ */
+export function localizePathname(pathname: string, locale: Locale): string {
+  const prefix = locale === defaultLocale ? "" : localePrefixes[locale as keyof typeof localePrefixes];
+
+  for (const [internal, value] of Object.entries(routing.pathnames)) {
+    const template = typeof value === "string" ? value : (value as Record<string, string>)[locale];
+    const match = pathname.match(new RegExp(`^${internal.replace(/\[[^\]]+\]/g, "([^/]+)")}$`));
+    if (!match) continue;
+
+    let index = 1;
+    const translated = template.replace(/\[[^\]]+\]/g, () => match[index++]);
+    return `${prefix}${translated === "/" ? "" : translated}` || "/";
+  }
+
+  return `${prefix}${pathname === "/" ? "" : pathname}` || "/";
+}

@@ -3,7 +3,7 @@
 import { useParams } from "next/navigation";
 import { useLocale } from "next-intl";
 import Link from "next/link";
-import { localeLabels, localeShortLabels, locales, type Locale } from "@/shared/i18n/locales";
+import { localeLabels, localeShortLabels, locales } from "@/shared/i18n/locales";
 import { getPathname, usePathname } from "@/shared/i18n/navigation";
 import { getLanguageSwitcherContent } from "../data/content";
 
@@ -17,44 +17,59 @@ import { getLanguageSwitcherContent } from "../data/content";
  *
  * Sao ancoras verdadeiras, uma por idioma, e nao um menu conduzido por
  * JavaScript: o motor de busca segue-as, e o teclado e o botao do meio do rato
- * funcionam como em qualquer ligacao.
+ * funcionam como em qualquer ligacao. Com cinco idiomas de duas letras cabem
+ * todos numa linha, o que evita a maquinaria de um menu suspenso na barra.
+ *
+ * `bar` e a versao da barra fixa, clara sobre o escuro do site; `panel` e a do
+ * menu aberto, escura sobre o painel branco, com o titulo da coluna.
  */
-export function LanguageSwitcher() {
+/**
+ * Grava a escolha por um ano. E este cookie que o middleware consulta antes de
+ * redirecionar por pais: uma escolha feita a mao vale mais do que o IP, senao
+ * um portugues em viagem nunca conseguia ficar em portugues.
+ */
+function remember(locale: string) {
+  document.cookie = `NEXT_LOCALE=${locale}; path=/; max-age=31536000; samesite=lax`;
+}
+
+export function LanguageSwitcher({ variant = "panel" }: { variant?: "bar" | "panel" }) {
   const active = useLocale();
   const pathname = usePathname();
   const params = useParams();
   const content = getLanguageSwitcherContent(active);
+  const bar = variant === "bar";
+
+  const item = bar
+    ? "text-white/60 hover:text-[var(--safe-red)]"
+    : "text-black/55 hover:text-black";
+  const current = bar ? "text-white" : "text-black";
 
   return (
-    <div className="flex items-center gap-[1.25em] overflow-hidden">
-      <p className="safe-kicker text-black/45">{content.heading}</p>
-      <ul className="-m-2 flex items-center gap-[1.25em] p-2 text-[0.75em]">
-        {locales.map((locale) => {
-          const current = locale === active;
-          return (
-            <li key={locale} className="site-nav__social">
-              {current ? (
-                <span aria-current="true" className="inline-flex min-h-11 items-center font-semibold text-black lg:min-h-0">
-                  {localeShortLabels[locale]}
-                </span>
-              ) : (
-                <Link
-                  // O `params` da rota actual e reaproveitado tal e qual: os
-                  // slugs de case e de solucao nao sao traduzidos.
-                  href={getPathname({ href: { pathname, params } as never, locale })}
-                  hrefLang={locale}
-                  aria-label={`${content.switchTo} ${localeLabels[locale]}`}
-                  className="inline-flex min-h-11 items-center text-black/55 transition-colors hover:text-black lg:min-h-0"
-                >
-                  {localeShortLabels[locale]}
-                </Link>
-              )}
-            </li>
-          );
-        })}
+    <div className={bar ? "flex items-center gap-[0.6em]" : "flex items-center gap-[1.25em] overflow-hidden"}>
+      {!bar && <p className="safe-kicker text-black/45">{content.heading}</p>}
+      <ul className={`-m-2 flex items-center p-2 ${bar ? "gap-[0.6em] text-[0.75em] tracking-[.12em]" : "gap-[1.25em] text-[0.75em]"}`}>
+        {locales.map((locale) => (
+          <li key={locale} className={bar ? "" : "site-nav__social"}>
+            {locale === active ? (
+              <span aria-current="true" className={`inline-flex items-center font-semibold ${current} ${bar ? "" : "min-h-11 lg:min-h-0"}`}>
+                {localeShortLabels[locale]}
+              </span>
+            ) : (
+              <Link
+                // O `params` da rota actual e reaproveitado tal e qual: os
+                // slugs de case e de solucao nao sao traduzidos.
+                href={getPathname({ href: { pathname, params } as never, locale })}
+                hrefLang={locale}
+                onClick={() => remember(locale)}
+                aria-label={`${content.switchTo} ${localeLabels[locale]}`}
+                className={`inline-flex items-center transition-colors ${item} ${bar ? "" : "min-h-11 lg:min-h-0"}`}
+              >
+                {localeShortLabels[locale]}
+              </Link>
+            )}
+          </li>
+        ))}
       </ul>
     </div>
   );
 }
-
-export type { Locale };

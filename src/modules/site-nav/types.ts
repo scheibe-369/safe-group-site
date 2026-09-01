@@ -26,6 +26,8 @@ export type NavLabel = { hash?: string; label: string };
 /** So a copy do menu. E este o ficheiro que os agentes tradutores escrevem. */
 export type SiteNavLabels = {
   brandLabel: string;
+  /** Nome acessivel da barra de navegacao. */
+  navAriaLabel: string;
   barLinks: NavLabel[];
   cta: NavLabel;
   toggle: {
@@ -47,6 +49,7 @@ export type SiteNavLabels = {
 
 export type SiteNavContent = {
   brandLabel: string;
+  navAriaLabel: string;
   /** Ligações visíveis na barra em ecrã largo. */
   barLinks: NavLink[];
   cta: NavLink;

@@ -23,6 +23,28 @@ A infraestrutura é o `next-intl`, mas **só para encaminhamento e resolução d
 (`src/shared/i18n/`, `src/middleware.ts`). A copy não vive em catálogos globais de
 mensagens: vive dentro de cada módulo, como manda a regra `modular-arch` do projeto.
 
+### Como o idioma é escolhido
+
+Por esta ordem, em `src/middleware.ts`:
+
+1. **O endereço.** Quem abre `/es/cases` fica em espanhol, ponto final.
+2. **A escolha do visitante.** O seletor grava o cookie `NEXT_LOCALE` por um ano, e esse
+   cookie desliga a deteção por país. Uma escolha feita à mão vale sempre mais do que o IP.
+3. **O país.** Num endereço sem prefixo e sem cookie, o `CF-IPCountry` que a Cloudflare
+   escreve à entrada manda o visitante para o idioma do país dele (307, `no-store`),
+   mantendo a página em que estava: `/solucoes/website` a partir de Espanha dá
+   `/es/soluciones/website`. O mapa de países está em `src/shared/i18n/geo.ts`.
+4. **Nada disto para rastreadores.** Um motor de busca que indexasse a partir dos Estados
+   Unidos veria a Home inglesa no endereço da portuguesa e indexava o site trocado. Cada
+   idioma tem endereço próprio e `hreflang` a ligá-los, e o rastreador chega lá sozinho.
+
+O `localeDetection` do next-intl fica desligado de propósito: quem decide é este
+middleware, com o país real do IP, e não o `accept-language` do browser.
+
+O seletor de idioma vive na barra fixa a partir de 1280px e, abaixo disso, no painel do
+menu: a 1024 a barra já leva a marca, quatro abas, o CTA e o alternador, e os cinco
+códigos punham o CTA a partir em duas linhas nos idiomas de rótulo mais longo.
+
 ### O padrão de conteúdo
 
 Cada módulo com copy tem, dentro do seu `data/`:

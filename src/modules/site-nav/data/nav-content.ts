@@ -49,6 +49,7 @@ export function getSiteNavContent(locale: Locale | string): SiteNavContent {
 
   return {
     brandLabel: labels.brandLabel,
+    navAriaLabel: labels.navAriaLabel,
     barLinks: labels.barLinks.map(link),
     cta: link(labels.cta),
     toggle: labels.toggle,
