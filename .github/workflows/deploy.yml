@@ -16,7 +16,7 @@ permissions:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -33,12 +33,27 @@ jobs:
       - name: Validate project
         run: npm run lint
 
-      - name: Build for Cloudflare
+      # Producao. O NEXT_PUBLIC_SITE_URL entra no bundle, por isso a producao
+      # precisa do seu proprio build: e dele que saem o canonical, o sitemap,
+      # o robots e a validacao de origem do formulario.
+      - name: Build for Cloudflare (producao)
+        run: npm run build:cloudflare
+        env:
+          EVOLUTION_API_KEY: ${{ secrets.EVOLUTION_API_KEY }}
+          NEXT_PUBLIC_SITE_URL: https://safegroupia.com
+
+      - name: Deploy Worker (producao, safegroupia.com)
+        run: npx wrangler deploy --config wrangler.safegroupia.toml
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN_SAFEGROUPIA }}
+
+      # Preview da Growth Hub, sem NEXT_PUBLIC_SITE_URL, como sempre esteve.
+      - name: Build for Cloudflare (preview)
         run: npm run build:cloudflare
         env:
           EVOLUTION_API_KEY: ${{ secrets.EVOLUTION_API_KEY }}
 
-      - name: Deploy Worker
+      - name: Deploy Worker (preview, safe.methodgrowthhub.com.br)
         run: npm run deploy:cloudflare
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}

@@ -1,0 +1,14 @@
+# Producao: Worker na conta Cloudflare do cliente (Safegrouporg), servido em
+# safegroupia.com. O wrangler.toml principal continua a publicar o preview da
+# Growth Hub em safe.methodgrowthhub.com.br, a partir do mesmo codigo.
+#
+# Sem account_id de proposito: o token desta conta so tem acesso a ela, o
+# wrangler resolve a conta sozinho e o repositorio e publico.
+name = "safe-group-site"
+main = ".open-next/worker.js"
+compatibility_date = "2026-08-24"
+compatibility_flags = ["nodejs_compat"]
+
+[assets]
+directory = ".open-next/assets"
+binding = "ASSETS"
