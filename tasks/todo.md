@@ -1162,3 +1162,27 @@ desliza e trava suavemente em vez de parar seco quando se larga a roda.
 
 Desliga-se em ponteiro grosso (o telemovel ja tem inercia nativa melhor),
 com `prefers-reduced-motion`, e enquanto a cortina de entrada esta fechada.
+
+### Adenda: seletor na barra e deteccao por pais (31/08/2026)
+
+A pedido do utilizador, o seletor de idioma subiu do painel do menu para a
+barra fixa (cinco codigos numa linha, `PT BR UK US ES`), e o site passou a levar
+o visitante para o idioma do pais dele.
+
+- Na barra so a partir de 1280px. A 1024 faltavam 130px medidos: a barra ja leva
+  a marca, quatro abas, o CTA e o alternador, e os cinco codigos punham o CTA a
+  partir em duas linhas dentro da propria caixa em espanhol. Abaixo de 1280 o
+  seletor continua no painel do menu. O CTA ganhou `whitespace-nowrap` para o
+  proximo rotulo longo de mais falhar a vista e nao em silencio.
+- A deteccao usa o `CF-IPCountry` que a Cloudflare escreve a entrada a partir do
+  IP, e nao o `accept-language` do browser. Mantem a pagina: `/solucoes/website`
+  a partir de Espanha da `/es/soluciones/website`. Mapa em
+  `src/shared/i18n/geo.ts`.
+- Tres travoes: o cookie gravado pelo seletor desliga a deteccao (a escolha a
+  mao vale mais do que o IP), enderecos que ja trazem idioma nao sao tocados, e
+  rastreadores nunca sao redirecionados, senao um motor de busca a indexar dos
+  Estados Unidos passava a indexar o site trocado.
+- Verificado nas 20 combinacoes de 4 larguras por 5 idiomas (sem overflow, CTA
+  sempre numa linha, seletor so a partir de 1280) e em producao: `/` devolve 307
+  para `/pt-br` com IP brasileiro, 200 com o cookie posto, e 200 ao Googlebot.
+
