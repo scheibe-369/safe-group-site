@@ -1186,3 +1186,62 @@ o visitante para o idioma do pais dele.
   sempre numa linha, seletor so a partir de 1280) e em producao: `/` devolve 307
   para `/pt-br` com IP brasileiro, 200 com o cookie posto, e 200 ao Googlebot.
 
+
+## Limpeza geral pelo relatorio do Lighthouse (31/08/2026)
+
+A API publica do PageSpeed Insights esta com a quota diaria a zero, por isso a
+medicao correu com o Lighthouse 12 local sobre o Chrome instalado, que e o mesmo
+motor. Base: desktop 100/97/100/83, telemovel 89/97/100/83, com LCP de 3.4s e
+CLS de 0.072 no telemovel.
+
+- [x] Video da Hero fora do caminho critico. Tinha `preload="auto"` para 1.7 MB
+      e era o elemento LCP. Passa por um `HeroVideo` que so lhe da origem
+      depois do evento `load`.
+- [x] Poster como camada real. A primeira tentativa deixou o `<video>` sem
+      origem nenhuma a contar com o atributo `poster`, e o Chrome nao o pinta
+      nesse estado: a Hera ficava preta ate depois do `load`, o FCP subiu para
+      3.1s e o LCP saltou para o selo do dock. O poster passou a `<img>` com
+      `fetchpriority` alto por baixo do video.
+- [x] Poster de JPG para WebP (73 KB para 25 KB) e anunciado por `Link` de
+      preload no middleware, ao lado dos `hreflang`.
+- [x] Icone da aplicacao de 1254x1254 e 332 KB para 512x512 e 49 KB.
+- [x] Selos de parceiros a 180px de altura (148 KB para 53 KB) e selo do dock a
+      128px, fora do `/_next/image`, que nesta stack nao redimensiona.
+- [x] `public/_headers` com cache imutavel em `/media`, `/brand`, `/cases` e
+      `/solucoes`. Eram 1744 KB a revalidar em cada visita.
+- [x] Contraste: `--safe-red-text` para o texto vermelho pequeno e os blocos
+      esmaecidos do metodo e dos rodapes a subir para `white/50` e `white/55`.
+- [x] Metadados no `<head>` para quem nao corre JavaScript, via
+      `htmlLimitedBots`.
+- [x] `robots.ts` a declarar ele proprio os bloqueios dos rastreadores de IA.
+- [x] `browserslist` moderno, sem polyfills desnecessarios.
+- [ ] Desligar o "Managed Content" da Cloudflare na zona, que injeta a diretiva
+      `Content-Signal` que nenhum validador reconhece. Precisa do painel: nenhum
+      dos dois tokens tem permissao no AI Crawl Control.
+
+### Revisao
+
+Desktop fechou em 100/100/100/85 e telemovel em 90/100/100/85, com a
+acessibilidade a subir de 97 para 100 nos dois. As duas auditorias de SEO que
+faltam nao dependem do codigo: a do `robots.txt` e o bloco gerido da Cloudflare,
+e a do `canonical` e o `NEXT_PUBLIC_SITE_URL` a apontar para `safegroup.pt`
+enquanto o site e servido do dominio de pre-visualizacao. Passa sozinha quando o
+dominio final entrar.
+
+A performance no telemovel para nos 90 e o teto sem cortar efeitos. O que resta
+nao e rede: com tudo em disco aos 590ms, a primeira pintura so acontece aos
+1.7s e o LCP aos 2.9s, porque o Style & Layout sozinho leva 1284ms para 1069
+elementos com o processador a um quarto da velocidade. Baixar isto e cortar DOM
+inicial ou adiar seccoes com `content-visibility`, e quase todas as seccoes
+abaixo da dobra tem animacao ligada ao scroll (ScrollTrigger, `Reveal` por
+IntersectionObserver, a pilha sticky das Solucoes), portanto o risco recai em
+cima dos efeitos que era para preservar.
+
+O CLS de 0.072 que sobra tambem esta identificado e nao e do titulo: e o
+`hero-transition__hold` a nascer quando o `useStripeWipe` escreve `data-wipe`,
+ja depois da hidratacao, o que empurra a seccao seguinte para fora do ecra. Fica
+por corrigir de proposito, porque acontece aos 913ms, com a cortina de entrada
+ainda a cobrir a janela: nenhum visitante o ve, e reserva-lo antes da primeira
+pintura obriga a armar o palco por script inline, com o risco de deixar espaco
+preto parado se o GSAP falhar, que e exactamente o que o modulo evita de
+proposito.
