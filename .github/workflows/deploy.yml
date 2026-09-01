@@ -42,8 +42,13 @@ jobs:
           EVOLUTION_API_KEY: ${{ secrets.EVOLUTION_API_KEY }}
           NEXT_PUBLIC_SITE_URL: https://safegroupia.com
 
+      # O wrangler guarda a conta escolhida em node_modules/.cache/wrangler e
+      # reutiliza-a no comando seguinte. Com duas contas no mesmo job, isso faz
+      # o segundo deploy bater na conta errada e devolver erro 10000. Limpar a
+      # cache antes de cada deploy resolve, e evita gravar ids de conta neste
+      # repositorio, que e publico.
       - name: Deploy Worker (producao, safegroupia.com)
-        run: npx wrangler deploy --config wrangler.safegroupia.toml
+        run: rm -rf node_modules/.cache/wrangler && npx wrangler deploy --config wrangler.safegroupia.toml
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN_SAFEGROUPIA }}
 
@@ -54,6 +59,6 @@ jobs:
           EVOLUTION_API_KEY: ${{ secrets.EVOLUTION_API_KEY }}
 
       - name: Deploy Worker (preview, safe.methodgrowthhub.com.br)
-        run: npm run deploy:cloudflare
+        run: rm -rf node_modules/.cache/wrangler && npm run deploy:cloudflare
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
