@@ -102,11 +102,9 @@ rede que impede uma página meia traduzida de chegar a produção.
 
 ### O que nunca se traduz
 
-Nomes de marca (Safe Group, Method Growth Hub, redes sociais), slugs, ids de âncora,
-caminhos de imagem, campos `value` das opções de formulário (viajam para o webhook), e a
-linha de crédito de produção "Desenvolvido por Method Growth Hub" com o link para
-`https://methodgrowthhub.com.br`, que é assinatura e fica literal em português nos cinco
-idiomas.
+Nomes de marca (Safe Group, redes sociais), nomes de cliente dos cases, slugs, ids de
+âncora, caminhos de imagem e campos `value` das opções de formulário, que viajam para o
+webhook.
 
 ## Regras de copy que valem para os cinco idiomas
 

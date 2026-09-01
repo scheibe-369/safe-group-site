@@ -111,7 +111,9 @@ export function IntroCurtain({ content }: { content: SiteIntroContent }) {
             <p className="site-intro__tag">
               {tag.map((char, index) => (
                 <span key={index} className="site-intro__leave" style={seconds({ out: tagBeats[index] })}>
-                  {char === " " ? " " : char}
+                  {/* Espaco nao separavel: cada caractere vive no seu `span`, e
+                      um espaco normal colapsava e colava as palavras da linha. */}
+                  {char === " " ? " " : char}
                 </span>
               ))}
             </p>

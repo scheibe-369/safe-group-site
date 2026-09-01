@@ -24,10 +24,8 @@ Regras de forma, sem excepcao:
 
 ## O que nunca se traduz
 
-- Nomes de marca: Safe Group, Method Growth Hub, Instagram, LinkedIn, WhatsApp.
-- A linha de credito de producao, "Desenvolvido por Method Growth Hub", e o endereco
-  `https://methodgrowthhub.com.br`. E assinatura de producao, fica literal em portugues
-  nos cinco idiomas.
+- Nomes de marca: Safe Group, Instagram, LinkedIn, WhatsApp, e os nomes de cliente que
+  aparecem nos cases (Growth Hub, Previa, Falow, Brasil DTF).
 - Slugs, ids de ancora, caminhos de imagem, nomes de classes CSS, endereços.
 - Campos `value` de opcoes de formulario: viajam para o webhook e partiriam a integracao.
   Traduz o `label` que aparece no ecra, nunca o `value`.
