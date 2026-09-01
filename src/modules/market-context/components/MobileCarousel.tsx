@@ -2,9 +2,12 @@
 
 import { Children, isValidElement, useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import type { MarketContextContent } from "../types/market-stat";
 
 type MobileCarouselProps = {
   children: React.ReactNode;
+  /** Rotulos de acessibilidade, ja no idioma da pagina. */
+  labels: MarketContextContent["carousel"];
   className?: string;
   cardWidthClass?: string;
 };
@@ -17,6 +20,7 @@ type MobileCarouselProps = {
  */
 export function MobileCarousel({
   children,
+  labels,
   className,
   cardWidthClass = "w-[85vw] max-w-sm",
 }: MobileCarouselProps) {
@@ -112,7 +116,7 @@ export function MobileCarousel({
           type="button"
           onClick={() => scrollToIndex(index - 1)}
           disabled={index === 0}
-          aria-label="Cartao anterior"
+          aria-label={labels.previous}
           className={arrowClass}
         >
           <ChevronLeft className="h-5 w-5" />
@@ -125,7 +129,7 @@ export function MobileCarousel({
               type="button"
               aria-current={index === i}
               onClick={() => scrollToIndex(i)}
-              aria-label={`Ir para o cartao ${i + 1}`}
+              aria-label={labels.goToCard.replace("{n}", String(i + 1))}
               // Alvo de toque de 44px de altura, largura curta para caberem
               // todos os pontos num ecra de 360px.
               className="group flex h-11 items-center justify-center px-1.5"
@@ -144,7 +148,7 @@ export function MobileCarousel({
           type="button"
           onClick={() => scrollToIndex(index + 1)}
           disabled={index === count - 1}
-          aria-label="Cartao seguinte"
+          aria-label={labels.next}
           className={arrowClass}
         >
           <ChevronRight className="h-5 w-5" />

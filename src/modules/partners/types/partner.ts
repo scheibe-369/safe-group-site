@@ -1,9 +1,24 @@
 export type BrandPath = { d: string; fill?: string };
 
+export type PartnerId =
+  | "meta"
+  | "mercado-livre"
+  | "olx"
+  | "whatsapp"
+  | "instagram"
+  | "openai"
+  | "stripe"
+  | "asaas"
+  | "google-ads"
+  | "claude";
+
+/**
+ * A ficha de um selo guarda so o que nao muda com o idioma: identificador,
+ * arte e cor. O rotulo visivel vive na copy do modulo, indexado pelo `id`.
+ */
 type PartnerBase = {
-  id: string;
+  id: PartnerId;
   name: string;
-  label: string;
   brand: string;
   glow?: string;
 };

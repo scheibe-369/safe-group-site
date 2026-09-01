@@ -1,14 +1,21 @@
 import type { CSSProperties } from "react";
 import { ButtonLink } from "@/shared/ui/ButtonLink";
-import { solutionsKicker } from "../../data/solutions";
 import type { Solution } from "../../types/solution";
 import { solutionSrcSet } from "../../utils/image-srcset";
+
+type Props = {
+  item: Solution;
+  kicker: string;
+  action: string;
+  /** Endereco do diagnostico, ja resolvido para o idioma actual. */
+  actionHref: string;
+};
 
 /**
  * O hero repete a imagem do painel da Home de propósito: é o que faz a
  * passagem do painel para a página parecer continuação e não salto.
  */
-export function SolutionHero({ item }: { item: Solution }) {
+export function SolutionHero({ item, kicker, action, actionHref }: Props) {
   return (
     <header className="solution-hero">
       {/* Aqui a imagem é o LCP da página, por isso entra `eager` e com
@@ -30,7 +37,7 @@ export function SolutionHero({ item }: { item: Solution }) {
         <div className="solution-hero__content">
           <div className="solution-hero__heading">
             <div className="solutions__mask">
-              <p className="solution-hero__hat solution-rise">{solutionsKicker}</p>
+              <p className="solution-hero__hat solution-rise">{kicker}</p>
             </div>
             <div className="solutions__mask">
               <h1
@@ -51,8 +58,8 @@ export function SolutionHero({ item }: { item: Solution }) {
                 {item.pitch}
               </p>
             </div>
-            <ButtonLink href="/#diagnostico" variant="secondary">
-              Começar diagnóstico
+            <ButtonLink href={actionHref} variant="secondary">
+              {action}
             </ButtonLink>
           </div>
         </div>

@@ -12,3 +12,13 @@ export type SocialNetwork = {
   /** Cor da marca. Entra apenas no hover e no foco, nunca no estado de repouso. */
   accent: string;
 };
+
+/**
+ * Rotulos de apoio do atalho. Nao aparecem em texto corrido: sao `aria-label`
+ * do botao e da lista, mais a etiqueta que surge ao passar o cursor.
+ */
+export type SocialDockCopy = {
+  open: string;
+  close: string;
+  listLabel: string;
+};

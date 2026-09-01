@@ -1,4 +1,4 @@
 export { SolutionsSection } from "./components/SolutionsSection";
 export { SolutionDetail } from "./components/SolutionDetail";
-export { solutions, solutionsKicker, findSolution } from "./data/solutions";
-export type { Solution, SolutionOffering, SolutionFigure } from "./types/solution";
+export { getSolutions, findSolution, solutionSlugs } from "./data/solutions";
+export type { Solution, SolutionOffering, SolutionFigure, SolutionsContent } from "./types/solution";

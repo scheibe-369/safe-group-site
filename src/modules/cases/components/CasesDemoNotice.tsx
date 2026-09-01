@@ -1,4 +1,6 @@
-import { caseStudies, hasDemoCases } from "../data/cases";
+import { getLocale } from "next-intl/server";
+import { getCaseStudies, hasDemoCases } from "../data/cases";
+import { getCasesContent } from "../data/content";
 
 /**
  * Aviso mostrado enquanto existir pelo menos um case de demonstração entre os
@@ -9,8 +11,9 @@ import { caseStudies, hasDemoCases } from "../data/cases";
  * último `isDemo: true` sair do array, junto com o `noindex` da respetiva
  * página de case.
  */
-export function CasesDemoNotice({ className }: { className?: string }) {
-  if (!hasDemoCases(caseStudies)) return null;
+export async function CasesDemoNotice({ className }: { className?: string }) {
+  const locale = await getLocale();
+  if (!hasDemoCases(getCaseStudies(locale))) return null;
 
   return (
     <p
@@ -22,7 +25,7 @@ export function CasesDemoNotice({ className }: { className?: string }) {
         .join(" ")}
     >
       <span aria-hidden="true" className="inline-block h-1.5 w-1.5 shrink-0 bg-[var(--safe-red)]" />
-      Alguns cases abaixo são conteúdo de demonstração, fictícios, para validar o formato.
+      {getCasesContent(locale).demoNotice}
     </p>
   );
 }

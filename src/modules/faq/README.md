@@ -38,8 +38,9 @@ src/modules/faq/
     FaqSection.tsx      a seccao (titulo centrado e a lista)
     FaqList.tsx          estado: qual pergunta esta aberta (uma de cada vez)
     FaqItemBubble.tsx    um item: balao da pergunta + "a escrever" + resposta
-  data/faq.ts            as 7 perguntas e respostas, copy pt sem travessao
-  types/faq.ts           contrato `FaqItem`
+  data/faq.pt-PT.ts      titulo e as 7 perguntas, copy da lingua de origem
+  data/faq.ts            mapa por idioma, `getFaqContent`
+  types/faq.ts           contratos `FaqItem` e `FaqContent`
   styles/faq.css          transition do colapso, keyframes do balao e da resposta
 ```
 

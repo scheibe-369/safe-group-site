@@ -1,24 +1,27 @@
 import Link from "next/link";
 import { SectionHeading } from "@/shared/ui/SectionHeading";
-import { solutions } from "../../data/solutions";
+import type { Solution } from "../../types/solution";
 import { solutionSrcSet } from "../../utils/image-srcset";
 
 type Props = {
-  currentSlug: string;
+  /** As restantes solucoes, ja sem a que esta aberta. */
+  items: Solution[];
+  kicker: string;
+  title: string;
+  /** Endereco do detalhe, ja resolvido para o idioma actual. */
+  detailHref: (slug: string) => string;
 };
 
-export function OtherSolutions({ currentSlug }: Props) {
-  const others = solutions.filter((item) => item.slug !== currentSlug);
-
+export function OtherSolutions({ items, kicker, title, detailHref }: Props) {
   return (
     <section className="safe-section bg-[var(--safe-black)]">
       <div className="safe-container flex flex-col gap-10">
-        <SectionHeading kicker="Soluções" title="As restantes frentes da Safe." />
+        <SectionHeading kicker={kicker} title={title} />
 
         <ul className="solution-others__list">
-          {others.map((item) => (
+          {items.map((item) => (
             <li key={item.slug}>
-              <Link href={`/solucoes/${item.slug}`} className="solution-others__link">
+              <Link href={detailHref(item.slug)} className="solution-others__link">
                 {/* `<img>` cru pela mesma razão dos painéis: o `/_next/image`
                     não redimensiona nesta stack. Ver `utils/image-srcset.ts`. */}
                 {/* eslint-disable-next-line @next/next/no-img-element */}

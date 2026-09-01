@@ -1,8 +1,8 @@
 /**
  * Contrato de conteudo da seccao de fecho.
  *
- * Todo o texto, rotulo e mensagem vive aqui e em `data/content.ts`. Os
- * componentes nao tem uma unica string fixa, por isso mudar copy nunca obriga a
+ * Todo o texto, rotulo e mensagem vive aqui e nos ficheiros `data/content.<idioma>.ts`.
+ * Os componentes nao tem uma unica string fixa, por isso mudar copy nunca obriga a
  * tocar em JSX.
  */
 
@@ -16,7 +16,15 @@ export type ClosingSectionField =
   | "priority"
   | "message";
 
-export type ClosingSectionContent = {
+/**
+ * Caminhos internos que o rodape da Home lista. Guarda-se a rota, nao o
+ * endereco: e o getter que lhe junta o prefixo do idioma actual, do mesmo modo
+ * que o `hash` faz nas ligacoes do rodape global.
+ */
+export type ClosingNavPath = "/solucoes" | "/metodo" | "/cases" | "/sobre" | "/contacto";
+
+/** Parte da copy que e igual na baseline e no conteudo ja resolvido. */
+type ClosingSectionBase = {
   /** Sobretitulo em vermelho, no mesmo estilo das restantes seccoes. */
   kicker: string;
   /** Titulo em duas partes. A do meio recebe o gradiente metalico. */
@@ -47,22 +55,35 @@ export type ClosingSectionContent = {
     successTitle: string;
     successDesc: string;
     errorMessage: string;
-    /** Mensagem de validacao por campo, em pt-PT. */
+    /** Mensagem de validacao por campo. */
     errors: Record<ClosingSectionField, string>;
   };
+};
 
-  /**
-   * A coluna direita fecha a Home, por isso carrega o rodape. O `SiteFooter`
-   * global fica escondido nessa pagina, senao havia copyright a dobrar.
-   */
-  footer: {
-    socialHeader: string;
-    /** `href` a nulo mostra o nome sem ligacao, enquanto o perfil nao existir. */
-    socials: readonly { label: string; href: string | null }[];
-    navHeader: string;
+/**
+ * A coluna direita fecha a Home, por isso carrega o rodape. O `SiteFooter`
+ * global fica escondido nessa pagina, senao havia copyright a dobrar.
+ */
+type ClosingFooterBase = {
+  socialHeader: string;
+  /** `href` a nulo mostra o nome sem ligacao, enquanto o perfil nao existir. */
+  socials: readonly { label: string; href: string | null }[];
+  navHeader: string;
+  /** O ano entra a parte, vindo do servidor. */
+  copyright: string;
+  backToTop: string;
+};
+
+/** O que cada ficheiro de idioma escreve. */
+export type ClosingSectionCopy = ClosingSectionBase & {
+  footer: ClosingFooterBase & {
+    navLinks: readonly { path: ClosingNavPath; label: string }[];
+  };
+};
+
+/** O que o componente recebe, ja com os enderecos do idioma resolvidos. */
+export type ClosingSectionContent = ClosingSectionBase & {
+  footer: ClosingFooterBase & {
     navLinks: readonly { href: string; label: string }[];
-    /** O ano entra a parte, vindo do servidor. */
-    copyright: string;
-    backToTop: string;
   };
 };

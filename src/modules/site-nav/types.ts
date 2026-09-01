@@ -15,6 +15,36 @@ export type SocialLink = {
   href: string | null;
 };
 
+/**
+ * Ligacao do menu antes de virar endereco. O `hash` e o id da seccao na Home,
+ * igual nos cinco idiomas; sem `hash`, a ligacao e a propria Home. O endereco
+ * final e montado em `data/nav-content.ts`, ja com o prefixo do idioma, para os
+ * componentes continuarem a receber uma string pronta.
+ */
+export type NavLabel = { hash?: string; label: string };
+
+/** So a copy do menu. E este o ficheiro que os agentes tradutores escrevem. */
+export type SiteNavLabels = {
+  brandLabel: string;
+  barLinks: NavLabel[];
+  cta: NavLabel;
+  toggle: {
+    open: string;
+    close: string;
+    ariaOpen: string;
+    ariaClose: string;
+    menuLabel: string;
+  };
+  columns: {
+    navigation: string;
+    cases: string;
+  };
+  menuLinks: NavLabel[];
+  casesAll: NavLabel;
+  /** Mostrado sob o titulo dos cases enquanto a lista tiver conteudo de demonstracao. */
+  casesNote: string;
+};
+
 export type SiteNavContent = {
   brandLabel: string;
   /** Ligações visíveis na barra em ecrã largo. */

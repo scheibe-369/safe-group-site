@@ -2,6 +2,8 @@ import type { Partner } from "../types/partner";
 
 type BrandMarkProps = {
   partner: Partner;
+  /** Rotulo do selo no idioma actual. Serve de `alt` quando a marca e imagem. */
+  label: string;
   height?: number;
   className?: string;
 };
@@ -13,14 +15,14 @@ type BrandMarkProps = {
  * `scale`. Evita repetir a conta que a origem (Growth Hub) fazia a mão só
  * para o wordmark da Asaas.
  */
-export function BrandMark({ partner, height = 40, className }: BrandMarkProps) {
+export function BrandMark({ partner, label, height = 40, className }: BrandMarkProps) {
   if (partner.kind === "image") {
     const scaled = height * (partner.scale ?? 1);
     const width = (scaled * partner.width) / partner.height;
     return (
       <img
         src={partner.src}
-        alt={partner.label}
+        alt={label}
         width={width}
         height={scaled}
         loading="lazy"

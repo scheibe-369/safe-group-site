@@ -6,15 +6,12 @@ import type { SocialNetwork } from "../types/social-network";
  *
  * Os tres destinos estao por confirmar, por indicacao do cliente. Assim que
  * houver perfil, basta preencher o `href` aqui: nenhum componente muda.
+ *
+ * Nomes e enderecos nao entram na traducao: sao marcas e destinos. A copy do
+ * atalho vive em `dock-copy.<idioma>.ts`.
  */
 export const socialNetworks: SocialNetwork[] = [
   { id: "instagram", label: "Instagram", href: "https://www.instagram.com/safegroup_/", accent: "#e1306c" },
   { id: "linkedin", label: "LinkedIn", href: null, accent: "#0a66c2" },
   { id: "whatsapp", label: "WhatsApp", href: "https://wa.me/5527999584889", accent: "#25d366" },
 ];
-
-export const socialDockCopy = {
-  open: "Abrir redes da Safe",
-  close: "Fechar redes da Safe",
-  listLabel: "Redes da Safe",
-};

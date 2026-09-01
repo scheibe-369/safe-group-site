@@ -5,6 +5,8 @@ import { useLineWipeReveal } from "@/modules/statement-section/hooks/useLineWipe
 
 type Props = {
   statement: string;
+  /** Sobrelinha discreta acima da frase. */
+  overline: string;
 };
 
 /**
@@ -22,7 +24,7 @@ type Props = {
  * classes para `src/shared/`, como já acontece com `metallic-shine.css`, mas
  * isso mexe noutro módulo e fica para uma entrega própria.
  */
-export function SolutionStatement({ statement }: Props) {
+export function SolutionStatement({ statement, overline }: Props) {
   const headingRef = useRef<HTMLHeadingElement>(null);
   useLineWipeReveal(headingRef);
 
@@ -30,7 +32,7 @@ export function SolutionStatement({ statement }: Props) {
     <section className="safe-section bg-[var(--safe-black)]">
       <div className="safe-container flex flex-col items-center gap-6 text-center">
         <p className="text-[clamp(.75rem,.97vw,1.1rem)] uppercase text-[var(--safe-steel)]">
-          por outras palavras
+          {overline}
         </p>
         <h2
           ref={headingRef}

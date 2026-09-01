@@ -2,6 +2,7 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { LanguageSwitcher } from "@/modules/language-switcher";
 import type { NavLink, SiteNavContent } from "../types";
 import { DiagonalArrow } from "./DiagonalArrow";
 import { SafeMark3D } from "./SafeMark3D";
@@ -95,6 +96,7 @@ export function MenuPanel({ id, open, content, year, onNavigate }: MenuPanelProp
                     Safe Group {year} ©
                   </p>
                 </div>
+                <LanguageSwitcher />
                 <ul className="-m-2 flex items-center gap-[2.33em] overflow-hidden p-2 text-[0.75em]">
                   {content.social.map((network) => (
                     <li key={network.label} className="site-nav__social">

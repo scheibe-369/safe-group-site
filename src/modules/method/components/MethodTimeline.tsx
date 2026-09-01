@@ -1,14 +1,14 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { methodSteps } from "../data/steps";
+import type { MethodStep } from "../types/method";
 
 const AUTO_ADVANCE_MS = 8000;
 const TIMER_QUERY = "(min-width: 1280px) and (pointer: fine)";
 const XL_QUERY = "(min-width: 1280px)";
 const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
 
-export function MethodTimeline() {
+export function MethodTimeline({ steps }: { steps: MethodStep[] }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [restartTick, setRestartTick] = useState(0);
   const [hasDesktopTimer, setHasDesktopTimer] = useState(false);
@@ -65,7 +65,7 @@ export function MethodTimeline() {
       if (!visible) return;
       setRestartTick((tick) => tick + 1);
       intervalId = setInterval(() => {
-        setActiveIndex((current) => (current + 1) % methodSteps.length);
+        setActiveIndex((current) => (current + 1) % steps.length);
       }, AUTO_ADVANCE_MS);
     };
     restartTimerRef.current = restart;
@@ -85,7 +85,7 @@ export function MethodTimeline() {
       clear();
       restartTimerRef.current = null;
     };
-  }, [hasDesktopTimer, reducedMotion]);
+  }, [hasDesktopTimer, reducedMotion, steps.length]);
 
   // Abaixo de xl: sem temporizador, o passo ativo segue o scroll.
   useEffect(() => {
@@ -119,7 +119,7 @@ export function MethodTimeline() {
         ref={rootRef}
         className="mt-14 border-t border-white/15 xl:grid xl:grid-cols-5 xl:divide-x xl:divide-y-0 xl:divide-white/15"
       >
-        {methodSteps.map((step, index) => {
+        {steps.map((step, index) => {
           const isActive = index === activeIndex;
           return (
             <li

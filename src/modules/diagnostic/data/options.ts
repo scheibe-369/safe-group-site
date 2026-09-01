@@ -1,3 +1,9 @@
+/**
+ * Valores das opcoes do formulario. **Nao sao copy**: e isto que o esquema
+ * valida e que segue no pedido para o webhook, por isso ficam iguais nos cinco
+ * idiomas e nao se corrigem. Estao escritos em pt-PT por ser a lingua de
+ * origem. O texto que o visitante le vive em `option-labels.<idioma>.ts`.
+ */
 export const operationSizeOptions = [
   "Operação única",
   "2 a 4 unidades ou equipas",

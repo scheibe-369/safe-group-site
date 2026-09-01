@@ -3,11 +3,22 @@
 import { useCasesSwiper } from "../../hooks/useCasesSwiper";
 import styles from "../../styles/cases-carousel.module.css";
 import type { CaseStudy } from "../../types/case-study";
+import type { CasesCarouselLabels } from "../../types/content";
+import { fill } from "../../utils/fill";
 import { CarouselArrow } from "./CarouselArrow";
 import { CaseSlide } from "./CaseSlide";
 
 type CasesCarouselProps = {
   items: CaseStudy[];
+  /** Enderecos do detalhe por slug, ja resolvidos para o idioma actual. */
+  hrefs: Record<string, string>;
+  /**
+   * Copy do widget. Chega por prop porque este e um client component: importar
+   * o getter aqui dentro arrastaria os cinco idiomas para o bundle do browser.
+   */
+  labels: CasesCarouselLabels;
+  /** Nome do conjunto, para o rotulo acessivel das setas. */
+  label: string;
   /**
    * Campo mostrado no slot da direita de cada slide. Por defeito o setor.
    * Na rota /cases os blocos ja estao agrupados por setor, entao la passa-se
@@ -18,10 +29,6 @@ type CasesCarouselProps = {
    * funcao nao e serializavel.
    */
   metaField?: "sector" | "area";
-  /** Rotulo revelado no hover, no lugar da meta. */
-  hoverLabel?: string;
-  /** Nome do conjunto, para o rotulo acessivel das setas. */
-  label?: string;
   className?: string;
 };
 
@@ -35,9 +42,10 @@ type CasesCarouselProps = {
  */
 export function CasesCarousel({
   items,
+  hrefs,
+  labels,
+  label,
   metaField = "sector",
-  hoverLabel = "Ver case",
-  label = "cases",
   className,
 }: CasesCarouselProps) {
   const { containerRef, prevRef, nextRef, scrollbarRef } = useCasesSwiper({
@@ -51,15 +59,21 @@ export function CasesCarousel({
       <div ref={containerRef} className={`swiper ${styles.track}`}>
         <div role="list" className={`swiper-wrapper ${styles.wrapper}`}>
           {items.map((item) => (
-            <CaseSlide key={item.slug} item={item} meta={item[metaField]} hoverLabel={hoverLabel} />
+            <CaseSlide
+              key={item.slug}
+              item={item}
+              href={hrefs[item.slug] ?? ""}
+              meta={item[metaField]}
+              labels={labels}
+            />
           ))}
         </div>
       </div>
 
       <div className={styles.bottom}>
         <div className={styles.arrows}>
-          <CarouselArrow ref={prevRef} direction="prev" label={`Anterior, ${label}`} />
-          <CarouselArrow ref={nextRef} direction="next" label={`Seguinte, ${label}`} />
+          <CarouselArrow ref={prevRef} direction="prev" label={fill(labels.previous, { label })} />
+          <CarouselArrow ref={nextRef} direction="next" label={fill(labels.next, { label })} />
         </div>
 
         <div ref={scrollbarRef} className={styles.scrollbar}>

@@ -1,4 +1,10 @@
+import { Fragment } from "react";
+import { getLocale } from "next-intl/server";
 import { ButtonLink } from "@/shared/ui/ButtonLink";
+import type { Locale } from "@/shared/i18n/locales";
+import { getPathname } from "@/shared/i18n/navigation";
+import { getHome } from "../data/content";
+import type { HeroAction } from "../types";
 
 /**
  * A entrada do site (`modules/site-intro`) revela a Hero por mascaras: cada
@@ -6,8 +12,15 @@ import { ButtonLink } from "@/shared/ui/ButtonLink";
  * o video e o poster entram de 1.15 ate 1 e os filetes crescem. As margens
  * verticais ficam nas mascaras e nao no conteudo, senao o conteudo continua
  * visivel na margem enquanto esta escondido.
+ *
+ * A copy e os dois enderecos sao resolvidos aqui, no servidor, para a Home nao
+ * ter de saber o idioma em que esta a ser vista.
  */
-export function Hero() {
+export async function Hero() {
+  const locale = (await getLocale()) as Locale;
+  const { hero } = getHome(locale);
+  const href = (action: HeroAction) => getPathname({ href: action.href, locale });
+
   return (
     <section className="relative flex min-h-[760px] items-end overflow-hidden bg-black pb-16 pt-28 sm:min-h-[820px] lg:h-dvh lg:min-h-[760px] lg:items-start lg:pb-0 lg:pt-[clamp(11rem,22vh,16rem)]">
       <video
@@ -31,32 +44,37 @@ export function Hero() {
         <div className="max-w-2xl xl:max-w-3xl 2xl:max-w-4xl">
           <div className="intro-mask" data-intro-step="0">
             <p className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[.65rem] font-medium uppercase tracking-[.18em] text-white/65 sm:text-xs">
-              <span>Operações high ticket</span><span className="h-1 w-1 shrink-0 rounded-full bg-[var(--safe-red)]" /><span>Diagnóstico Safe</span>
+              <span>{hero.kicker[0]}</span><span className="h-1 w-1 shrink-0 rounded-full bg-[var(--safe-red)]" /><span>{hero.kicker[1]}</span>
             </p>
           </div>
           <span aria-hidden data-intro-reveal="line" data-intro-step="1" className="mt-6 block h-[3px] w-[4.5rem] bg-[var(--safe-red)]" />
           <h1 className="mt-7 text-[clamp(2.75rem,6vw,6rem)] font-semibold uppercase leading-[1.14] tracking-[-.02em] text-white">
-            <span className="intro-mask block" data-intro-step="1"><span className="block">Encontre a</span></span>
-            <span className="intro-mask block" data-intro-step="2"><span className="block">prioridade.</span></span>
+            <span className="intro-mask block" data-intro-step="1"><span className="block">{hero.title.first}</span></span>
+            <span className="intro-mask block" data-intro-step="2"><span className="block">{hero.title.second}</span></span>
           </h1>
           <div className="intro-mask mt-8 max-w-xl" data-intro-step="3">
-            <p className="text-base leading-7 text-white/75 sm:text-lg">A Safe liga estratégia comercial, marketing, dados e tecnologia para encontrar o bloqueio prioritário e estruturar a resposta certa.</p>
+            <p className="text-base leading-7 text-white/75 sm:text-lg">{hero.lead}</p>
           </div>
           <div className="intro-mask mt-4" data-intro-step="4">
             <p className="text-[.65rem] font-medium uppercase tracking-[.15em] text-white/50 sm:text-xs">
-              <span className="safe-shine safe-shine--silver">Procura</span> <span className="mx-2 text-white/25">•</span> <span className="safe-shine safe-shine--silver">Comercial</span> <span className="mx-2 text-white/25">•</span> <span className="safe-shine safe-shine--silver">Tecnologia</span>
+              {hero.areas.map((area, index) => (
+                <Fragment key={area}>
+                  {index > 0 && <>{" "}<span className="mx-2 text-white/25">•</span>{" "}</>}
+                  <span className="safe-shine safe-shine--silver">{area}</span>
+                </Fragment>
+              ))}
             </p>
           </div>
           <div className="mt-9 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-8">
-            <span className="intro-mask intro-mask--loose inline-flex" data-intro-step="5"><ButtonLink href="/contacto" arrow="none">Fazer o diagnóstico</ButtonLink></span>
-            <span className="intro-mask intro-mask--loose inline-flex" data-intro-step="6"><ButtonLink href="/metodo" variant="ghost" arrow="long">Ver como funciona</ButtonLink></span>
+            <span className="intro-mask intro-mask--loose inline-flex" data-intro-step="5"><ButtonLink href={href(hero.actions.primary)} arrow="none">{hero.actions.primary.label}</ButtonLink></span>
+            <span className="intro-mask intro-mask--loose inline-flex" data-intro-step="6"><ButtonLink href={href(hero.actions.secondary)} variant="ghost" arrow="long">{hero.actions.secondary.label}</ButtonLink></span>
           </div>
         </div>
       </div>
 
       <div aria-hidden className="hero-signature safe-edge absolute inset-x-0 bottom-16 z-10">
         <div className="intro-mask" data-intro-step="7">
-          <p className="text-[.7rem] font-medium uppercase tracking-[.28em] text-white/45">Intelligence. Strategy. Growth.</p>
+          <p className="text-[.7rem] font-medium uppercase tracking-[.28em] text-white/45">{hero.signature}</p>
         </div>
         <span data-intro-reveal="line" data-intro-step="8" className="mt-4 block h-[3px] w-[4.5rem] bg-[var(--safe-red)]" />
       </div>

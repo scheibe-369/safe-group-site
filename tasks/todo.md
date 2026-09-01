@@ -975,3 +975,190 @@ isso nao mexi sem pedido.
 `AGENTS.md`), por isso o cabecalho ficou "Informacoes de **contacto**". O pedido
 dizia "contato", que e a forma do pt-BR e a que a referencia usa. Trocar e uma
 linha em `data/content.ts`.
+
+## Multi-idioma: pt-PT, pt-BR, en-GB, en-US, es (30/08/2026)
+
+Pedido do utilizador: seletor de idioma no site, cobrindo os 5 locales acima,
+com agentes especializados por idioma a traduzir em paralelo. Plano completo em
+`C:\Users\Helinho Filhão\.claude\plans\misty-strolling-tarjan.md`. Decisões já
+confirmadas: slugs de rota traduzidos por idioma; `/cases` fica "cases" em
+todos. Descoberta chave: `/solucoes`, `/metodo`, `/sobre`, `/contacto` são só
+stubs de `permanentRedirect` para âncoras da Home, não páginas de conteúdo.
+
+- [x] Fase 1 — Infra: instalar `next-intl`, `src/shared/i18n/*`,
+      `src/middleware.ts`, mover rotas para `src/app/[locale]/`, ajustar
+      `layout.tsx` raiz, `SiteFooterSlot.tsx`, stubs de redirect localizados,
+      módulo `language-switcher` ligado ao `MenuPanel`, apagar
+      `SiteHeader.tsx` (código morto confirmado). Verificado com `next build`
+      (94 páginas) e `next start`: os 5 idiomas respondem 200, os slugs
+      traduzidos resolvem (`/en-us/solutions/website`, `/es/soluciones/...`),
+      os stubs devolvem 308 para a Home do idioma certo, `/en-us/solucoes`
+      devolve 307 para `/en-us/solutions`, `lang` e `hreflang` corretos.
+- [x] Fase 2 — Extrair toda a copy inline e os `data/*.ts` existentes para o
+      padrão `<nome>.pt-PT.ts` (baseline) + `<nome>.ts` (getter por locale),
+      sem mudar nenhuma palavra. Feito por 3 agentes em paralelo, em lotes
+      disjuntos. Resultado: 16 ficheiros baseline, 64 ficheiros de idioma
+      gerados por `scripts/i18n-scaffold.mjs`. `npx tsc --noEmit` e
+      `npm run check:content` limpos no fim.
+- [x] Fase 3 — Criados os 4 agentes tradutores em `.claude/agents/`
+      (`translator-pt-br`, `translator-en-gb`, `translator-en-us`,
+      `translator-es`) e disparados os 4 em paralelo. Os 64 ficheiros de
+      idioma ficaram traduzidos, zero marcadores `TODO(i18n)` a sobrar.
+- [x] Fase 4 — Validado: `npm run lint` (typecheck + copy + skills),
+      `npm run build` (94 páginas), `next start` com os 5 idiomas a
+      responder 200, e verificação visual com Playwright a 375 e 1440.
+- [x] Fase 5 — `CLAUDE.md` criado na raiz com a secção
+      "Internacionalização" (padrão `<nome>.<locale>.ts` + obrigação de
+      acionar os 4 agentes tradutores quando entrar copy nova) e referência
+      cruzada em `AGENTS.md`, que já é lido no início de sessão.
+
+### Revisão
+
+**Arquitetura.** `next-intl` entra só como infraestrutura de encaminhamento e
+resolução de idioma (`src/shared/i18n/`, `src/middleware.ts`). A copy **não**
+vive em catálogos globais de mensagens: continua dentro de cada módulo, em
+`data/<nome>.<locale>.ts`, com um getter `localeContent` a juntar os cinco. Foi
+uma decisão deliberada contra o padrão habitual do next-intl, para não violar a
+regra `modular-arch` do projeto nem criar um bucket global de strings.
+
+Um ficheiro por idioma, em vez de um objeto com cinco chaves, é o que permitiu
+os quatro agentes tradutores trabalharem ao mesmo tempo sem nunca tocarem no
+mesmo ficheiro. `Record<Locale, T>` obriga o TypeScript a falhar se um módulo
+ficar por traduzir, que é a rede contra páginas meias traduzidas em produção.
+
+**Endereços.** `pt-PT` é a língua de origem e fica sem prefixo, por isso todos
+os URLs já indexados continuam válidos. Os outros quatro ganham prefixo e slug
+traduzido (`/en-us/solutions/website`, `/es/soluciones/website`,
+`/pt-br/contato`). Um slug na língua errada devolve 307 para o certo. Ids de
+âncora e slugs de case ou solução não são traduzidos: identificam, não
+descrevem. Deteção por `accept-language` fica desligada de propósito, por SEO:
+o idioma escolhe-se no seletor, não pelo cabeçalho do visitante.
+
+**Volume.** 16 ficheiros baseline, 64 ficheiros de idioma, 94 páginas geradas.
+A copy foi movida por 3 agentes em paralelo (sem mudar uma palavra) e depois
+traduzida por 4 agentes em paralelo.
+
+**Verificação.** `npm run lint` e `npm run build` limpos. Com `next start`: os 5
+idiomas respondem 200, os 4 stubs de redirecionamento devolvem 308 para a Home
+do idioma certo, `lang`, `canonical` e `hreflang` corretos por idioma, sitemap
+com as 5 versões e `x-default`, menu/rodapé/formulário traduzidos (pt-BR mostra
+"Contato" onde pt-PT mostra "Contacto"), e o seletor de idioma numa página de
+detalhe leva de `/en-us/solutions/website` para `/es/soluciones/website`
+mantendo o slug. Playwright a 375 e 1440: zero overflow horizontal, o título da
+Hero fica em duas linhas nos cinco idiomas e os botões não transbordam.
+
+**Correções pequenas pelo caminho.** Os `aria-label` do carrossel de mercado
+estavam sem acento ("Cartao"), corrigido na baseline. Em espanhol, `US$ 4,4 tri`
+passou a `US$ 4,4 billones`, porque "tri" não existe em espanhol e o valor é o
+mesmo em escala longa. `SiteHeader.tsx` foi apagado: estava órfão desde a
+adoção do `site-nav` e era uma terceira cópia desatualizada dos rótulos do menu.
+
+**Fica em aberto, fora do pedido.** O rodapé global perdeu, antes desta
+entrega, a linha de crédito "Desenvolvido por Method Growth Hub", que hoje só
+existe no fecho da Home; a regra global do utilizador pede-a em todas as
+entregas. `api/send-whatsapp-notification.ts` tem texto em português, mas é a
+notificação interna para a equipa Safe, não copy do site. Os agentes tradutores
+levantaram ainda duas decisões de marca que não tomei sozinho: em espanhol e
+inglês o nome oficial é "Mercado Libre", não "Mercado Livre", e o selo da
+Growth Hub mantém-se literal nos cinco idiomas.
+
+Fora de escopo: módulo `market-context/` (sendo criado agora por outra sessão
+em paralelo), slug de cada case study individual, ids de âncora da Home,
+`/marca-3d`, `/tipografia`, `/api/**`.
+
+## Seccao de Solucoes, clone da Tyvo (31/08/2026)
+
+Pedido: copiar literalmente a seccao de Servicos do template Webflow Tyvo
+(tyvo-athostudio.webflow.io), incluindo a pagina que abre ao clicar num
+servico, trocando imagens e copy. Decisoes do utilizador: 6 solucoes
+(Funcionarios IA, Software e SaaS, Trafego Pago, Estrategia, Estruturacao
+Empresarial, Website), seccao na Home com detalhes em `/solucoes/[slug]`,
+scroll nativo sem Lenis, fotos de `servicos-fotos/`.
+
+- [x] Modulo novo `src/modules/solutions` com as duas superficies.
+- [x] Mecanica medida no CSS e no motor IX2 do original, nao estimada:
+      100vh por painel, empilhamento `sticky`, reveal de 800ms em `outCirc`
+      com cascata 0/200/400ms, menu aceso por progresso, cursor "abrir".
+- [x] 6 fotos PNG convertidas para WebP em 3 larguras (`scripts/build-solution-images.mjs`).
+- [x] `/solucoes` deixa de redirecionar para `/` e passa a `/#solucoes`.
+- [x] 4 agentes de auditoria (fidelidade, arquitectura, marca e copy,
+      desempenho e acessibilidade). Achados corrigidos, ver revisao.
+
+### Revisao
+
+O que os agentes apanharam e ficou corrigido:
+
+- **Fronteira de cliente um nivel acima do necessario.** O palco era `"use
+  client"` com os dados por props, o que punha a copy inteira das 6 paginas de
+  detalhe (7,6 KB) no payload da Home. Passou ao padrao `children` do
+  `hero-transition`: menu e paineis renderizam no servidor, o estado vive em
+  `data-*` escrito pelos hooks, e a Home deixou de re-renderizar no scroll.
+- **`/_next/image` nao redimensiona nesta stack.** Verificado em producao:
+  `w=256`, `w=640` e `w=1920` devolvem os mesmos bytes, porque o
+  `wrangler.toml` nao declara binding `[images]`. O `sizes` era decorativo e um
+  telemovel descarregava sempre 1774px. Passou a `<img>` com `srcset` proprio
+  em 3 larguras. A 375px o browser passa a escolher 33 KB em vez de 99 KB.
+- **`priority` no primeiro painel** disputava o arranque da Home com o video da
+  Hero, cinco seccoes acima. Removido; na pagina de detalhe, onde a imagem e
+  mesmo o LCP, ficou com `fetchPriority="high"`.
+- **Contraste.** As fotos da Safe sao muito mais claras do que as da Tyvo. O
+  titulo falhava 3:1 em ate 49% da sua area em dois paineis. Veu dirigido aos
+  dois cantos com texto, sombras no titulo e no teaser, e o item aceso do menu
+  passou de vermelho para branco com a marca de estado na borda (o vermelho da
+  marca dava 1,6:1 sobre a foto de Trafego Pago).
+- **Foco de teclado.** O unico caminho de teclado era um link a cobrir o painel,
+  que fica tapado pelo painel seguinte quando recebe foco. O link passou a
+  conveniencia de rato (`tabIndex={-1}`, `aria-hidden`) e o botao "Mais
+  detalhes" existe sempre, escondido a leitura no desktop e visivel assim que
+  recebe foco.
+- **Reduced-motion** desligava o menu aceso, que e so cor e nao movimento. E na
+  pagina de detalhe o atraso da animacao nao era zerado pelo interruptor
+  global, o que deixava o hero vazio ate 400ms. Ambos corrigidos.
+- **Acordeao**: fechado de inicio como no original, conteudo fechado com
+  `inert`, e cabecalho de seccao proprio para os gatilhos descerem a `h3`.
+- **Copy**: dois erros de gramatica, "folha salarial" (pt-BR) e lexico de
+  agencia em Website. O chapeu passou de `// Nossas_Solucoes` a
+  `// Frentes_de_execucao`, para a seccao nao ler como catalogo de servicos a
+  seguir a Metodologia, que diz "Nao comecamos por servicos".
+- **Fidelidade**: limiares separados para o reveal (40%) e para o menu (70%),
+  como no original; faixa 3D com alturas fixas e nao fluidas; etiqueta de
+  "outras solucoes" sem pilula; margens estreitas a 767 e 479.
+
+Desvios deliberados, documentados no CSS: o eixo de margem esquerda e o do
+site e nao os 2.78vw do original; o veu horizontal nao existe no original
+(as fotos dele eram todas escuras); o sistema de escala em `em` da Tyvo nao
+foi importado, cada medida foi convertida para `clamp()` com o `vw`
+equivalente.
+
+Fica por fazer, fora do ambito desta entrega:
+
+- `useLineWipeReveal` e as classes globais `.line` / `.line-mask` vivem em
+  `statement-section` e agora tem dois consumidores. Deviam subir para
+  `src/shared/`, como o `metallic-shine.css`. Mexe noutro modulo, por isso
+  fica para entrega propria.
+- `sharp` e usado por `scripts/build-solution-images.mjs` mas nao esta
+  declarado em `devDependencies`; resolve hoje por hoisting do `next`.
+  `package.json` esta a ser editado por outra sessao, nao lhe toquei.
+- `src/modules/market-context/data/content.ts` e `cases/data/cases.ts` tem
+  pt-BR ("ate o fim de 2026", "implementando", "faturamento") e "US$ 4,4 tri",
+  que em pt-PT sao 4,4 bilioes. Fora do ambito, nao corrigi.
+
+## Scroll com inercia no site inteiro (31/08/2026)
+
+Pedido: o scroll do site passar a funcionar como o da Tyvo, em que a pagina
+desliza e trava suavemente em vez de parar seco quando se larga a roda.
+
+- [x] Modulo `src/modules/smooth-scroll`, montado uma vez no `layout.tsx`.
+- [x] Parametros retirados da configuracao real do Lenis da referencia:
+      `duration: 2` e easing expo-out. Nao sao aproximacoes a olho.
+- [x] Escrito sem dependencia. O `package.json` esta partilhado com outra
+      sessao, e escrevendo eu o `scrollTo` os eventos nativos continuam a
+      fluir, por isso o `ScrollTrigger` da Hero, o `sticky` das Solucoes e os
+      `IntersectionObserver` nao mudam de comportamento.
+- [x] Verificado: um impulso de 600px viaja 259, 419, 505, 550, 574, 592, 600
+      ao longo de 2s; tres impulsos seguidos somam; as ancoras deslizam com a
+      mesma curva e respeitam o `scroll-margin-top`; o menu do painel mantem o
+      scroll nativo por dentro; zero erros de consola.
+
+Desliga-se em ponteiro grosso (o telemovel ja tem inercia nativa melhor),
+com `prefers-reduced-motion`, e enquanto a cortina de entrada esta fechada.

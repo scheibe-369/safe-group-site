@@ -7,7 +7,7 @@ titulo gigante cujas linhas sao reveladas da esquerda para a direita por uma
 mascara preta que encolhe conforme o scroll passa por elas, mais um paragrafo
 de apoio e um botao. Sem kicker, sem grelha.
 
-- `data/content.ts`: titulo e paragrafo sao a copy exata da Tyvo (confirmada
+- `data/content.pt-PT.ts`: titulo e paragrafo sao a copy exata da Tyvo (confirmada
   no DOM ao vivo em `tyvo-athostudio.webflow.io`), a pedido explicito do
   utilizador. So o botao muda: "CONTRATE A TYVO" virou "Contratar a Safe",
   a apontar para `/contacto`. O tamanho do titulo (`clamp(2rem,4.4vw,5.5rem)`

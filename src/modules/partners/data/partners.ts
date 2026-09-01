@@ -5,6 +5,9 @@ import type { Partner } from "../types/partner";
  * como excecao pontual a regra de nao posicionar a Safe como agencia (ver
  * `AGENTS.md`).
  *
+ * O rotulo de cada selo nao esta aqui: e a unica parte traduzivel da lista, por
+ * isso vive na copy do modulo (`data/content.<idioma>.ts`), indexada pelo `id`.
+ *
  * Meta, Mercado Livre, Instagram, OpenAI, Stripe, Google Ads e Claude usam o
  * selo oficial fornecido pelo utilizador (`carrosel-section/`), convertido
  * para WebP e servido de `public/brand/partners/`. O texto do selo ja vem na
@@ -30,7 +33,6 @@ export const partners: Partner[] = [
   {
     id: "meta",
     name: "Meta",
-    label: "Meta Tech Provider",
     kind: "image",
     src: "/brand/partners/meta.webp",
     width: 756,
@@ -41,7 +43,6 @@ export const partners: Partner[] = [
   {
     id: "mercado-livre",
     name: "Mercado Livre",
-    label: "Mercado Livre",
     kind: "image",
     src: "/brand/partners/mercado-livre.webp",
     width: 620,
@@ -52,7 +53,6 @@ export const partners: Partner[] = [
   {
     id: "olx",
     name: "OLX",
-    label: "OLX",
     kind: "multicolor",
     viewBox: "0 0 48 48",
     transform: "translate(0 10.8)",
@@ -75,7 +75,6 @@ export const partners: Partner[] = [
   {
     id: "whatsapp",
     name: "WhatsApp",
-    label: "Integrador Oficial WhatsApp",
     kind: "mono",
     viewBox: "0 0 24 24",
     brand: "#25D366",
@@ -88,7 +87,6 @@ export const partners: Partner[] = [
   {
     id: "instagram",
     name: "Instagram",
-    label: "Instagram API",
     kind: "image",
     src: "/brand/partners/instagram.webp",
     width: 421,
@@ -99,7 +97,6 @@ export const partners: Partner[] = [
   {
     id: "openai",
     name: "OpenAI",
-    label: "OpenAI Advanced Partner",
     kind: "image",
     src: "/brand/partners/openai.webp",
     width: 1040,
@@ -110,7 +107,6 @@ export const partners: Partner[] = [
   {
     id: "stripe",
     name: "Stripe",
-    label: "Stripe Verified Partner",
     kind: "image",
     src: "/brand/partners/stripe.webp",
     width: 972,
@@ -120,7 +116,6 @@ export const partners: Partner[] = [
   {
     id: "asaas",
     name: "Asaas",
-    label: "Asaas Integrator",
     kind: "mono",
     viewBox: "0 0 124.33 36.09",
     brand: "#0030B9",
@@ -136,7 +131,6 @@ export const partners: Partner[] = [
   {
     id: "google-ads",
     name: "Google Ads",
-    label: "Google Ads Certified Partner",
     kind: "image",
     src: "/brand/partners/google-ads.webp",
     width: 535,
@@ -146,7 +140,6 @@ export const partners: Partner[] = [
   {
     id: "claude",
     name: "Claude",
-    label: "Claude Partner Network",
     kind: "image",
     src: "/brand/partners/claude.webp",
     width: 512,

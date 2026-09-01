@@ -1,4 +1,6 @@
+import { getLocale } from "next-intl/server";
 import { SectionHeading } from "@/shared/ui/SectionHeading";
+import { getPartnersContent } from "../data/content";
 import { PartnersMarquee } from "./PartnersMarquee";
 
 /**
@@ -7,14 +9,18 @@ import { PartnersMarquee } from "./PartnersMarquee";
  * ao contrario do carrossel de cases (`CasesRail`), que precisa do truque de
  * `100vw` para sangrar so de um lado.
  */
-export function PartnersSection() {
+export async function PartnersSection() {
+  const content = getPartnersContent(await getLocale());
+
   return (
     <section className="bg-[var(--safe-black)] py-16 lg:py-20">
       <div className="safe-container">
-        <SectionHeading kicker="Parceiros oficiais" title="Certificações e integrações que sustentam a operação." align="center" />
+        <SectionHeading kicker={content.kicker} title={content.title} align="center" />
       </div>
       <div className="mt-12">
-        <PartnersMarquee />
+        {/* Os rotulos descem por prop: o carrossel corre no cliente e importar
+            o getter la dentro arrastava os cinco idiomas para o pacote. */}
+        <PartnersMarquee labels={content.labels} />
       </div>
     </section>
   );

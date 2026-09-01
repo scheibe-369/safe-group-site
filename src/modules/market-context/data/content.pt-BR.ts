@@ -1,0 +1,44 @@
+import type { MarketContextContent } from "../types/market-stat";
+
+/**
+ * Copy pt-BR do contexto de mercado, traduzida da baseline pt-PT.
+ *
+ * O `source` de cada cartao e o nome da consultoria que assina o estudo: fica
+ * igual nos cinco idiomas.
+ */
+export const marketContextContentPtBR: MarketContextContent = {
+  kicker: "Contexto de mercado",
+  titleA: "O mercado de ",
+  titleB: "automação e IA",
+  titleC: " em números.",
+  copy: "Dados das principais consultorias mostram a velocidade da adoção corporativa.",
+  sourceLabel: "Fonte:",
+  stats: [
+    {
+      id: "gartner",
+      highlight: "40%",
+      statText: "das aplicações empresariais terão agentes de IA integrados até o fim de 2026",
+      detail: "Em 2025 esse número era inferior a 5%. A adoção corporativa acelerou em apenas 12 meses.",
+      source: "Gartner",
+    },
+    {
+      id: "mckinsey",
+      highlight: "US$ 4,4 tri",
+      statText: "por ano em valor que agentes de IA podem gerar para a economia global",
+      detail: "Automação de processos, ganhos de produtividade e novos modelos de negócio compõem a maior transformação corporativa desde a internet.",
+      source: "McKinsey & Company",
+    },
+    {
+      id: "ibm",
+      highlight: "61%",
+      statText: "dos CEOs globais já estão implementando agentes de IA em suas operações",
+      detail: "Pesquisa com 2 mil CEOs em 33 países. Indicador direto da prioridade que a IA passou a ocupar nas agendas executivas.",
+      source: "IBM Institute for Business Value",
+    },
+  ],
+  carousel: {
+    previous: "Cartão anterior",
+    next: "Próximo cartão",
+    goToCard: "Ir para o cartão {n}",
+  },
+};

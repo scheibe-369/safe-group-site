@@ -1,5 +1,6 @@
-import { copy, kicker, marketStats, sourceLabel, titleA, titleB, titleC } from "../data/content";
-import type { MarketStat } from "../types/market-stat";
+import { getLocale } from "next-intl/server";
+import { getMarketContextContent } from "../data/content";
+import type { MarketContextContent, MarketStat } from "../types/market-stat";
 import { MobileCarousel } from "./MobileCarousel";
 import { Reveal } from "./Reveal";
 
@@ -17,7 +18,7 @@ function Wordmark({ id }: { id: MarketStat["id"] }) {
   return <span className="font-sans text-4xl font-black tracking-tight text-white">IBM</span>;
 }
 
-function StatCard({ stat }: { stat: MarketStat }) {
+function StatCard({ stat, sourceLabel }: { stat: MarketStat; sourceLabel: string }) {
   return (
     <div className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/15 bg-white/[0.04] p-6 shadow-[0_8px_32px_rgba(0,0,0,0.35),inset_0_1px_0_rgba(255,255,255,0.12),inset_0_-1px_0_rgba(255,255,255,0.04)] md:p-8">
       <div aria-hidden className="pointer-events-none absolute -left-16 -top-16 h-64 w-64 rounded-full bg-[var(--safe-red)]/25 blur-[40px] lg:blur-[80px]" />
@@ -44,7 +45,9 @@ function StatCard({ stat }: { stat: MarketStat }) {
   );
 }
 
-export function MarketContextSection() {
+export async function MarketContextSection() {
+  const { kicker, titleA, titleB, titleC, copy, sourceLabel, stats, carousel } = getMarketContextContent(await getLocale());
+
   return (
     <section className="relative overflow-hidden border-y border-white/10 bg-black py-32 lg:py-16 2xl:py-32">
       <div className="relative z-10 mx-auto max-w-7xl px-6">
@@ -60,16 +63,18 @@ export function MarketContextSection() {
           </div>
         </Reveal>
 
-        <MobileCarousel className="mt-12 md:hidden">
-          {marketStats.map((stat) => (
-            <StatCard key={stat.id} stat={stat} />
+        {/* Os rotulos do carrossel descem por prop: ele corre no cliente e
+            importar o getter la dentro arrastava os cinco idiomas. */}
+        <MobileCarousel className="mt-12 md:hidden" labels={carousel}>
+          {stats.map((stat) => (
+            <StatCard key={stat.id} stat={stat} sourceLabel={sourceLabel} />
           ))}
         </MobileCarousel>
 
         <div className="mt-20 hidden gap-6 md:grid md:grid-cols-3 lg:mt-10 2xl:mt-20">
-          {marketStats.map((stat, i) => (
+          {stats.map((stat, i) => (
             <Reveal key={stat.id} delay={i * 0.15} className="h-full">
-              <StatCard stat={stat} />
+              <StatCard stat={stat} sourceLabel={sourceLabel} />
             </Reveal>
           ))}
         </div>

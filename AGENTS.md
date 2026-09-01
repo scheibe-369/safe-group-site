@@ -2,7 +2,7 @@
 
 ## Session start
 
-Read `README.md`, `tasks/todo.md`, `tasks/lessons.md`, `skills/safe-brand-context/SKILL.md` and the skill files relevant to the requested task before changing the project.
+Read `CLAUDE.md`, `README.md`, `tasks/todo.md`, `tasks/lessons.md`, `skills/safe-brand-context/SKILL.md` and the skill files relevant to the requested task before changing the project.
 
 ## Skill routing
 
@@ -15,6 +15,7 @@ Read `README.md`, `tasks/todo.md`, `tasks/lessons.md`, `skills/safe-brand-contex
 - New project or credential setup: `project-init`.
 - Skill creation or maintenance: `skill-creator`.
 - Safe positioning, copy, brand or assets: `safe-brand-context`.
+- Any new or changed copy: after writing the pt-PT baseline, run the four translation agents in `.claude/agents/` (`translator-pt-br`, `translator-en-gb`, `translator-en-us`, `translator-es`) so the five locales stay in sync. See `CLAUDE.md`, section "Internacionalização".
 
 ## Architecture
 
@@ -25,7 +26,7 @@ Read `README.md`, `tasks/todo.md`, `tasks/lessons.md`, `skills/safe-brand-contex
 
 ## Copy and brand
 
-- Site copy is pt-PT.
+- Site copy is authored in pt-PT, the source language, and translated from there into pt-BR, en-GB, en-US and es. Copy lives in `data/<name>.<locale>.ts` inside each module, never in a global message catalogue. Delivery is not complete while any locale is missing the new copy: see `CLAUDE.md`.
 - Never use Unicode U+2014 or U+2013 in copy, prompts or generated interface text.
 - Position Safe for high ticket operations across multiple sectors. Automóvel, financeiro e software/SaaS are established experience verticals, not a closed list.
 - Do not position Safe as a generic marketing, traffic, automation, software or AI agency.

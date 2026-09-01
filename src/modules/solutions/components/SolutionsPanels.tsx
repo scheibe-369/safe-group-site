@@ -6,12 +6,16 @@ import { solutionSrcSet } from "../utils/image-srcset";
 type Props = {
   items: Solution[];
   kicker: string;
+  /** Rotulo do unico alvo focavel de cada painel. */
+  action: string;
+  /** Endereco do detalhe, ja resolvido para o idioma actual pela seccao. */
+  detailHref: (slug: string) => string;
 };
 
 /** Cascata do reveal, medida no original: chapéu, título e teaser a 200ms. */
 const DELAYS = ["0ms", "200ms", "400ms"];
 
-export function SolutionsPanels({ items, kicker }: Props) {
+export function SolutionsPanels({ items, kicker, action, detailHref }: Props) {
   return (
     <div className="solutions__stack" data-solutions-stack="">
       <ul className="solutions__list" data-solutions-list="">
@@ -69,8 +73,8 @@ export function SolutionsPanels({ items, kicker }: Props) {
                     por teclado: sem isso o único caminho para a página era um
                     link invisível por baixo do painel seguinte, que é uma falha
                     de "focus not obscured". */}
-                <Link href={`/solucoes/${item.slug}`} className="solutions__button">
-                  Mais detalhes
+                <Link href={detailHref(item.slug)} className="solutions__button">
+                  {action}
                 </Link>
               </div>
             </div>
@@ -79,7 +83,7 @@ export function SolutionsPanels({ items, kicker }: Props) {
                 ordem de tabulação e da árvore de acessibilidade, porque o botão
                 acima já é o caminho de teclado para o mesmo sítio. */}
             <Link
-              href={`/solucoes/${item.slug}`}
+              href={detailHref(item.slug)}
               className="solutions__link"
               tabIndex={-1}
               aria-hidden="true"

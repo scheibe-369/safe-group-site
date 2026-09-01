@@ -83,7 +83,13 @@ export function FloatingTextarea({ id, name, label, rows = 3, error, disabled }:
   );
 }
 
-export function FloatingSelect({ id, name, label, options, placeholder, error, disabled }: BaseProps & { options: readonly string[]; placeholder: string }) {
+/**
+ * O `value` de cada opcao e o que segue para o webhook e nao muda com o idioma;
+ * o `label` e o que o visitante le. Ver `modules/diagnostic/data/options.ts`.
+ */
+type SelectOption = { value: string; label: string };
+
+export function FloatingSelect({ id, name, label, options, placeholder, error, disabled }: BaseProps & { options: readonly SelectOption[]; placeholder: string }) {
   return (
     <div className="relative">
       <select
@@ -97,7 +103,7 @@ export function FloatingSelect({ id, name, label, options, placeholder, error, d
       >
         <option value="" disabled className="bg-[#0b0b0b]">{placeholder}</option>
         {options.map((option) => (
-          <option key={option} value={option} className="bg-[#0b0b0b]">{option}</option>
+          <option key={option.value} value={option.value} className="bg-[#0b0b0b]">{option.label}</option>
         ))}
       </select>
       {/* O select nao tem :placeholder-shown, por isso o rotulo fica sempre em cima. */}

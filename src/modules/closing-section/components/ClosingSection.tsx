@@ -3,10 +3,9 @@
 import { FormEvent, useState } from "react";
 import { Check } from "lucide-react";
 import { submitDiagnostic } from "@/modules/diagnostic/api/submit-diagnostic";
-import { operationSizeOptions, priorityOptions, sectorOptions } from "@/modules/diagnostic/data/options";
 import { diagnosticSchema } from "@/modules/diagnostic/schemas/diagnostic-schema";
+import type { DiagnosticOptions } from "@/modules/diagnostic/types/diagnostic";
 import { ArrowIcon } from "@/shared/ui/ArrowIcon";
-import { closingSectionContent } from "../data/content";
 import type { ClosingSectionContent, ClosingSectionField } from "../types";
 import { ClosingFooter } from "./ClosingFooter";
 import { FloatingField, FloatingSelect, FloatingTextarea, groupHeader } from "./FormFields";
@@ -20,7 +19,14 @@ export type ClosingSectionProps = {
   enabled: boolean;
   /** Ano do copyright. Vem do servidor para nao divergir na hidratacao. */
   year: number;
-  content?: ClosingSectionContent;
+  /**
+   * Copy do idioma actual, resolvida na pagina. Nao tem valor por omissao de
+   * proposito: importar o getter aqui dentro arrastava os cinco idiomas para o
+   * pacote do browser.
+   */
+  content: ClosingSectionContent;
+  /** Opcoes dos selects, ja com o valor do webhook e o rotulo do idioma. */
+  options: DiagnosticOptions;
 };
 
 /**
@@ -75,7 +81,7 @@ export type ClosingSectionProps = {
  * uma escala interna. O ritmo vertical e mais apertado do que o `safe-section`
  * porque a seccao carrega um formulario.
  */
-export function ClosingSection({ enabled, year, content = closingSectionContent }: ClosingSectionProps) {
+export function ClosingSection({ enabled, year, content, options }: ClosingSectionProps) {
   const [status, setStatus] = useState<Status>("idle");
   const [errors, setErrors] = useState<Partial<Record<ClosingSectionField, string>>>({});
   const labels = content.form.labels;
@@ -190,9 +196,9 @@ export function ClosingSection({ enabled, year, content = closingSectionContent 
                       <div>
                         <h3 className={groupHeader}>{content.operationHeader}</h3>
                         <div className="space-y-0 md:space-y-5">
-                          <FloatingSelect id="closing-sector" name="sector" label={labels.sector} options={sectorOptions} placeholder={content.form.selectPlaceholder} error={errors.sector} disabled={sending} />
-                          <FloatingSelect id="closing-size" name="operationSize" label={labels.operationSize} options={operationSizeOptions} placeholder={content.form.selectPlaceholder} error={errors.operationSize} disabled={sending} />
-                          <FloatingSelect id="closing-priority" name="priority" label={labels.priority} options={priorityOptions} placeholder={content.form.selectPlaceholder} error={errors.priority} disabled={sending} />
+                          <FloatingSelect id="closing-sector" name="sector" label={labels.sector} options={options.sector} placeholder={content.form.selectPlaceholder} error={errors.sector} disabled={sending} />
+                          <FloatingSelect id="closing-size" name="operationSize" label={labels.operationSize} options={options.operationSize} placeholder={content.form.selectPlaceholder} error={errors.operationSize} disabled={sending} />
+                          <FloatingSelect id="closing-priority" name="priority" label={labels.priority} options={options.priority} placeholder={content.form.selectPlaceholder} error={errors.priority} disabled={sending} />
                           {/* O contexto vive nesta coluna, e nao numa linha propria, para
                               equilibrar as duas alturas e nao alongar a seccao. */}
                           <FloatingTextarea id="closing-message" name="message" label={labels.message} error={errors.message} disabled={sending} />

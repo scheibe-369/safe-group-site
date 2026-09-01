@@ -37,8 +37,8 @@ variavel e passa a prop para baixo.
   entrega.
 - **Sem eixo de margem proprio.** As margens saem de `safe-section` e
   `safe-container`, o eixo unico do site. Nada de `px-*` a competir.
-- **Sem string fixa em JSX.** Toda a copy vive em `data/content.ts`, tipada por
-  `types.ts`. Trocar copy nunca obriga a abrir um componente.
+- **Sem string fixa em JSX.** Toda a copy vive nos `data/content.<idioma>.ts`,
+  tipada por `types.ts`. Trocar copy nunca obriga a abrir um componente.
 - **Sem endpoint proprio.** O formulario usa `POST /api/diagnostic`, o mesmo do
   `/contacto`, com o mesmo esquema, as mesmas opcoes e o mesmo honeypot. A rota
   envia a lead por WhatsApp via Evolution API (instancia `helio-forms`), ver
@@ -50,7 +50,8 @@ variavel e passa a prop para baixo.
 src/modules/closing-section/
   index.ts                     barrel, importar daqui
   types.ts                     contrato de conteudo
-  data/content.ts              copy pt-PT
+  data/content.pt-PT.ts        copy da lingua de origem (traduz-se a partir daqui)
+  data/content.ts              mapa por idioma, `getClosingSectionContent`
   components/
     ClosingSection.tsx         a seccao
     ClosingFooter.tsx          redes, navegacao e barra legal

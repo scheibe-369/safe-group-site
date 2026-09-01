@@ -5,10 +5,18 @@ Duas superfícies, um só conjunto de dados:
 - **Secção da Home** (`SolutionsSection`), ancorada em `#solucoes`, entre a
   Metodologia e os Cases. Seis painéis de ecrã inteiro empilhados em scroll.
 - **Páginas de detalhe** (`SolutionDetail`), servidas por
-  `src/app/solucoes/[slug]/page.tsx`, uma por solução.
+  `src/app/[locale]/solucoes/[slug]/page.tsx`, uma por solução.
 
-Tudo o que é texto e imagem vive em `data/solutions.ts`. Trocar copy, ordem ou
-fotografia não obriga a tocar em nenhum componente.
+Tudo o que é texto e imagem vive em `data/solutions.<idioma>.ts`, um ficheiro
+por idioma, com `pt-PT` como língua de origem. Trocar copy, ordem ou fotografia
+não obriga a tocar em nenhum componente. `data/solutions.ts` só junta os cinco:
+exporta `getSolutions(locale)`, `findSolution(slug, locale)` e `solutionSlugs`,
+que serve o `generateStaticParams` e o sitemap porque os slugs identificam a
+solução e não são traduzidos.
+
+Os endereços não vivem nos dados. São montados no idioma actual por
+`SolutionsSection` e `SolutionDetail`, com o `getPathname` do `shared/i18n`, e
+descem por prop até aos componentes de cliente, que só podem receber strings.
 
 ## Origem do desenho
 

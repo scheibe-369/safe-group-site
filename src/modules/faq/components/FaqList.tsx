@@ -5,7 +5,7 @@ import type { FaqItem } from "../types/faq";
 import { FaqItemBubble } from "./FaqItemBubble";
 
 type FaqListProps = {
-  items: FaqItem[];
+  items: readonly FaqItem[];
 };
 
 /**

@@ -12,8 +12,9 @@ type Props = {
    * hidratação. O slug é único por página e estável nos dois lados.
    */
   idPrefix: string;
-  /** Nome da solução, para o cabeçalho da secção. */
-  solutionName: string;
+  kicker: string;
+  /** Título da secção, já com o nome da solução aplicado pelo servidor. */
+  title: string;
 };
 
 /**
@@ -23,7 +24,7 @@ type Props = {
  * A altura anima por `grid-template-rows: 0fr -> 1fr`, sem medir nada em
  * JavaScript, por isso o conteúdo continua a poder crescer com o texto.
  */
-export function SolutionOfferings({ items, idPrefix, solutionName }: Props) {
+export function SolutionOfferings({ items, idPrefix, kicker, title }: Props) {
   // Todas fechadas de início, como no original.
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const baseId = `oferta-${idPrefix}`;
@@ -34,7 +35,7 @@ export function SolutionOfferings({ items, idPrefix, solutionName }: Props) {
         {/* Sem este cabeçalho a secção não tinha nome acessível e cada oferta
             lia-se como uma secção de topo da página, ao mesmo nível de "Cases".
             Com ele, os gatilhos descem para `h3` e a hierarquia fecha. */}
-        <SectionHeading kicker="O que entra" title={`O que fazemos em ${solutionName}.`} />
+        <SectionHeading kicker={kicker} title={title} />
 
         <ul className="solution-offerings__list">
           {items.map((item, index) => {

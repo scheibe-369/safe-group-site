@@ -6,6 +6,10 @@ import { useSolutionsStack } from "../hooks/useSolutionsStack";
 
 type Props = {
   count: number;
+  /** Nome acessivel da seccao, ja no idioma actual. */
+  label: string;
+  /** Palavra escrita no cursor que segue o rato sobre os paineis. */
+  cursorLabel: string;
   children: ReactNode;
 };
 
@@ -19,7 +23,7 @@ type Props = {
  * atravessava a fronteira e ia parar ao payload da Home. Assim só atravessa o
  * número de painéis, que serve para a altura da secção.
  */
-export function SolutionsStage({ count, children }: Props) {
+export function SolutionsStage({ count, label, cursorLabel, children }: Props) {
   const rootRef = useRef<HTMLElement>(null);
   const cursorRef = useRef<HTMLDivElement>(null);
 
@@ -33,11 +37,11 @@ export function SolutionsStage({ count, children }: Props) {
       className="solutions scroll-mt-28"
       data-cursor="off"
       style={{ "--solutions-count": count } as CSSProperties}
-      aria-label="Soluções"
+      aria-label={label}
     >
       {children}
       <div className="solutions__cursor" ref={cursorRef} data-visible="false" aria-hidden="true">
-        abrir
+        {cursorLabel}
       </div>
     </section>
   );

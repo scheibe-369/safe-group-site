@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import type { CSSProperties } from "react";
 
+import type { PartnersContent } from "../types/content";
 import { partners } from "../data/partners";
 import { BrandMark } from "./BrandMark";
 
@@ -19,7 +20,7 @@ const TRACK = [...partners, ...partners, ...partners];
 
 const maskImage = "linear-gradient(to right, transparent, black 10%, black 90%, transparent)";
 
-export function PartnersMarquee() {
+export function PartnersMarquee({ labels }: { labels: PartnersContent["labels"] }) {
   const trackRef = useRef<HTMLDivElement>(null);
   const hoveredRef = useRef(false);
 
@@ -85,7 +86,7 @@ export function PartnersMarquee() {
     <>
       <ul className="sr-only">
         {partners.map((partner) => (
-          <li key={partner.id}>{partner.label}</li>
+          <li key={partner.id}>{labels[partner.id]}</li>
         ))}
       </ul>
       <div
@@ -105,10 +106,10 @@ export function PartnersMarquee() {
                 style={{ "--brand": partner.brand, "--glow": partner.glow ?? `${partner.brand}8C` } as CSSProperties}
                 className="flex h-16 items-center justify-center text-white/40 [filter:grayscale(1)] transition-all duration-[400ms] [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-2 group-hover:text-[var(--brand)] group-hover:[filter:grayscale(0)_drop-shadow(0_0_14px_var(--glow))]"
               >
-                <BrandMark partner={partner} height={40} />
+                <BrandMark partner={partner} label={labels[partner.id]} height={40} />
               </div>
               {partner.kind !== "image" && (
-                <span className="text-[.65rem] font-medium uppercase tracking-[.12em] text-white/35">{partner.label}</span>
+                <span className="text-[.65rem] font-medium uppercase tracking-[.12em] text-white/35">{labels[partner.id]}</span>
               )}
             </div>
           ))}

@@ -1,16 +1,21 @@
 import type { CaseSector } from "../utils/group-by-sector";
 
+type CasesSectorNavProps = {
+  sectors: CaseSector[];
+  ariaLabel: string;
+};
+
 /**
  * Barra de ancoras derivada dos setores presentes nos dados. Nada hardcoded:
  * cresce sozinha quando entrar um case de um setor novo.
  *
  * Com um unico setor a barra nao navega para lado nenhum, entao nao renderiza.
  */
-export function CasesSectorNav({ sectors }: { sectors: CaseSector[] }) {
+export function CasesSectorNav({ sectors, ariaLabel }: CasesSectorNavProps) {
   if (sectors.length < 2) return null;
 
   return (
-    <nav aria-label="Navegar por setor" className="border-y border-white/15 py-5">
+    <nav aria-label={ariaLabel} className="border-y border-white/15 py-5">
       <ul className="flex flex-wrap items-center gap-x-2 gap-y-2">
         {sectors.map((sector) => (
           <li key={sector.id}>
