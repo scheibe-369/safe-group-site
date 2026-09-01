@@ -9,7 +9,13 @@ main = ".open-next/worker.js"
 compatibility_date = "2026-08-24"
 compatibility_flags = ["nodejs_compat"]
 
+# O apex entra como rota de zona, e nao como custom domain, porque ja tinha
+# registos A e AAAA proxied de um alojamento anterior. Esses registos sozinhos
+# davam erro 1000, por apontarem para IPs da propria Cloudflare; a rota apanha
+# o pedido no edge antes de haver origem para contactar, e serve o Worker sem
+# ser preciso mexer no DNS do cliente.
 routes = [
+  { pattern = "safegroupia.com/*", zone_name = "safegroupia.com" },
   { pattern = "www.safegroupia.com", custom_domain = true }
 ]
 
