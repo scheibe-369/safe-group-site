@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { LanguageSwitcher } from "@/modules/language-switcher";
+import { LanguageMenu } from "@/modules/language-switcher";
 import type { SiteNavContent } from "../types";
 import { useActiveHref, useSiteNav } from "../hooks/useSiteNav";
 import { BrandLogo } from "./BrandLogo";
@@ -67,13 +67,12 @@ export function SiteNav({ content, year }: SiteNavProps) {
               `site-nav__links`, por isso desaparece com elas quando o menu
               abre, e la dentro o painel tem o seu.
 
-              So a partir de `xl`. A 1024 a barra ja leva a marca, quatro abas,
-              o CTA e o alternador, e os cinco codigos punham o CTA a partir em
-              duas linhas dentro da propria caixa nos idiomas de rotulo mais
-              longo (medido em espanhol: faltavam 130px). Abaixo de 1280 o
-              seletor vive no painel do menu, a um toque de distancia. */}
-          <span className="site-nav__links pointer-events-auto hidden xl:inline-flex">
-            <LanguageSwitcher variant="bar" />
+              Cabe a partir de `lg` porque e so o globo e duas letras: a lista
+              dos cinco idiomas por extenso vive no popup e nao ocupa barra. A
+              versao anterior, com os cinco codigos em linha, punha o CTA a
+              partir em duas linhas a 1024 em espanhol. */}
+          <span className="site-nav__links pointer-events-auto hidden lg:inline-flex">
+            <LanguageMenu variant="bar" />
           </span>
 
           {/* Os dois CTAs partilham a mesma casa na barra: o claro serve o site,

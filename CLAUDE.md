@@ -41,9 +41,15 @@ Por esta ordem, em `src/middleware.ts`:
 O `localeDetection` do next-intl fica desligado de propósito: quem decide é este
 middleware, com o país real do IP, e não o `accept-language` do browser.
 
-O seletor de idioma vive na barra fixa a partir de 1280px e, abaixo disso, no painel do
-menu: a 1024 a barra já leva a marca, quatro abas, o CTA e o alternador, e os cinco
-códigos punham o CTA a partir em duas linhas nos idiomas de rótulo mais longo.
+O seletor é um botão com um globo e o código do idioma atual, que abre uma lista com os
+cinco por extenso. Vive na barra fixa a partir de 1024px e no painel do menu em qualquer
+largura.
+
+**As opções têm de ser `<a>` normais, nunca `Link` do Next.** Trocar de idioma tem de
+recarregar o documento. Com navegação suave, o React fica um instante com o idioma antigo
+em contexto e o caminho novo no `usePathname`, e nesse intervalo os endereços saem com o
+prefixo a dobrar (`/pt-br/es/cases`), que o Next chega a ir buscar e devolve 404. Uma
+recarga inteira não tem estado intermédio nenhum.
 
 ### O padrão de conteúdo
 
