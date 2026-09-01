@@ -21,7 +21,13 @@ export function useLineWipeReveal(headingRef: RefObject<HTMLElement | null>) {
     let ctx: { revert: () => void } | undefined;
     let handleResize: (() => void) | undefined;
 
-    Promise.all([import("gsap"), import("gsap/ScrollTrigger"), import("split-type")]).then(
+    // A tipografia entra na lista de proposito. O SplitType parte o titulo pela
+    // medida do texto no momento em que corre, e com a tipografia de recurso o
+    // numero de linhas nao e o mesmo; quando a fonte final chegava, a seccao
+    // mudava de altura e era esse o unico salto de layout da pagina.
+    const fontsReady = "fonts" in document ? document.fonts.ready : Promise.resolve();
+
+    Promise.all([import("gsap"), import("gsap/ScrollTrigger"), import("split-type"), fontsReady]).then(
       ([{ gsap }, { ScrollTrigger }, { default: SplitType }]) => {
         if (cancelled) return;
         gsap.registerPlugin(ScrollTrigger);

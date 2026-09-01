@@ -33,7 +33,6 @@ export async function Hero() {
         alt=""
         aria-hidden="true"
         fetchPriority="high"
-        decoding="async"
         data-intro-reveal="scale"
         className="hero-poster absolute inset-0 h-full w-full object-cover object-[67%_center] sm:object-[96%_center]"
       />
