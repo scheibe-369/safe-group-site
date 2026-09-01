@@ -22,7 +22,7 @@ export async function MethodSection() {
           <ButtonLink href="#diagnostico" variant="secondary" className="shrink-0">{content.action}</ButtonLink>
         </div>
         <MethodTimeline steps={content.steps} />
-        <p className="mt-10 max-w-2xl text-sm leading-7 text-white/45">{content.note}</p>
+        <p className="mt-10 max-w-2xl text-sm leading-7 text-white/55">{content.note}</p>
       </div>
     </section>
   );

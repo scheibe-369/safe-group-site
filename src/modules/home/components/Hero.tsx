@@ -4,6 +4,7 @@ import { ButtonLink } from "@/shared/ui/ButtonLink";
 import type { Locale } from "@/shared/i18n/locales";
 import { getPathname } from "@/shared/i18n/navigation";
 import { getHome } from "../data/content";
+import { HeroVideo } from "./HeroVideo";
 import type { HeroAction } from "../types";
 
 /**
@@ -23,20 +24,11 @@ export async function Hero() {
 
   return (
     <section className="relative flex min-h-[760px] items-end overflow-hidden bg-black pb-16 pt-28 sm:min-h-[820px] lg:h-dvh lg:min-h-[760px] lg:items-start lg:pb-0 lg:pt-[clamp(11rem,22vh,16rem)]">
-      <video
-        data-intro-reveal="scale"
+      <HeroVideo
+        poster="/media/safe-hero-poster.webp"
         className="hero-video absolute inset-0 h-full w-full object-cover object-[67%_center] sm:object-[96%_center]"
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="auto"
-        poster="/media/safe-hero-poster.jpg"
-        aria-hidden="true"
-      >
-        <source src="/media/safe-hero-lines.mp4" type="video/mp4" />
-      </video>
-      <div aria-hidden data-intro-reveal="scale" className="hero-poster absolute inset-0 bg-[url('/media/safe-hero-poster.jpg')] bg-cover bg-[67%_center] sm:bg-[96%_center]" />
+      />
+      <div aria-hidden data-intro-reveal="scale" className="hero-poster absolute inset-0 bg-[url('/media/safe-hero-poster.webp')] bg-cover bg-[67%_center] sm:bg-[96%_center]" />
       <div aria-hidden className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,.98)_0%,rgba(0,0,0,.88)_27%,rgba(0,0,0,.2)_67%,rgba(0,0,0,.3)_100%)]" />
       <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-black/30" />
 

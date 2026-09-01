@@ -16,6 +16,13 @@
   --safe-steel: #a7a9ad;
   --safe-white: #f5f5f3;
   --safe-red: #e30624;
+  /* O vermelho da marca sobre o preto do site da 4.19:1, abaixo do minimo de
+     4.5:1 que a WCAG AA pede a texto pequeno. Este e o mesmo vermelho puxado
+     em luminancia ate 4.88:1 sobre `--safe-black` e 4.76:1 sobre o #090909 das
+     seccoes, e serve so texto (`.safe-kicker`). Filetes, fundos, botoes e o
+     ponto da Hero continuam no `--safe-red`, que nao e texto e nao tem
+     requisito de contraste. */
+  --safe-red-text: #f5142f;
   --safe-red-dark: #8e0014;
   --safe-border: rgba(255, 255, 255, 0.12);
 }
@@ -119,7 +126,7 @@ textarea:focus-visible {
 }
 
 .safe-kicker {
-  color: var(--safe-red);
+  color: var(--safe-red-text);
   font-size: .72rem;
   font-weight: 600;
   letter-spacing: .18em;

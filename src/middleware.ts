@@ -51,8 +51,33 @@ function geoRedirect(request: NextRequest): NextResponse | null {
   return response;
 }
 
+/** As cinco Home, os unicos enderecos com o video e o poster da Hero. */
+const homePaths = new Set(["/", ...Object.values(localePrefixes)]);
+
+/**
+ * Anuncia o poster da Hero no cabecalho da resposta.
+ *
+ * O poster e o elemento LCP da Home. Anunciado assim, comeca a ser pedido
+ * quando chegam os cabecalhos, antes de o corpo do documento sequer comecar,
+ * e leva a prioridade alta que um atributo `poster` nao sabe declarar (e o
+ * que a auditoria `lcp-discovery-insight` do Lighthouse pede).
+ *
+ * Vai de proposito para o `Link` que o next-intl ja escreveu com os
+ * `hreflang`, e nao para o `headers()` do `next.config`: esse ultimo reescreve
+ * o cabecalho em vez de lhe acrescentar, e levava os `hreflang` a frente.
+ */
+function preloadHeroPoster(response: NextResponse, pathname: string): NextResponse {
+  if (!homePaths.has(pathname)) return response;
+  const preload = "</media/safe-hero-poster.webp>; rel=preload; as=image; fetchpriority=high";
+  const existing = response.headers.get("link");
+  response.headers.set("link", existing ? `${existing}, ${preload}` : preload);
+  return response;
+}
+
 export default function middleware(request: NextRequest) {
-  return geoRedirect(request) ?? handleI18n(request);
+  const redirect = geoRedirect(request);
+  if (redirect) return redirect;
+  return preloadHeroPoster(handleI18n(request), request.nextUrl.pathname);
 }
 
 /**

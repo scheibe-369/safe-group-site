@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { socialNetworks } from "../data/networks";
@@ -142,12 +141,17 @@ export function SocialDockPanel({ copy }: { copy: SocialDockCopy }) {
           className={`relative flex h-14 w-14 items-center justify-center rounded-full bg-white shadow-[0_14px_36px_rgba(0,0,0,.6)] ring-1 transition-[transform,box-shadow] duration-300 hover:scale-105 sm:h-16 sm:w-16 ${open ? "ring-2 ring-[var(--safe-red)]" : "ring-white/20"}`}
         >
           {!open && <span aria-hidden="true" className="absolute inset-0 animate-ping rounded-full bg-[var(--safe-red)]/25 [animation-duration:3s] motion-reduce:hidden" />}
-          <Image
+          {/* `img` simples e nao `next/image`: nesta stack o `/_next/image` nao
+              redimensiona nada (devolve o ficheiro tal e qual, e sem cache),
+              por isso o `sizes` so servia de enfeite. O selo ja esta guardado
+              a 128px, que e o dobro dos 64 desenhados. */}
+          <img
             src="/brand/safe-seal-icon.webp"
             alt=""
             width={128}
             height={128}
-            sizes="64px"
+            loading="lazy"
+            decoding="async"
             className={`relative h-full w-full rounded-full object-contain transition-transform duration-500 ${open ? "rotate-[18deg]" : ""}`}
           />
         </button>

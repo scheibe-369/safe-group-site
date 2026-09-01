@@ -12,7 +12,8 @@ import type { Partner } from "../types/partner";
  * selo oficial fornecido pelo utilizador (`carrosel-section/`), convertido
  * para WebP e servido de `public/brand/partners/`. O texto do selo ja vem na
  * imagem, por isso estes nao repetem o rotulo por baixo (ver
- * `PartnersMarquee`).
+ * `PartnersMarquee`). Os ficheiros estao guardados a 180px de altura, o triplo
+ * dos 60px que o maior `scale` chega a desenhar: acima disso era so peso.
  *
  * Meta e Instagram foram recortados a margem transparente que traziam de
  * origem, e o selo do Google Ads perdeu o fundo branco do JPG (o texto
@@ -35,8 +36,8 @@ export const partners: Partner[] = [
     name: "Meta",
     kind: "image",
     src: "/brand/partners/meta.webp",
-    width: 756,
-    height: 421,
+    width: 323,
+    height: 180,
     scale: 1.25,
     brand: "#0866FF",
   },
@@ -45,8 +46,8 @@ export const partners: Partner[] = [
     name: "Mercado Livre",
     kind: "image",
     src: "/brand/partners/mercado-livre.webp",
-    width: 620,
-    height: 430,
+    width: 260,
+    height: 180,
     scale: 1.5,
     brand: "#2D3277",
   },
@@ -99,8 +100,8 @@ export const partners: Partner[] = [
     name: "OpenAI",
     kind: "image",
     src: "/brand/partners/openai.webp",
-    width: 1040,
-    height: 518,
+    width: 361,
+    height: 180,
     scale: 1.45,
     brand: "#FFFFFF",
   },
@@ -109,8 +110,8 @@ export const partners: Partner[] = [
     name: "Stripe",
     kind: "image",
     src: "/brand/partners/stripe.webp",
-    width: 972,
-    height: 200,
+    width: 875,
+    height: 180,
     brand: "#635BFF",
   },
   {
@@ -142,8 +143,8 @@ export const partners: Partner[] = [
     name: "Claude",
     kind: "image",
     src: "/brand/partners/claude.webp",
-    width: 512,
-    height: 214,
+    width: 431,
+    height: 180,
     brand: "#D97757",
   },
 ];

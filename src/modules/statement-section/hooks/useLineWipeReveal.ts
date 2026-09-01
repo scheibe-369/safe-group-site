@@ -27,6 +27,12 @@ export function useLineWipeReveal(headingRef: RefObject<HTMLElement | null>) {
         gsap.registerPlugin(ScrollTrigger);
 
         const runSplit = () => {
+          // O SplitType troca o texto por uma pilha de `div.line`, e a caixa
+          // resultante nao fica exactamente com a altura do paragrafo original.
+          // A diferenca era o unico salto de layout da pagina (CLS 0.072 no
+          // relatorio do Lighthouse), por isso a altura de antes fica travada
+          // durante a divisao e sai no `revert()`.
+          heading.style.minHeight = `${heading.getBoundingClientRect().height}px`;
           split = new SplitType(heading, { types: "lines,words" });
           heading.querySelectorAll<HTMLElement>(".line").forEach((line) => {
             const mask = document.createElement("div");
@@ -60,6 +66,7 @@ export function useLineWipeReveal(headingRef: RefObject<HTMLElement | null>) {
           windowWidth = window.innerWidth;
           ctx?.revert();
           split?.revert();
+          heading.style.minHeight = "";
           ctx = gsap.context(() => {
             build();
           }, heading);
@@ -73,6 +80,7 @@ export function useLineWipeReveal(headingRef: RefObject<HTMLElement | null>) {
       if (handleResize) window.removeEventListener("resize", handleResize);
       ctx?.revert();
       split?.revert();
+      heading.style.minHeight = "";
     };
   }, [headingRef]);
 }

@@ -56,7 +56,7 @@ export function ClosingFooter({ content, year }: { content: ClosingSectionConten
           topo" ganha uma linha propria ao centro, para o copyright nunca ser
           truncado em telemovel. A partir de `lg` volta a ser a barra de uma
           linha, com o botao encostado a direita. */}
-      <div className="mt-10 flex flex-col gap-y-2 border-t border-white/10 pt-6 text-xs text-white/40 lg:flex-row lg:flex-wrap lg:items-center lg:gap-x-6 lg:gap-y-3">
+      <div className="mt-10 flex flex-col gap-y-2 border-t border-white/10 pt-6 text-xs text-white/55 lg:flex-row lg:flex-wrap lg:items-center lg:gap-x-6 lg:gap-y-3">
         <p>
           © {year} {f.copyright}
         </p>

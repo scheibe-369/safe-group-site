@@ -146,7 +146,7 @@ export function MethodTimeline({ steps }: { steps: MethodStep[] }) {
               </h3>
               <p
                 className={`max-w-2xl text-sm leading-7 transition-colors duration-300 ${
-                  isActive ? "text-white/70" : "text-white/40"
+                  isActive ? "text-white/70" : "text-white/50"
                 }`}
               >
                 {step.description}

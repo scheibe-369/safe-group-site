@@ -1,0 +1,20 @@
+# Cabecalhos dos ficheiros estaticos, lidos pelo Workers Assets da Cloudflare
+# a partir da raiz de `.open-next/assets`, para onde o `public/` e copiado.
+#
+# Sem isto nada em `/media` e `/brand` sai com politica de cache: o Lighthouse
+# contava 1744 KB a revalidar em cada visita, o video da Hero incluido. Os
+# nomes destes ficheiros so mudam quando o conteudo muda, por isso `immutable`
+# de um ano e o valor certo. Os pacotes do Next (`/_next/static`) ja saem com a
+# politica dele e nao entram aqui.
+
+/media/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/brand/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/cases/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/solucoes/*
+  Cache-Control: public, max-age=31536000, immutable
