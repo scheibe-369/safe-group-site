@@ -24,11 +24,23 @@ export async function Hero() {
 
   return (
     <section className="relative flex min-h-[760px] items-end overflow-hidden bg-black pb-16 pt-28 sm:min-h-[820px] lg:h-dvh lg:min-h-[760px] lg:items-start lg:pb-0 lg:pt-[clamp(11rem,22vh,16rem)]">
+      {/* O poster e a camada de base e o elemento LCP da pagina: pinta a
+          primeira dobra inteira mal chega, sem depender de JavaScript nem do
+          video. O video entra por cima assim que estiver pronto, a partir
+          deste mesmo fotograma, por isso a troca nao se ve. */}
+      <img
+        src="/media/safe-hero-poster.webp"
+        alt=""
+        aria-hidden="true"
+        fetchPriority="high"
+        decoding="async"
+        data-intro-reveal="scale"
+        className="hero-poster absolute inset-0 h-full w-full object-cover object-[67%_center] sm:object-[96%_center]"
+      />
       <HeroVideo
         poster="/media/safe-hero-poster.webp"
         className="hero-video absolute inset-0 h-full w-full object-cover object-[67%_center] sm:object-[96%_center]"
       />
-      <div aria-hidden data-intro-reveal="scale" className="hero-poster absolute inset-0 bg-[url('/media/safe-hero-poster.webp')] bg-cover bg-[67%_center] sm:bg-[96%_center]" />
       <div aria-hidden className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,.98)_0%,rgba(0,0,0,.88)_27%,rgba(0,0,0,.2)_67%,rgba(0,0,0,.3)_100%)]" />
       <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-black/30" />
 

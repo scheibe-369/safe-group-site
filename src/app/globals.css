@@ -147,8 +147,6 @@ textarea:focus-visible {
   .hero-signature { display: block; }
 }
 
-.hero-poster { display: none; }
-
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after {
@@ -157,6 +155,6 @@ textarea:focus-visible {
     transition-duration: .01ms !important;
     scroll-behavior: auto !important;
   }
+  /* Fica so o poster, que ja e a camada de baixo da Hero. */
   .hero-video { display: none; }
-  .hero-poster { display: block; }
 }

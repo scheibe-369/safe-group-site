@@ -150,7 +150,7 @@ export function SocialDockPanel({ copy }: { copy: SocialDockCopy }) {
             alt=""
             width={128}
             height={128}
-            loading="lazy"
+            fetchPriority="low"
             decoding="async"
             className={`relative h-full w-full rounded-full object-contain transition-transform duration-500 ${open ? "rotate-[18deg]" : ""}`}
           />

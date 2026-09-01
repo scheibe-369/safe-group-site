@@ -126,7 +126,7 @@ export function MenuPanel({ id, open, content, year, onNavigate }: MenuPanelProp
       </div>
 
       <div aria-hidden className="absolute inset-x-0 bottom-[-32%] hidden overflow-hidden lg:block">
-        <img src="/brand/safe-wordmark.svg" alt="" className="site-nav__wordmark block w-full" />
+        <img src="/brand/safe-wordmark.svg" alt="" width={622} height={208} className="site-nav__wordmark block w-full" />
       </div>
     </nav>
   );
