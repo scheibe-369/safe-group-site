@@ -83,6 +83,12 @@ O processo, por ordem:
 
    Estão definidos em `.claude/agents/`. Cada um só escreve o ficheiro do seu idioma, por
    isso podem correr todos ao mesmo tempo sem conflito.
+
+   Se os agentes não aparecerem na lista de tipos disponíveis (acontece quando foram
+   criados ou alterados na própria sessão, porque a lista é lida no arranque), lança-os
+   como agentes genéricos a mandar cada um ler o seu ficheiro de definição primeiro:
+   "Lê `.claude/agents/translator-es.md` na íntegra, é a tua definição de função, e
+   segue-a à risca". O resultado é o mesmo.
 4. Confirma que não sobrou nada por traduzir:
    ```
    grep -rn "TODO(i18n)" src/
