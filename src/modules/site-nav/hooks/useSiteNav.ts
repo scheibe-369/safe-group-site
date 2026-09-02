@@ -3,8 +3,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 /**
  * Estado do menu e os efeitos que o acompanham, todos com um so dono, o efeito
- * de `open`: bloqueio do scroll do documento (o `scrollbar-gutter: stable` do
- * CSS do modulo evita o salto da barra de scroll), resto da pagina `inert`
+ * de `open`: bloqueio do scroll do documento, resto da pagina `inert`
  * para o teclado e o leitor de ecra nao sairem do menu, fecho com Escape, e
  * foco de volta ao alternador quando o menu fecha, porque o painel passa a
  * `inert` e o browser larga o foco no `body`.

@@ -49,8 +49,8 @@
   --intro-mono: ui-monospace, "SFMono-Regular", "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
 }
 
-/* Enquanto a cortina esta em cima a pagina nao rola. A goteira da barra de
-   scroll ja e estavel (`scrollbar-gutter` no modulo do menu). */
+/* Enquanto a cortina esta em cima a pagina nao rola. Sem barra de scroll
+   visivel (`globals.css`), esconder o overflow nao move mais nada. */
 html[data-intro="pending"],
 html[data-intro="loading"] {
   overflow: hidden;

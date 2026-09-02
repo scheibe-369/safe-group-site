@@ -59,13 +59,6 @@
   font-size: 0.72em;
 }
 
-/* Com o menu aberto o documento leva `overflow: hidden`. Reservar a goteira
-   da barra de scroll evita que a pagina, a barra e o dock saltem 17 pixels
-   no Windows quando ela desaparece. */
-html {
-  scrollbar-gutter: stable;
-}
-
 /* ---------------------------------------------------------------------------
  * Mascara de texto. Duas copias do rotulo num contentor com `overflow:hidden`:
  * a base sobe e sai, a copia entra por baixo. Serve o hover das ligacoes, o
