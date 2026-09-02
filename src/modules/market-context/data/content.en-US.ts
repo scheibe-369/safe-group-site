@@ -30,20 +30,6 @@ export const marketContextContentEnUS: MarketContextContent = {
     },
     {
       id: "ibm",
-      highlight: "61%",
-      statText: "of global CEOs are already implementing AI agents across their operations",
-      detail: "Survey of 2,000 CEOs in 33 countries. A direct indicator of the priority AI now holds on executive agendas.",
-      source: "IBM Institute for Business Value",
-    },
-    {
-      id: "pwc",
-      highlight: "3×",
-      statText: "higher revenue growth per employee in the sectors most exposed to AI",
-      detail: "The study compared sectors and found 27% growth, against 9% in those less exposed to technology.",
-      source: "PwC, 2025",
-    },
-    {
-      id: "ibm-2030",
       highlight: "48%",
       statText: "of operational decisions can be made by AI without human intervention",
       detail: "Today, executives estimate 25%, as long as the decision has clearly defined rules, criteria and limits.",

@@ -51,11 +51,11 @@ export async function Hero() {
             </p>
           </div>
           <span aria-hidden data-intro-reveal="line" data-intro-step="1" className="mt-6 block h-[3px] w-[4.5rem] bg-[var(--safe-red)]" />
-          <h1 className="mt-7 text-[clamp(2.75rem,6vw,6rem)] font-semibold uppercase leading-[1.14] tracking-[-.02em] text-white">
+          <h1 className="mt-7 text-[clamp(2.5rem,5vw,4.75rem)] font-semibold uppercase leading-[1.14] tracking-[-.02em] text-white">
             <span className="intro-mask block" data-intro-step="1"><span className="block">{hero.title.first}</span></span>
             <span className="intro-mask block" data-intro-step="2"><span className="block">{hero.title.second}</span></span>
           </h1>
-          <div className="intro-mask mt-8 max-w-xl" data-intro-step="3">
+          <div className="intro-mask mt-6 max-w-xl" data-intro-step="3">
             <p className="text-base leading-7 text-white/75 sm:text-lg">{hero.lead}</p>
           </div>
           <div className="intro-mask mt-4" data-intro-step="4">
@@ -68,7 +68,7 @@ export async function Hero() {
               ))}
             </p>
           </div>
-          <div className="mt-9 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-8">
+          <div className="mt-7 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-8">
             <span className="intro-mask intro-mask--loose inline-flex" data-intro-step="5"><ButtonLink href={href(hero.actions.primary)} arrow="none">{hero.actions.primary.label}</ButtonLink></span>
             <span className="intro-mask intro-mask--loose inline-flex" data-intro-step="6"><ButtonLink href={href(hero.actions.secondary)} variant="ghost" arrow="long">{hero.actions.secondary.label}</ButtonLink></span>
           </div>
