@@ -7,8 +7,8 @@ import type { StatementCopy } from "../types";
  * botao troca "TYVO" por "SAFE" e o destino.
  */
 export const statementCopyEs: StatementCopy = {
-  heading: "Llegó la hora de duplicar su facturación y no los gastos de su empresa",
-  paragraph: "Tendrá una estructura completa para transformar todos los aspectos de su negocio y duplicar su ganancia, no sus gastos.",
+  heading: "MÁS TECNOLOGÍA NO CORRIGE UNA OPERACIÓN SIN PROCESO.",
+  paragraph: "Antes de añadir IA, automatización o más empleados, Safe identifica dónde la operación pierde tiempo, información, margen o capacidad comercial. A partir de ahí, diseña la intervención que genera impacto real.",
   cta: {
     label: "Contratar a Safe",
     path: "/contacto",

@@ -21,9 +21,6 @@ function formatMessage(payload: DiagnosticFormPayload): string {
     `*Setor:* ${payload.sector}`,
     `*Tamanho da operação:* ${payload.operationSize}`,
     `*Prioridade:* ${payload.priority}`,
-    "",
-    "*Mensagem:*",
-    payload.message.trim() || "(sem mensagem)",
   ].join("\n");
 }
 

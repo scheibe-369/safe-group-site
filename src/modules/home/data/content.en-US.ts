@@ -7,9 +7,9 @@ import type { HomeContent } from "../types";
  */
 export const homeEnUS: HomeContent = {
   hero: {
-    kicker: ["High ticket operations", "Safe diagnostic"],
-    title: { first: "Find the", second: "priority." },
-    lead: "Safe connects sales strategy, marketing, data and technology to find the blocker that matters most and structure the right response.",
+    kicker: ["Operations consulting", "Safe diagnostic"],
+    title: { first: "Find the bottleneck", second: "holding back your growth." },
+    lead: "Safe analyzes sales strategy, processes, data and technology to identify where the business is losing results.",
     areas: ["Demand", "Sales", "Technology"],
     actions: {
       primary: { href: "/contacto", label: "Take the diagnostic" },

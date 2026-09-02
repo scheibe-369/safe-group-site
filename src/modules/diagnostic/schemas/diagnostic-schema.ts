@@ -9,6 +9,5 @@ export const diagnosticSchema = z.object({
   sector: z.enum(sectorOptions),
   operationSize: z.enum(operationSizeOptions),
   priority: z.enum(priorityOptions),
-  message: z.string().trim().max(1500),
   website: z.string().max(200).optional(),
 }).strict();

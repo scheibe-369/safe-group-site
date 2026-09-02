@@ -1,5 +1,5 @@
 export type MarketStat = {
-  id: "gartner" | "mckinsey" | "ibm";
+  id: "gartner" | "mckinsey" | "ibm" | "pwc" | "ibm-2030";
   highlight: string;
   statText: string;
   detail: string;

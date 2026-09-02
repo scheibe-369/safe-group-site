@@ -32,14 +32,11 @@ export const closingSectionCopyPtBR: ClosingSectionCopy = {
       sector: "Setor",
       operationSize: "Porte da operação",
       priority: "Prioridade atual",
-      message: "Contexto da operação",
     },
     selectPlaceholder: "Selecione",
     submit: "Começar diagnóstico",
     submitting: "Enviando",
     disabled: "Envio disponível em breve",
-    disabledNotice:
-      "A integração do formulário está em preparação. Os dados preenchidos não serão enviados.",
     successTitle: "Solicitação recebida.",
     successDesc:
       "O time Safe entrará em contato para marcar a primeira conversa.",
@@ -52,7 +49,6 @@ export const closingSectionCopyPtBR: ClosingSectionCopy = {
       sector: "Escolha o setor.",
       operationSize: "Escolha o porte da operação.",
       priority: "Escolha a prioridade atual.",
-      message: "O contexto excede o limite de caracteres.",
     },
   },
 

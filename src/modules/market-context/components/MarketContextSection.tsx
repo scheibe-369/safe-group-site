@@ -15,6 +15,9 @@ function Wordmark({ id }: { id: MarketStat["id"] }) {
       </span>
     );
   }
+  if (id === "pwc") {
+    return <span className="font-sans text-4xl font-black tracking-tight text-white">PwC</span>;
+  }
   return <span className="font-sans text-4xl font-black tracking-tight text-white">IBM</span>;
 }
 

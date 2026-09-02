@@ -11,7 +11,7 @@ export const siteChromePtBR: SiteChromeContent = {
   footer: {
     navAriaLabel: "Navegação do rodapé",
     tagline:
-      "Estratégia, inteligência comercial e tecnologia para decisões que movem operações high ticket.",
+      "Estratégia, inteligência comercial e tecnologia para decisões que movem a operação.",
     // Este rodape aparece em todas as rotas menos a Home. E o unico caminho de
     // volta a lista de solucoes para quem aterra em `/solucoes/<slug>`, por
     // isso a entrada "Solucoes" tem de estar aqui.
@@ -34,9 +34,9 @@ export const siteChromePtBR: SiteChromeContent = {
   metadata: {
     titleDefault: "Safe Group | Decisões que movem a operação",
     description:
-      "A Safe encontra a decisão que pode destravar crescimento, margem ou eficiência em operações high ticket e estrutura a execução em torno dela.",
+      "A Safe encontra a decisão que pode destravar crescimento, margem ou eficiência na operação e estrutura a execução em torno dela.",
     keywords: [
-      "crescimento high ticket",
+      "diagnóstico de operação",
       "inteligência comercial",
       "desenvolvimento SaaS",
       "tecnologia para vendas",

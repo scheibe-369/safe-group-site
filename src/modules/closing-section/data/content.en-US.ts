@@ -33,14 +33,11 @@ export const closingSectionCopyEnUS: ClosingSectionCopy = {
       sector: "Sector",
       operationSize: "Size of the operation",
       priority: "Current priority",
-      message: "Context of the operation",
     },
     selectPlaceholder: "Select",
     submit: "Start diagnostic",
     submitting: "Sending",
     disabled: "Submission available soon",
-    disabledNotice:
-      "The form integration is being set up. The data entered will not be sent.",
     successTitle: "Request received.",
     successDesc:
       "The Safe team will reach out to schedule the first conversation.",
@@ -53,7 +50,6 @@ export const closingSectionCopyEnUS: ClosingSectionCopy = {
       sector: "Choose the sector.",
       operationSize: "Choose the size of the operation.",
       priority: "Choose the current priority.",
-      message: "The context goes over the character limit.",
     },
   },
 

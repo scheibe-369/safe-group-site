@@ -171,7 +171,7 @@ export const solutionsPtPT: SolutionsContent = {
       pitch: "A decisão certa antes do investimento, não depois dele",
       introHeading: "Ler o negócio inteiro antes de mexer numa peça",
       introBody:
-        "A maioria das operações high ticket não tem falta de ideias, tem falta de prioridade. O diagnóstico lê a operação como um sistema, identifica onde está o bloqueio real e devolve a frente que desbloqueia crescimento, margem ou eficiência. O que sai daqui é uma decisão com responsável, prazo e métrica, não um relatório.",
+        "A maioria das operações não tem falta de ideias, tem falta de prioridade. O diagnóstico lê a operação como um sistema, identifica onde está o bloqueio real e devolve a frente que desbloqueia crescimento, margem ou eficiência. O que sai daqui é uma decisão com responsável, prazo e métrica, não um relatório.",
       offerings: [
         {
           title: "Diagnóstico da operação",
@@ -191,7 +191,7 @@ export const solutionsPtPT: SolutionsContent = {
       image: "/solucoes/estrategia.webp",
       imageAlt: "Mapa de decisão de uma operação apresentado num ecrã",
       metaDescription:
-        "Diagnóstico e prioridade para operações high ticket: a decisão com maior impacto em crescimento, margem ou eficiência.",
+        "Diagnóstico e prioridade para a operação: a decisão com maior impacto em crescimento, margem ou eficiência.",
     },
     {
       slug: "estruturacao-empresarial",
@@ -202,7 +202,7 @@ export const solutionsPtPT: SolutionsContent = {
       pitch: "Uma operação que aguenta o volume seguinte sem depender de esforço extraordinário",
       introHeading: "Estrutura desenhada para o volume que ainda não chegou",
       introBody:
-        "Operações high ticket costumam crescer mais depressa do que a estrutura que as sustenta. O resultado é conhecido: oportunidades que arrefecem, informação que vive na cabeça de duas pessoas e decisões tomadas sem leitura. Organizamos processo, papéis, ferramentas e cadência para a operação escalar sem perder controlo, e deixamos cada frente documentada e entregue a quem a executa.",
+        "As operações costumam crescer mais depressa do que a estrutura que as sustenta. O resultado é conhecido: oportunidades que arrefecem, informação que vive na cabeça de duas pessoas e decisões tomadas sem leitura. Organizamos processo, papéis, ferramentas e cadência para a operação escalar sem perder controlo, e deixamos cada frente documentada e entregue a quem a executa.",
       offerings: [
         {
           title: "Processo comercial",

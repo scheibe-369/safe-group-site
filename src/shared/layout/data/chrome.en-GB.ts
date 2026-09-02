@@ -13,7 +13,7 @@ export const siteChromeEnGB: SiteChromeContent = {
   footer: {
     navAriaLabel: "Footer navigation",
     tagline:
-      "Strategy, commercial intelligence and technology for decisions that move high ticket operations.",
+      "Strategy, commercial intelligence and technology for decisions that move the business.",
     // Este rodape aparece em todas as rotas menos a Home. E o unico caminho de
     // volta a lista de solucoes para quem aterra em `/solucoes/<slug>`, por
     // isso a entrada "Solucoes" tem de estar aqui.
@@ -36,9 +36,9 @@ export const siteChromeEnGB: SiteChromeContent = {
   metadata: {
     titleDefault: "Safe Group | Decisions that move the business",
     description:
-      "Safe finds the decision that can unlock growth, margin or efficiency in high ticket operations and structures the execution around it.",
+      "Safe finds the decision that can unlock growth, margin or efficiency in the business and structures the execution around it.",
     keywords: [
-      "high ticket growth",
+      "business diagnostic",
       "commercial intelligence",
       "SaaS development",
       "technology for sales",

@@ -35,6 +35,20 @@ export const marketContextContentPtPT: MarketContextContent = {
       detail: "Pesquisa com 2 mil CEOs em 33 países. Indicador direto da prioridade que a IA passou a ocupar nas agendas executivas.",
       source: "IBM Institute for Business Value",
     },
+    {
+      id: "pwc",
+      highlight: "3×",
+      statText: "maior foi o crescimento de receita por colaborador nos setores mais expostos à IA",
+      detail: "O estudo comparou setores e encontrou crescimento de 27%, contra 9% nos menos expostos à tecnologia.",
+      source: "PwC, 2025",
+    },
+    {
+      id: "ibm-2030",
+      highlight: "48%",
+      statText: "das decisões operacionais podem ser tomadas por IA sem intervenção humana",
+      detail: "Hoje, a estimativa dos executivos é de 25%, desde que a decisão tenha regras, critérios e limites bem definidos.",
+      source: "IBM, projeção para 2030",
+    },
   ],
   carousel: {
     previous: "Cartão anterior",

@@ -1,14 +1,11 @@
 import type { StatementCopy } from "../types";
 
 /**
- * Copy en-GB da seccao de afirmacao. Extraida tal e qual do
- * site da Tyvo (`design-source/image.png`, confirmada no DOM ao vivo em
- * https://tyvo-athostudio.webflow.io), a pedido explicito do utilizador. So o
- * botao troca "TYVO" por "SAFE" e o destino.
+ * Copy en-GB da seccao de afirmacao. Traduzido a partir da baseline pt-PT.
  */
 export const statementCopyEnGB: StatementCopy = {
-  heading: "It is time to double your turnover and not your company's costs",
-  paragraph: "You will have a complete structure to transform every aspect of your business and double your profit, not your costs.",
+  heading: "MORE TECHNOLOGY DOES NOT FIX A BUSINESS WITHOUT PROCESS.",
+  paragraph: "Before adding AI, automation or more staff, Safe identifies where the business is losing time, information, margin or commercial capacity. From there, it designs the intervention that generates real impact.",
   cta: {
     label: "Hire Safe",
     path: "/contacto",

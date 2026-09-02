@@ -13,8 +13,7 @@ export type ClosingSectionField =
   | "company"
   | "sector"
   | "operationSize"
-  | "priority"
-  | "message";
+  | "priority";
 
 /**
  * Caminhos internos que o rodape da Home lista. Guarda-se a rota, nao o
@@ -50,8 +49,6 @@ type ClosingSectionBase = {
     submitting: string;
     /** Rotulo do botao enquanto o webhook nao esta configurado. */
     disabled: string;
-    /** Aviso mostrado quando o envio esta desligado. */
-    disabledNotice: string;
     successTitle: string;
     successDesc: string;
     errorMessage: string;

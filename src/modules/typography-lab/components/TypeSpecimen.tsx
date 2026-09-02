@@ -47,7 +47,7 @@ export function TypeSpecimen({ direction }: { direction: TypeDirection }) {
               O mesmo sintoma pode exigir estruturas diferentes.
             </h3>
             <p className="mt-7 max-w-2xl text-base leading-8 text-white/60" style={bodyStyle}>
-              Duas empresas high ticket podem procurar crescimento por razões completamente distintas. A Safe começa por descobrir qual decisão move mais a operação, antes de escolher a ferramenta. A experiência atravessa os setores automóvel, financeiro e de software.
+              Duas empresas podem procurar crescimento por razões completamente distintas. A Safe começa por descobrir qual decisão move mais a operação, antes de escolher a ferramenta. A experiência atravessa os setores automóvel, financeiro e de software.
             </p>
           </div>
           <dl className="grid content-start gap-px bg-white/10">

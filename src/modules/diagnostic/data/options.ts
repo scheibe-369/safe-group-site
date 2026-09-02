@@ -14,7 +14,7 @@ export const sectorOptions = [
   "Automóvel",
   "Financeiro",
   "Software ou SaaS",
-  "Outra operação high ticket",
+  "Outro setor",
 ] as const;
 
 export const priorityOptions = [

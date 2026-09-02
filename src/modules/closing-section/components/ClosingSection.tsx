@@ -8,7 +8,7 @@ import type { DiagnosticOptions } from "@/modules/diagnostic/types/diagnostic";
 import { ArrowIcon } from "@/shared/ui/ArrowIcon";
 import type { ClosingSectionContent, ClosingSectionField } from "../types";
 import { ClosingFooter } from "./ClosingFooter";
-import { FloatingField, FloatingSelect, FloatingTextarea, groupHeader } from "./FormFields";
+import { FloatingField, FloatingSelect, groupHeader } from "./FormFields";
 import { Reveal } from "./Reveal";
 import { VerticalMarquee } from "./VerticalMarquee";
 
@@ -199,9 +199,6 @@ export function ClosingSection({ enabled, year, content, options }: ClosingSecti
                           <FloatingSelect id="closing-sector" name="sector" label={labels.sector} options={options.sector} placeholder={content.form.selectPlaceholder} error={errors.sector} disabled={sending} />
                           <FloatingSelect id="closing-size" name="operationSize" label={labels.operationSize} options={options.operationSize} placeholder={content.form.selectPlaceholder} error={errors.operationSize} disabled={sending} />
                           <FloatingSelect id="closing-priority" name="priority" label={labels.priority} options={options.priority} placeholder={content.form.selectPlaceholder} error={errors.priority} disabled={sending} />
-                          {/* O contexto vive nesta coluna, e nao numa linha propria, para
-                              equilibrar as duas alturas e nao alongar a seccao. */}
-                          <FloatingTextarea id="closing-message" name="message" label={labels.message} error={errors.message} disabled={sending} />
                         </div>
                       </div>
                     </div>
@@ -222,7 +219,6 @@ export function ClosingSection({ enabled, year, content, options }: ClosingSecti
                     </div>
 
                     <p id="closing-form-status" aria-live="polite" className="mt-4 min-h-6 text-sm text-white/55">
-                      {!enabled && content.form.disabledNotice}
                       {enabled && status === "error" && content.form.errorMessage}
                     </p>
                   </form>

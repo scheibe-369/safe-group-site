@@ -12,7 +12,7 @@ export const faqContentPtPT: FaqContent = {
     {
       question: "Em que setores a Safe atua?",
       answer:
-        "A Safe trabalha com operações high ticket e reúne experiência nos setores automóvel, financeiro e de software/SaaS. O diagnóstico e a estrutura adaptam-se ao modelo de negócio.",
+        "A Safe reúne experiência nos setores automóvel, financeiro e de software/SaaS. O diagnóstico e a estrutura adaptam-se ao modelo de negócio.",
     },
     {
       question: "A Safe é uma software house?",

@@ -12,7 +12,7 @@ export const diagnosticOptionLabelsEnGB: DiagnosticOptionLabels = {
     "Automóvel": "Automotive",
     "Financeiro": "Financial",
     "Software ou SaaS": "Software or SaaS",
-    "Outra operação high ticket": "Another high ticket business",
+    "Outro setor": "Other sector",
   },
   operationSize: {
     "Operação única": "Single operation",

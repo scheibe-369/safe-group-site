@@ -33,14 +33,11 @@ export const closingSectionCopyEnGB: ClosingSectionCopy = {
       sector: "Sector",
       operationSize: "Size of the business",
       priority: "Current priority",
-      message: "Context of the business",
     },
     selectPlaceholder: "Select",
     submit: "Start diagnostic",
     submitting: "Sending",
     disabled: "Sending available soon",
-    disabledNotice:
-      "The form integration is being prepared. The details entered will not be sent.",
     successTitle: "Request received.",
     successDesc:
       "The Safe team will be in touch to arrange the first conversation.",
@@ -53,7 +50,6 @@ export const closingSectionCopyEnGB: ClosingSectionCopy = {
       sector: "Choose the sector.",
       operationSize: "Choose the size of the business.",
       priority: "Choose the current priority.",
-      message: "The context exceeds the character limit.",
     },
   },
 

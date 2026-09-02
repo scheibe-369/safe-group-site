@@ -171,7 +171,7 @@ export const solutionsEnUS: SolutionsContent = {
       pitch: "The right decision before the investment, not after it",
       introHeading: "Read the whole business before moving one piece",
       introBody:
-        "Most high ticket operations are not short on ideas, they are short on priority. The diagnostic reads the business as a system, identifies where the real blocker sits and returns the workstream that unlocks growth, margin or efficiency. What comes out of it is a decision with an owner, a deadline and a metric, not a report.",
+        "Most businesses are not short on ideas, they are short on priority. The diagnostic reads the business as a system, identifies where the real blocker sits and returns the workstream that unlocks growth, margin or efficiency. What comes out of it is a decision with an owner, a deadline and a metric, not a report.",
       offerings: [
         {
           title: "Diagnostic of the business",
@@ -191,7 +191,7 @@ export const solutionsEnUS: SolutionsContent = {
       image: "/solucoes/estrategia.webp",
       imageAlt: "Decision map of a business shown on a screen",
       metaDescription:
-        "Diagnostic and priority for high ticket operations: the decision with the highest impact on growth, margin or efficiency.",
+        "Diagnostic and priority for the business: the decision with the highest impact on growth, margin or efficiency.",
     },
     {
       slug: "estruturacao-empresarial",
@@ -202,7 +202,7 @@ export const solutionsEnUS: SolutionsContent = {
       pitch: "A business that takes the next volume without depending on extraordinary effort",
       introHeading: "Structure designed for the volume that has not arrived yet",
       introBody:
-        "High ticket operations tend to grow faster than the structure that holds them up. The result is familiar: opportunities that go cold, information that lives in the heads of two people and decisions made without a reading. We organize process, roles, tools and cadence so the business can scale without losing control, and we leave every workstream documented and handed to whoever runs it.",
+        "Operations tend to grow faster than the structure that holds them up. The result is familiar: opportunities that go cold, information that lives in the heads of two people and decisions made without a reading. We organize process, roles, tools and cadence so the business can scale without losing control, and we leave every workstream documented and handed to whoever runs it.",
       offerings: [
         {
           title: "Sales process",

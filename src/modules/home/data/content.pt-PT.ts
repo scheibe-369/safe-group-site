@@ -8,9 +8,9 @@ import type { HomeContent } from "../types";
  */
 export const homePtPT: HomeContent = {
   hero: {
-    kicker: ["Operações high ticket", "Diagnóstico Safe"],
-    title: { first: "Encontre a", second: "prioridade." },
-    lead: "A Safe liga estratégia comercial, marketing, dados e tecnologia para encontrar o bloqueio prioritário e estruturar a resposta certa.",
+    kicker: ["Consultoria de operação", "Diagnóstico Safe"],
+    title: { first: "Encontre o gargalo", second: "que trava o seu crescimento." },
+    lead: "A Safe analisa estratégia comercial, processos, dados e tecnologia para identificar onde a operação perde resultado.",
     areas: ["Procura", "Comercial", "Tecnologia"],
     actions: {
       primary: { href: "/contacto", label: "Fazer o diagnóstico" },

@@ -8,7 +8,6 @@ export type DiagnosticFormPayload = {
   sector: string;
   operationSize: string;
   priority: string;
-  message: string;
   website?: string;
 };
 

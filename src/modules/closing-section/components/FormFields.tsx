@@ -63,26 +63,6 @@ export function FloatingField({ id, name, label, type, autoComplete, error, disa
   );
 }
 
-export function FloatingTextarea({ id, name, label, rows = 3, error, disabled }: BaseProps & { rows?: number }) {
-  return (
-    <div className="relative">
-      <textarea
-        id={id}
-        name={name}
-        rows={rows}
-        placeholder=" "
-        disabled={disabled}
-        maxLength={1500}
-        aria-invalid={error ? true : undefined}
-        aria-describedby={error ? `${id}-error` : undefined}
-        className={`${fieldBase} resize-none`}
-      />
-      <label htmlFor={id} className={labelBase}>{label}</label>
-      <FieldError id={id} error={error} />
-    </div>
-  );
-}
-
 /**
  * O `value` de cada opcao e o que segue para o webhook e nao muda com o idioma;
  * o `label` e o que o visitante le. Ver `modules/diagnostic/data/options.ts`.
