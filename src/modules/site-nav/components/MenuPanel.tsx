@@ -64,7 +64,7 @@ export function MenuPanel({ id, open, content, year, onNavigate }: MenuPanelProp
 
   return (
     <nav id={id} aria-label={content.toggle.menuLabel} aria-hidden={!open} inert={!open} className="site-nav__menu">
-      <div className="site-nav__panel relative z-[5] max-h-dvh w-full overflow-y-auto overscroll-contain bg-[var(--safe-white)] pb-[1.5em] pt-[7.5em] shadow-[0_6px_10px_rgba(0,0,0,.08)] lg:min-h-[72dvh] lg:pb-[2em] lg:pt-[10em]">
+      <div className="site-nav__panel relative z-[5] max-h-dvh w-full overflow-y-auto overscroll-contain bg-[var(--safe-white)] pb-[1.5em] pt-[7.5em] shadow-[0_6px_10px_rgba(0,0,0,.08)] [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:min-h-[72dvh] lg:pb-[2em] lg:pt-[10em]">
         <div className="safe-edge">
           <div className="flex w-full flex-col gap-[2.25em] lg:w-[58%] lg:max-w-[46.8em] lg:gap-[4.5em]">
             <div className="grid grid-cols-2 gap-x-[1em] gap-y-[2em] sm:gap-x-[0.75em] lg:max-w-[35.7em]">
