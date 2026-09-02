@@ -15,11 +15,11 @@ export const marketContextContentEs: MarketContextContent = {
   sourceLabel: "Fuente:",
   stats: [
     {
-      id: "gartner",
-      highlight: "40%",
-      statText: "de las aplicaciones empresariales tendrán agentes de IA integrados para finales de 2026",
-      detail: "En 2025 esa cifra era inferior al 5%. La adopción corporativa se aceleró en apenas 12 meses.",
-      source: "Gartner",
+      id: "pwc",
+      highlight: "3×",
+      statText: "mayor fue el crecimiento de ingresos por empleado en los sectores más expuestos a la IA",
+      detail: "El estudio comparó sectores y encontró un crecimiento del 27%, frente al 9% en los menos expuestos a la tecnología.",
+      source: "PwC, 2025",
     },
     {
       id: "mckinsey",

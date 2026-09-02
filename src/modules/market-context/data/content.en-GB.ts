@@ -15,11 +15,11 @@ export const marketContextContentEnGB: MarketContextContent = {
   sourceLabel: "Source:",
   stats: [
     {
-      id: "gartner",
-      highlight: "40%",
-      statText: "of enterprise applications will have AI agents built in by the end of 2026",
-      detail: "In 2025 that figure was below 5%. Corporate adoption accelerated in just 12 months.",
-      source: "Gartner",
+      id: "pwc",
+      highlight: "3×",
+      statText: "higher was the growth in turnover per employee in the sectors most exposed to AI",
+      detail: "The study compared sectors and found growth of 27%, against 9% in those less exposed to the technology.",
+      source: "PwC, 2025",
     },
     {
       id: "mckinsey",

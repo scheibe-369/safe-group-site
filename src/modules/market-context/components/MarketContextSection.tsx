@@ -5,8 +5,8 @@ import { MobileCarousel } from "./MobileCarousel";
 import { Reveal } from "./Reveal";
 
 function Wordmark({ id }: { id: MarketStat["id"] }) {
-  if (id === "gartner") {
-    return <span className="font-serif text-4xl font-normal tracking-tight text-white">Gartner</span>;
+  if (id === "pwc") {
+    return <span className="font-sans text-4xl font-black tracking-tight text-white">PwC</span>;
   }
   if (id === "mckinsey") {
     return (
