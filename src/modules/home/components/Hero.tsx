@@ -76,7 +76,7 @@ export async function Hero() {
         </div>
       </div>
 
-      <div aria-hidden className="hero-signature safe-edge absolute inset-x-0 bottom-16 z-10">
+      <div aria-hidden className={`${styles.signature} hero-signature safe-edge absolute inset-x-0 bottom-16 z-10`}>
         <div className="intro-mask" data-intro-step="7">
           <p className="text-[.7rem] font-medium uppercase tracking-[.28em] text-white/45">{hero.signature}</p>
         </div>
