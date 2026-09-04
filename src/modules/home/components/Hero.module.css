@@ -1,0 +1,37 @@
+/*
+ * Portateis largos costumam ter menos de 1000px de altura util. Nessa faixa,
+ * o padding baseado em 22vh e o titulo no teto desktop empurravam os CTAs para
+ * fora da primeira dobra. A largura continua a comandar tablet e monitor; esta
+ * leitura so corrige a proporcao vertical dos notebooks.
+ */
+@media (min-width: 1024px) and (max-height: 1000px) {
+  .hero.hero {
+    padding-top: clamp(7.5rem, 15vh, 9rem);
+    padding-top: clamp(7.5rem, 15dvh, 9rem);
+  }
+
+  .hero .content {
+    max-width: clamp(42rem, 52vw, 58rem);
+  }
+
+  .hero .rule {
+    margin-top: 1.25rem;
+  }
+
+  .hero .title {
+    margin-top: 1.5rem;
+    font-size: clamp(3.25rem, 3.5vw, 4rem);
+  }
+
+  .hero .lead {
+    margin-top: 1.25rem;
+  }
+
+  .hero .areas {
+    margin-top: .75rem;
+  }
+
+  .hero .actions {
+    margin-top: 1.5rem;
+  }
+}
