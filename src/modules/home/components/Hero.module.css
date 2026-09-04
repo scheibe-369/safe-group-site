@@ -37,7 +37,7 @@
 
   /* A assinatura continua parte da leitura da Hero nos notebooks. */
   .hero .signature {
-    bottom: 1.5rem;
+    bottom: 2rem;
     display: block;
   }
 }
