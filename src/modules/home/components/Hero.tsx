@@ -47,7 +47,7 @@ export async function Hero() {
       <div className="safe-edge relative z-10">
         <div className={`${styles.content} max-w-2xl xl:max-w-3xl 2xl:max-w-4xl`}>
           <div className="intro-mask" data-intro-step="0">
-            <p className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[.65rem] font-medium uppercase tracking-[.18em] text-white/65 sm:text-xs">
+            <p className={`${styles.kicker} flex flex-wrap items-center gap-x-4 gap-y-2 text-[.65rem] font-medium uppercase tracking-[.18em] text-white/65 sm:text-xs`}>
               <span>{hero.kicker[0]}</span><span className="h-1 w-1 shrink-0 rounded-full bg-[var(--safe-red)]" /><span>{hero.kicker[1]}</span>
             </p>
           </div>

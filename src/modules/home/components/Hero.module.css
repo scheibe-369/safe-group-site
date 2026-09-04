@@ -15,24 +15,28 @@
   }
 
   .hero .rule {
-    margin-top: 1.25rem;
+    margin-top: 1.5rem;
   }
 
   .hero .title {
-    margin-top: 1.5rem;
+    margin-top: 1.75rem;
     font-size: clamp(3.25rem, 3.5vw, 4rem);
   }
 
   .hero .lead {
-    margin-top: 1.25rem;
+    margin-top: 1.5rem;
   }
 
   .hero .areas {
-    margin-top: .75rem;
+    margin-top: 1rem;
   }
 
   .hero .actions {
-    margin-top: 1.5rem;
+    margin-top: 1.75rem;
+  }
+
+  .hero .kicker {
+    column-gap: 1.25rem;
   }
 
   /* A assinatura continua parte da leitura da Hero nos notebooks. */
