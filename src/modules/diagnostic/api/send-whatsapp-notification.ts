@@ -7,7 +7,7 @@ import type { DiagnosticFormPayload } from "../types/diagnostic";
  */
 const EVOLUTION_API_URL = "https://evo.cauania.online";
 const EVOLUTION_INSTANCE = "daviteste-efb15a";
-const DESTINATION_NUMBER = "5527999584889";
+const DESTINATION_NUMBERS = ["5527999584889", "5521991083870"];
 
 function formatMessage(payload: DiagnosticFormPayload): string {
   return [
@@ -28,23 +28,29 @@ export function whatsappNotificationEnabled(): boolean {
   return Boolean(process.env.EVOLUTION_API_KEY);
 }
 
-export async function sendWhatsappNotification(payload: DiagnosticFormPayload): Promise<boolean> {
-  const apiKey = process.env.EVOLUTION_API_KEY;
-  if (!apiKey) return false;
-
+async function sendToNumber(number: string, apiKey: string, text: string): Promise<boolean> {
   try {
     const response = await fetch(`${EVOLUTION_API_URL}/message/sendText/${EVOLUTION_INSTANCE}`, {
       method: "POST",
       headers: { "Content-Type": "application/json", apikey: apiKey },
-      body: JSON.stringify({ number: DESTINATION_NUMBER, text: formatMessage(payload) }),
+      body: JSON.stringify({ number, text }),
       signal: AbortSignal.timeout(8_000),
     });
     if (!response.ok) {
-      console.error("[whatsapp] resposta nao ok", response.status, await response.text().catch(() => ""));
+      console.error("[whatsapp] resposta nao ok", number, response.status, await response.text().catch(() => ""));
     }
     return response.ok;
   } catch (err) {
-    console.error("[whatsapp] erro no envio", err);
+    console.error("[whatsapp] erro no envio", number, err);
     return false;
   }
+}
+
+export async function sendWhatsappNotification(payload: DiagnosticFormPayload): Promise<boolean> {
+  const apiKey = process.env.EVOLUTION_API_KEY;
+  if (!apiKey) return false;
+
+  const text = formatMessage(payload);
+  const results = await Promise.all(DESTINATION_NUMBERS.map((number) => sendToNumber(number, apiKey, text)));
+  return results.some(Boolean);
 }
