@@ -51,6 +51,26 @@ function geoRedirect(request: NextRequest): NextResponse | null {
   return response;
 }
 
+/**
+ * O `www` so existe como dominio na Cloudflare por acidente de infraestrutura
+ * (o apex tinha DNS antigo a bloquear o custom domain, o `www` ficou livre e
+ * foi o que sobrou); nunca foi o canonico. `NEXT_PUBLIC_SITE_URL` e sempre sem
+ * `www`, por isso um pedido a partir dele falhava a validacao de origem do
+ * `/api/diagnostic` com 403, com o formulario a mostrar "Nao foi possivel
+ * enviar". A correccao e mandar o visitante para o apex antes de a pagina (e o
+ * formulario nela) sequer carregar, nao afrouxar a validacao de origem.
+ */
+function wwwRedirect(request: NextRequest): NextResponse | null {
+  const { hostname } = request.nextUrl;
+  if (!hostname.startsWith("www.")) return null;
+
+  const url = request.nextUrl.clone();
+  url.hostname = hostname.slice(4);
+  const response = NextResponse.redirect(url, 308);
+  response.headers.set("cache-control", "public, max-age=3600");
+  return response;
+}
+
 /** As cinco Home, os unicos enderecos com o video e o poster da Hero. */
 const homePaths = new Set(["/", ...Object.values(localePrefixes)]);
 
@@ -75,6 +95,8 @@ function preloadHeroPoster(response: NextResponse, pathname: string): NextRespon
 }
 
 export default function middleware(request: NextRequest) {
+  const www = wwwRedirect(request);
+  if (www) return www;
   const redirect = geoRedirect(request);
   if (redirect) return redirect;
   return preloadHeroPoster(handleI18n(request), request.nextUrl.pathname);
