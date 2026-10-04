@@ -55,11 +55,16 @@ export function ClosingFooter({ content, year }: { content: ClosingSectionConten
       {/* Barra legal. Abaixo de `lg` o copyright fica a esquerda e o "voltar ao
           topo" ganha uma linha propria ao centro, para o copyright nunca ser
           truncado em telemovel. A partir de `lg` volta a ser a barra de uma
-          linha, com o botao encostado a direita. */}
+          linha, com o botao encostado a direita. O bloco do copyright cresce
+          com `flex-1`: a linha da razao social quebra dentro dele em vez de
+          empurrar o botao para uma linha propria. */}
       <div className="mt-10 flex flex-col gap-y-2 border-t border-white/10 pt-6 text-xs text-white/55 lg:flex-row lg:flex-wrap lg:items-center lg:gap-x-6 lg:gap-y-3">
-        <p>
-          © {year} {f.copyright}
-        </p>
+        <div className="space-y-2 leading-5 lg:min-w-0 lg:flex-1">
+          <p>
+            © {year} {f.copyright}
+          </p>
+          <p>{f.legalEntity}</p>
+        </div>
         <button
           type="button"
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}

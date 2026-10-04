@@ -24,6 +24,8 @@ export const siteChromePtPT: SiteChromeContent = {
       { hash: "diagnostico", label: "Contacto" },
     ],
     rights: "Safe Group. Todos os direitos reservados.",
+    legalEntity:
+      "Safe Group é uma marca operada por 58.947.394 HELIO MONTEIRO ENTRIEL, CNPJ 58.947.394/0001-70.",
   },
 
   notFound: {
