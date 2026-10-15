@@ -24,9 +24,8 @@ export async function SiteFooter() {
             {footer.links.map(({ hash, label }) => <Link key={hash} href={`${home}#${hash}`} className="min-h-11 content-center text-white/60 transition-colors hover:text-white">{label}</Link>)}
           </nav>
         </div>
-        <div className="space-y-2 pt-7 text-xs leading-5 text-white/55">
+        <div className="pt-7 text-xs text-white/55">
           <p>© {new Date().getFullYear()} {footer.rights}</p>
-          <p>{footer.legalEntity}</p>
         </div>
       </div>
     </footer>

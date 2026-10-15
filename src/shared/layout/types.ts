@@ -14,12 +14,6 @@ export type SiteChromeContent = {
     links: ChromeLink[];
     /** Sai depois de "© {ano} ". */
     rights: string;
-    /**
-     * Identificacao da pessoa juridica que opera a marca. Razao social e CNPJ
-     * ficam iguais nos cinco idiomas. O rodape da Home le esta mesma frase,
-     * para o CNPJ so viver num sitio por idioma.
-     */
-    legalEntity: string;
   };
   notFound: { kicker: string; title: string; description: string; action: string };
   metadata: { titleDefault: string; description: string; keywords: string[]; ogDescription: string };

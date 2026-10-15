@@ -82,7 +82,5 @@ export type ClosingSectionCopy = ClosingSectionBase & {
 export type ClosingSectionContent = ClosingSectionBase & {
   footer: ClosingFooterBase & {
     navLinks: readonly { href: string; label: string }[];
-    /** Razao social e CNPJ. Vem da copy do rodape global, nao deste modulo. */
-    legalEntity: string;
   };
 };
