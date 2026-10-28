@@ -66,6 +66,7 @@ export const solutionsEnUS: SolutionsContent = {
         "A page starts to pay off when it is measured by conversations opened, and not by visits.",
       image: "/solucoes/website.webp",
       imageAlt: "Home page of a Safe site shown on a screen",
+      metaTitle: "Website and landing page design for businesses",
       metaDescription:
         "Sites and landing pages built to open qualified conversations, connected to the CRM and to the sales team from day one.",
     },
@@ -97,6 +98,7 @@ export const solutionsEnUS: SolutionsContent = {
         "Investment that goes up when the funnel can take it, and not because the ads dashboard showed one good result in isolation.",
       image: "/solucoes/trafego-pago.webp",
       imageAlt: "Paid campaign dashboard, with a reading of cost and conversion, on a screen",
+      metaTitle: "Paid ads management tied to your CRM and sales",
       metaDescription:
         "Paid acquisition connected to the sales team, to the CRM and to the margin, measured by qualified opportunity and deals closed.",
     },
@@ -128,6 +130,7 @@ export const solutionsEnUS: SolutionsContent = {
         "Coverage available at any hour, with the same criteria in every conversation and without losing the contact that arrived after hours.",
       image: "/solucoes/funcionarios-ia.webp",
       imageAlt: "Dashboard of AI agents handling customer conversations on a screen",
+      metaTitle: "AI agents for WhatsApp customer service and sales",
       metaDescription:
         "AI employees that respond, qualify and schedule inside the sales process the business already has, connected to WhatsApp and to the CRM.",
     },
@@ -159,6 +162,7 @@ export const solutionsEnUS: SolutionsContent = {
         "Software that enters the business already working, with its users deciding what comes in the next cycle.",
       image: "/solucoes/software-saas.webp",
       imageAlt: "Interface of a SaaS platform shown on a screen",
+      metaTitle: "Custom software and SaaS development",
       metaDescription:
         "Platforms, SaaS products and integrations built from the business, delivered in short cycles and already in use.",
     },
@@ -190,6 +194,7 @@ export const solutionsEnUS: SolutionsContent = {
         "Knowing which decision moves the business is worth more than running ten that move nothing.",
       image: "/solucoes/estrategia.webp",
       imageAlt: "Decision map of a business shown on a screen",
+      metaTitle: "Strategy consulting and sales operations assessment",
       metaDescription:
         "Diagnostic and priority for the business: the decision with the highest impact on growth, margin or efficiency.",
     },
@@ -221,6 +226,7 @@ export const solutionsEnUS: SolutionsContent = {
         "Structure is what lets you grow without every new client costing an emergency meeting.",
       image: "/solucoes/estruturacao-empresarial.webp",
       imageAlt: "Map of the processes and ownership of a business on a screen",
+      metaTitle: "Operational structure: processes, roles and management",
       metaDescription:
         "Process, roles, technology and cadence organized so the business can scale without losing control.",
     },

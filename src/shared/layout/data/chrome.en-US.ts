@@ -34,9 +34,9 @@ export const siteChromeEnUS: SiteChromeContent = {
   },
 
   metadata: {
-    titleDefault: "Safe Group | Decisions that move the business",
+    titleDefault: "Safe Group | Operations and revenue growth consulting",
     description:
-      "Safe finds the decision that can unlock growth, margin or efficiency in the business and structures the execution around it.",
+      "Operations consulting for high-ticket businesses. Safe Group finds the decision with the highest impact on growth, margin or efficiency and structures the execution.",
     ogDescription: "Decisions that move the business.",
   },
 };

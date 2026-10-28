@@ -5,6 +5,11 @@ export const faqContentEnUS: FaqContent = {
   title: "Questions before starting",
   items: [
     {
+      question: "What is Safe Group?",
+      answer:
+        "Safe Group is an operations consulting firm for high-ticket businesses in Brazil and Portugal. It analyzes sales strategy, processes, data and technology to find the decision with the highest impact on growth, margin or efficiency, and structures the execution around it.",
+    },
+    {
       question: "Is Safe a marketing agency?",
       answer:
         "No. Marketing can be part of the execution, but Safe starts with a reading of the business and brings together only the disciplines needed to solve the real priority.",

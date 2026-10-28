@@ -22,13 +22,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const alternates = alternatesFor({ pathname: "/solucoes/[slug]", params: { slug: item.slug } }, locale);
 
   return {
-    title: item.name,
+    title: item.metaTitle,
     description: item.metaDescription,
     alternates,
     // Sem isto, as seis paginas herdavam o cartao de partilha da Home.
     openGraph: openGraphFor({
       locale,
-      title: detail.ogTitle.replace("{solution}", item.name),
+      title: detail.ogTitle.replace("{solution}", item.metaTitle),
       description: item.metaDescription,
       url: alternates.canonical,
       type: "article",

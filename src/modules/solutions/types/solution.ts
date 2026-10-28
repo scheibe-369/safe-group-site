@@ -31,6 +31,12 @@ export type Solution = {
   figures?: SolutionFigure[];
   image: string;
   imageAlt: string;
+  /**
+   * `<title>` da pagina de detalhe, antes do sufixo "| Safe Group". Descreve a
+   * frente com os termos de busca da matriz do `SEO-SPEC.md`; o `name` fica
+   * curto porque e tambem o titulo do painel e o `h1`.
+   */
+  metaTitle: string;
   metaDescription: string;
 };
 

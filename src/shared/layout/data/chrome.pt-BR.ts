@@ -32,9 +32,9 @@ export const siteChromePtBR: SiteChromeContent = {
   },
 
   metadata: {
-    titleDefault: "Safe Group | Decisões que movem a operação",
+    titleDefault: "Safe Group | Consultoria de operação e crescimento comercial",
     description:
-      "A Safe encontra a decisão que pode destravar crescimento, margem ou eficiência na operação e estrutura a execução em torno dela.",
+      "Consultoria de operação para empresas de ticket alto. A Safe Group encontra a decisão de maior impacto em crescimento, margem ou eficiência e estrutura a execução.",
     ogDescription: "Decisões que movem a operação.",
   },
 };

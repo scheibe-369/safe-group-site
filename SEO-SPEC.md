@@ -38,10 +38,10 @@ não foram validados com dados de busca.
 
 | Rota | Indexar? Motivo | Intenção | Termo principal e origem | Termos de apoio | Title | Description | H1 | Canonical | CTA | Pergunta principal | Imagem social | Idioma |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `/`, `/pt-br`, `/en-gb`, `/en-us`, `/es` | Sim, página da marca | Navegacional (marca) e comercial | "Safe Group" (marca); HIPÓTESE "consultoria de operação" (copy da Hero) | "Safe", "safegroupia", "diagnóstico de operação" (HIPÓTESE) | `chrome.<idioma>.ts` metadata.titleDefault | metadata.description | "Encontre o gargalo que trava o seu crescimento." | própria por idioma, `x-default` na raiz | Fazer o diagnóstico | O que a Safe faz e por onde começa? | `/brand/safe-banner.png` | 5 |
+| `/`, `/pt-br`, `/en-gb`, `/en-us`, `/es` | Sim, página da marca | Navegacional (marca) e comercial | "Safe Group" (marca); HIPÓTESE "consultoria de operação" (copy da Hero) | "Safe", "safegroupia", "diagnóstico de operação" (HIPÓTESE) | "Safe Group \| Consultoria de operação e crescimento comercial" (`chrome.<idioma>.ts` metadata.titleDefault) | metadata.description, também usada no `Organization` | "Encontre o gargalo que trava o seu crescimento." | própria por idioma, `x-default` na raiz | Fazer o diagnóstico | O que a Safe faz e por onde começa? | `/brand/safe-banner.png` | 5 |
 | `/cases` e prefixados | Sim | Prova, investigação | HIPÓTESE "cases de consultoria de operação" | nomes de setor | "Cases \| Safe Group" | directory.metaDescription | hero do diretório | própria por idioma | abrir case | Que operações a Safe já estruturou? | banner | 5 |
 | `/cases/[slug]` (7 cases, 35 URLs) | Sim, cases reais; demo nunca | Prova específica | nome do cliente + setor (conteúdo existente) | entregáveis do case | "{cliente} \| Safe Group" | summary do case | nome do cliente | própria por idioma | diagnóstico | O que foi feito e com que resultado? | banner | 5 |
-| `/solucoes/[slug]` (6 frentes, 30 URLs; `/solutions`, `/soluciones`) | Sim | Comercial por serviço | HIPÓTESE por frente: "criação de site para empresas", "gestão de tráfego pago", "agentes de IA para atendimento", "desenvolvimento de software SaaS", "consultoria estratégica", "estruturação empresarial" | ofertas da página | "{frente} \| Safe Group" | metaDescription da frente | nome da frente | própria por idioma | Começar diagnóstico | O que entra nesta frente? | banner | 5 |
+| `/solucoes/[slug]` (6 frentes, 30 URLs; `/solutions`, `/soluciones`) | Sim | Comercial por serviço | HIPÓTESE por frente: "criação de site para empresas", "gestão de tráfego pago", "agentes de IA para atendimento", "desenvolvimento de software SaaS", "consultoria estratégica", "estruturação empresarial" | ofertas da página | "{metaTitle} \| Safe Group", ex.: "Criação de sites e landing pages para empresas \| Safe Group" | metaDescription da frente | nome da frente | própria por idioma | Começar diagnóstico | O que entra nesta frente? | banner | 5 |
 | `/solucoes`, `/metodo`, `/sobre`, `/contacto` (e traduções) | Não, 308 para âncoras da Home | n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a | 5 |
 | `/marca-3d`, `/tipografia` | Não, páginas internas de decisão (`noindex`) | n/a | n/a | n/a | interno | interno | interno | n/a | n/a | n/a | n/a | pt-PT |
 | `/api/diagnostic` | Não, API do formulário | n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a |
@@ -89,12 +89,14 @@ não foram validados com dados de busca.
 | 28/10/2026 | D2: mercados Brasil e Portugal | WhatsApp +55, CNPJ brasileiro, copy de origem pt-PT | `areaServed` com os dois países; termos a validar nos dois |
 | 28/10/2026 | D3: dados públicos de marca adiados | decisão do utilizador | `Organization` sem cidade, fundadores, LinkedIn ou ano |
 | 28/10/2026 | Preview sempre `noindex` | preview indexável com canonical para domínio inexistente | revalidar meta e cabeçalho no preview a cada mudança de deploy |
+| 28/10/2026 | Search Console e Bing Webmaster Tools verificados por DNS; sitemap enviado aos dois | TXT `google-site-verification` e CNAME do Bing na zona | ler Desempenho e "AI Performance" do Bing daqui a 4 a 8 semanas |
+| 28/10/2026 | Fase 2: Home com "Consultoria de operação e crescimento comercial" no title e description de entidade; frentes com `metaTitle` próprio (HIPÓTESE de termo por frente) | termos tirados da copy existente, sem dados de volume | validar com consultas reais do Search Console e ajustar |
+| 28/10/2026 | Pergunta "O que é a Safe Group?" no topo do FAQ da Home | definição de entidade visível para buscadores e assistentes de IA | conferir se o Google e as IAs passam a descrever a marca com esta frase |
 
 ## Pendências para implementação
 
-- Fase 2: validar os termos HIPÓTESE com o utilizador e com dados do Search Console; reescrever
-  titles, descriptions e primeiro parágrafo nos cinco idiomas; parágrafo de entidade "o que é a
-  Safe Group" na Home; avaliar uma página `/sobre` real.
+- Fase 2 (restante): validar os termos HIPÓTESE com dados do Search Console; avaliar uma página
+  `/sobre` real.
 - Fase 3: LinkedIn da empresa, bio do Instagram a apontar para o site, Perfil de Empresa no Google.
 - D3: quando houver dados públicos aprovados, acrescentar ao `Organization` (`address` só da
   região, `founder`, `foundingDate`, `sameAs` com LinkedIn).

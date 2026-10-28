@@ -66,6 +66,7 @@ export const solutionsPtPT: SolutionsContent = {
         "Uma página passa a valer quando é medida por conversas abertas, e não por visitas.",
       image: "/solucoes/website.webp",
       imageAlt: "Página de entrada de um site da Safe apresentada num ecrã",
+      metaTitle: "Criação de sites e landing pages para empresas",
       metaDescription:
         "Sites e landing pages construídos para abrir conversa qualificada, ligados ao CRM e ao atendimento desde o primeiro dia.",
     },
@@ -97,6 +98,7 @@ export const solutionsPtPT: SolutionsContent = {
         "Investimento que sobe quando o funil aguenta, e não porque o painel de anúncios mostrou um bom resultado isolado.",
       image: "/solucoes/trafego-pago.webp",
       imageAlt: "Painel de campanhas pagas, com leitura de custo e de conversão, num ecrã",
+      metaTitle: "Gestão de tráfego pago ligada ao CRM e às vendas",
       metaDescription:
         "Aquisição paga ligada ao atendimento, ao CRM e à margem, medida por oportunidade qualificada e negócio fechado.",
     },
@@ -128,6 +130,7 @@ export const solutionsPtPT: SolutionsContent = {
         "Atendimento disponível a qualquer hora, com o mesmo critério em todas as conversas e sem perder o contacto que chegou fora de horas.",
       image: "/solucoes/funcionarios-ia.webp",
       imageAlt: "Painel de agentes de IA a atender conversas de clientes num ecrã",
+      metaTitle: "Funcionários IA para atendimento e vendas no WhatsApp",
       metaDescription:
         "Funcionários IA que atendem, qualificam e agendam dentro do processo comercial que a operação já tem, ligados ao WhatsApp e ao CRM.",
     },
@@ -159,6 +162,7 @@ export const solutionsPtPT: SolutionsContent = {
         "Software que entra na operação a funcionar, com quem o usa a decidir o que vem no ciclo seguinte.",
       image: "/solucoes/software-saas.webp",
       imageAlt: "Interface de uma plataforma SaaS apresentada num ecrã",
+      metaTitle: "Desenvolvimento de software e SaaS à medida",
       metaDescription:
         "Plataformas, produtos SaaS e integrações construídos a partir da operação, entregues em ciclos curtos e já em uso.",
     },
@@ -190,6 +194,7 @@ export const solutionsPtPT: SolutionsContent = {
         "Saber qual é a decisão que move a operação vale mais do que executar dez que não movem nada.",
       image: "/solucoes/estrategia.webp",
       imageAlt: "Mapa de decisão de uma operação apresentado num ecrã",
+      metaTitle: "Estratégia e diagnóstico da operação comercial",
       metaDescription:
         "Diagnóstico e prioridade para a operação: a decisão com maior impacto em crescimento, margem ou eficiência.",
     },
@@ -221,6 +226,7 @@ export const solutionsPtPT: SolutionsContent = {
         "Estrutura é o que permite crescer sem que cada cliente novo custe uma reunião de emergência.",
       image: "/solucoes/estruturacao-empresarial.webp",
       imageAlt: "Mapa de processos e responsabilidades de uma operação num ecrã",
+      metaTitle: "Estruturação empresarial: processos, papéis e gestão",
       metaDescription:
         "Processo, papéis, tecnologia e cadência organizados para a operação escalar sem perder controlo.",
     },
