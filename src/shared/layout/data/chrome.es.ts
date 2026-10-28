@@ -37,13 +37,6 @@ export const siteChromeEs: SiteChromeContent = {
     titleDefault: "Safe Group | Decisiones que mueven la operación",
     description:
       "Safe encuentra la decisión que puede desbloquear crecimiento, margen o eficiencia en la operación y estructura la ejecución en torno a ella.",
-    keywords: [
-      "diagnóstico de operación",
-      "inteligencia comercial",
-      "desarrollo SaaS",
-      "tecnología para ventas",
-      "Safe Group",
-    ],
     ogDescription: "Decisiones que mueven la operación.",
   },
 };

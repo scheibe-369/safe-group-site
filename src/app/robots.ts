@@ -1,34 +1,21 @@
 import type { MetadataRoute } from "next";
+// Import por caminho profundo, para o robots nao arrastar componentes do modulo.
+import { isIndexable, siteUrl } from "@/modules/seo/data/site";
 
 /**
- * Rastreadores de modelos de IA, bloqueados por decisao do cliente.
+ * Rastreio aberto a todos os agentes, incluindo os de modelos de IA (GPTBot,
+ * ClaudeBot, Google-Extended e afins).
  *
- * Ate 31/08/2026 esta lista vinha do bloco "Managed Content" que a Cloudflare
- * injectava a cabeca do ficheiro. Esse bloco trazia com ele uma linha
- * `Content-Signal: search=yes,ai-train=no,use=reference` que nao faz parte do
- * protocolo do robots.txt, e que qualquer validador (o do Lighthouse incluido)
- * recusa como diretiva desconhecida. O bloco foi desligado na zona e a
- * politica passou para aqui, escrita em diretivas que toda a gente entende.
+ * Ate 28/10/2026 os rastreadores de IA estavam bloqueados aqui. O utilizador
+ * reverteu essa decisao nessa data: o objetivo passou a ser a Safe aparecer
+ * nas respostas de assistentes de IA, e isso pede que eles possam ler o site.
+ *
+ * O preview tambem fica aberto ao rastreio, mas sem sitemap: as paginas dele
+ * saem com `noindex`, e o motor de busca so ve essa marca se puder rastrear.
  */
-const aiCrawlers = [
-  "Amazonbot",
-  "Applebot-Extended",
-  "Bytespider",
-  "CCBot",
-  "ClaudeBot",
-  "CloudflareBrowserRenderingCrawler",
-  "Google-Extended",
-  "GPTBot",
-  "meta-externalagent",
-];
-
 export default function robots(): MetadataRoute.Robots {
-  const base = process.env.NEXT_PUBLIC_SITE_URL ?? "https://safegroup.pt";
   return {
-    rules: [
-      { userAgent: "*", allow: "/" },
-      { userAgent: aiCrawlers, disallow: "/" },
-    ],
-    sitemap: `${base}/sitemap.xml`,
+    rules: [{ userAgent: "*", allow: "/" }],
+    ...(isIndexable ? { sitemap: `${siteUrl}/sitemap.xml` } : {}),
   };
 }

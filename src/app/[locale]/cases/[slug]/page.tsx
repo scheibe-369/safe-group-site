@@ -3,7 +3,8 @@ import { notFound } from "next/navigation";
 import { CaseDetail } from "@/modules/cases/components/CaseDetail";
 import { caseSlugs, getCaseStudies } from "@/modules/cases/data/cases";
 import { getCasesContent } from "@/modules/cases/data/content";
-import { type Locale, locales } from "@/shared/i18n/locales";
+import { JsonLd, alternatesFor, brand, breadcrumbNode, jsonLdGraph, openGraphFor } from "@/modules/seo";
+import type { Locale } from "@/shared/i18n/locales";
 import { getPathname } from "@/shared/i18n/navigation";
 
 type Props = { params: Promise<{ locale: Locale; slug: string }> };
@@ -18,14 +19,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!item) return { title: detail.notFoundTitle };
   // Um case de demonstração fica fora do índice; um case real entra normalmente.
   const robots = item.isDemo ? { robots: { index: false, follow: false } } : {};
-  const href = { pathname: "/cases/[slug]", params: { slug } } as const;
+  const alternates = alternatesFor({ pathname: "/cases/[slug]", params: { slug } }, locale);
   return {
     title: item.client,
     description: item.summary,
-    alternates: {
-      canonical: getPathname({ href, locale }),
-      languages: Object.fromEntries(locales.map((other) => [other, getPathname({ href, locale: other })])),
-    },
+    alternates,
+    openGraph: openGraphFor({ locale, title: `${item.client} | ${brand.name}`, description: item.summary, url: alternates.canonical, type: "article" }),
     ...robots,
   };
 }
@@ -34,5 +33,20 @@ export default async function CasePage({ params }: Props) {
   const { locale, slug } = await params;
   const item = getCaseStudies(locale).find((entry) => entry.slug === slug);
   if (!item) notFound();
-  return <CaseDetail item={item} />;
+  // Um case de demonstracao fica sem dados estruturados, como fica fora do indice.
+  const breadcrumb = item.isDemo
+    ? null
+    : jsonLdGraph([
+        breadcrumbNode([
+          { name: brand.name, path: getPathname({ href: "/", locale }) },
+          { name: getCasesContent(locale).directory.metaTitle, path: getPathname({ href: "/cases", locale }) },
+          { name: item.client, path: getPathname({ href: { pathname: "/cases/[slug]", params: { slug } }, locale }) },
+        ]),
+      ]);
+  return (
+    <>
+      {breadcrumb && <JsonLd data={breadcrumb} />}
+      <CaseDetail item={item} />
+    </>
+  );
 }

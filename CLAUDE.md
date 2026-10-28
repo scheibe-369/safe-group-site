@@ -141,6 +141,14 @@ webhook.
 - Sem promessas, métricas, clientes ou testemunhos sem fonte confirmada. Ver `AGENTS.md`.
 - Registo de consultoria B2B: direto, sóbrio, sem hype.
 
+## SEO e GEO
+
+Trabalho de SEO, GEO (respostas de IA), metadados, `robots.txt`, `sitemap.xml`, `llms.txt` ou dados
+estruturados segue a skill `site-seo-release`
+(`D:\Projetos-vibeocding\skill-seo\skills\site-seo-release\SKILL.md`). Os requisitos e a matriz de
+páginas estão em `SEO-SPEC.md`; o código vive em `src/modules/seo`. Só o build de produção define
+`NEXT_PUBLIC_SITE_URL`, e é isso que liga a indexação: o preview sai sempre com `noindex`.
+
 ## Sessões em paralelo
 
 Outras sessões trabalham nesta mesma pasta ao mesmo tempo, sem branches. Antes de commitar,

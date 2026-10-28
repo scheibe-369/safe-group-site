@@ -15,6 +15,7 @@ Read `CLAUDE.md`, `README.md`, `tasks/todo.md`, `tasks/lessons.md`, `skills/safe
 - New project or credential setup: `project-init`.
 - Skill creation or maintenance: `skill-creator`.
 - Safe positioning, copy, brand or assets: `safe-brand-context`.
+- SEO, GEO, metadata, `robots.txt`, `sitemap.xml`, `llms.txt`, structured data or release review: `site-seo-release` (`D:\Projetos-vibeocding\skill-seo\skills\site-seo-release\SKILL.md`). Requirements and page matrix live in `SEO-SPEC.md`; SEO code lives in `src/modules/seo`.
 - Any new or changed copy: after writing the pt-PT baseline, run the four translation agents in `.claude/agents/` (`translator-pt-br`, `translator-en-gb`, `translator-en-us`, `translator-es`) so the five locales stay in sync. See `CLAUDE.md`, section "Internacionalização".
 
 ## Architecture

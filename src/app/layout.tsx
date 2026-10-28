@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale } from "next-intl/server";
+import { alternatesFor, brand, isIndexable, openGraphFor, siteUrl } from "@/modules/seo";
 import { SiteFooter } from "@/shared/layout/SiteFooter";
 import { SiteFooterSlot } from "@/shared/layout/SiteFooterSlot";
 import { getSiteChrome } from "@/shared/layout/data/chrome";
@@ -8,36 +9,31 @@ import { SiteIntro } from "@/modules/site-intro";
 import { SiteNav, getSiteNavContent } from "@/modules/site-nav";
 import { SmoothScroll } from "@/modules/smooth-scroll";
 import { SocialDock } from "@/modules/social-dock";
-import { locales } from "@/shared/i18n/locales";
-import { getPathname } from "@/shared/i18n/navigation";
+import type { Locale } from "@/shared/i18n/locales";
 import { variant } from "@/shared/typography/active";
 import "./globals.css";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://safegroup.pt";
-
 /**
- * `hreflang` da raiz. Cada idioma aponta para a sua Home e o `x-default` fica
- * na de origem, que e a que serve o endereco sem prefixo.
+ * Metadados da raiz, herdados por todas as paginas. O `canonical` e os
+ * `hreflang` daqui sao os da Home; as paginas internas declaram os seus.
+ * Fora da producao (preview e `next dev`) o site inteiro sai com `noindex`,
+ * ver `src/modules/seo/data/site.ts`.
  */
-const homeLanguages = Object.fromEntries(
-  locales.map((locale) => [locale, getPathname({ href: "/", locale })]),
-);
-
 export async function generateMetadata(): Promise<Metadata> {
-  const locale = await getLocale();
+  const locale = (await getLocale()) as Locale;
   const { metadata } = getSiteChrome(locale);
+  const alternates = alternatesFor("/", locale);
   return {
     metadataBase: new URL(siteUrl),
-    title: { default: metadata.titleDefault, template: "%s | Safe Group" },
+    title: { default: metadata.titleDefault, template: `%s | ${brand.name}` },
     description: metadata.description,
-    keywords: metadata.keywords,
-    authors: [{ name: "Safe Group" }],
-    creator: "Safe Group",
-    publisher: "Safe Group",
-    alternates: { canonical: getPathname({ href: "/", locale }), languages: { ...homeLanguages, "x-default": "/" } },
-    openGraph: { title: "Safe Group", description: metadata.ogDescription, url: siteUrl, siteName: "Safe Group", locale: locale.replace("-", "_"), type: "website", images: [{ url: "/brand/safe-banner.png", width: 1672, height: 941, alt: "Safe Group" }] },
-    twitter: { card: "summary_large_image", title: "Safe Group", description: metadata.ogDescription, images: ["/brand/safe-banner.png"] },
-    robots: { index: true, follow: true },
+    authors: [{ name: brand.name }],
+    creator: brand.name,
+    publisher: brand.name,
+    alternates,
+    openGraph: openGraphFor({ locale, title: brand.name, description: metadata.ogDescription, url: alternates.canonical }),
+    twitter: { card: "summary_large_image", title: brand.name, description: metadata.ogDescription, images: [brand.ogImage.url] },
+    robots: isIndexable ? { index: true, follow: true } : { index: false, follow: false },
   };
 }
 

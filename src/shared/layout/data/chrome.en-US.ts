@@ -37,13 +37,6 @@ export const siteChromeEnUS: SiteChromeContent = {
     titleDefault: "Safe Group | Decisions that move the business",
     description:
       "Safe finds the decision that can unlock growth, margin or efficiency in the business and structures the execution around it.",
-    keywords: [
-      "business diagnostic",
-      "commercial intelligence",
-      "SaaS development",
-      "sales technology",
-      "Safe Group",
-    ],
     ogDescription: "Decisions that move the business.",
   },
 };

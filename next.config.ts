@@ -24,12 +24,25 @@ const withNextIntl = createNextIntlPlugin("./src/shared/i18n/request.ts");
  * `next/dist/server/config.js`), por isso a de origem esta aqui repetida.
  */
 const htmlLimitedBots =
-  /Mediapartners-Google|Slurp|DuckDuckBot|baiduspider|yandex|sogou|bitlybot|tumblr|vkShare|quora link preview|redditbot|ia_archiver|Bingbot|BingPreview|applebot|facebookexternalhit|facebookcatalog|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|SkypeUriPreview|Chrome-Lighthouse|Google-InspectionTool|GPTBot|ClaudeBot|PerplexityBot|Bytespider|CCBot|Amazonbot|meta-externalagent|AhrefsBot|SemrushBot|Screaming Frog|Pinterestbot|TelegramBot/i;
+  /Mediapartners-Google|Slurp|DuckDuckBot|baiduspider|yandex|sogou|bitlybot|tumblr|vkShare|quora link preview|redditbot|ia_archiver|Bingbot|BingPreview|applebot|facebookexternalhit|facebookcatalog|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|SkypeUriPreview|Chrome-Lighthouse|Google-InspectionTool|GPTBot|OAI-SearchBot|ChatGPT-User|ClaudeBot|Claude-SearchBot|Claude-User|PerplexityBot|Perplexity-User|MistralAI-User|DuckAssistBot|Bytespider|CCBot|Amazonbot|meta-externalagent|AhrefsBot|SemrushBot|Screaming Frog|Pinterestbot|TelegramBot/i;
+
+/**
+ * Fora da producao (preview `safe.methodgrowthhub.com.br` e `next dev`) todas
+ * as respostas levam `X-Robots-Tag: noindex`, alem da meta etiqueta. A regra e
+ * a mesma de `src/modules/seo/data/site.ts`: so o build de producao define
+ * `NEXT_PUBLIC_SITE_URL`. O cabecalho cobre o que nao tem `<head>`, como o
+ * `llms.txt`.
+ */
+const isIndexable = Boolean(process.env.NEXT_PUBLIC_SITE_URL);
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   reactStrictMode: true,
   htmlLimitedBots,
+  async headers() {
+    if (isIndexable) return [];
+    return [{ source: "/:path*", headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }] }];
+  },
 };
 
 export default withNextIntl(nextConfig);

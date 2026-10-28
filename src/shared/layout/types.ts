@@ -16,5 +16,5 @@ export type SiteChromeContent = {
     rights: string;
   };
   notFound: { kicker: string; title: string; description: string; action: string };
-  metadata: { titleDefault: string; description: string; keywords: string[]; ogDescription: string };
+  metadata: { titleDefault: string; description: string; ogDescription: string };
 };

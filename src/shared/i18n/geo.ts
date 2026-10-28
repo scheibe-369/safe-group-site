@@ -37,8 +37,13 @@ const COUNTRY_LOCALE: Record<string, Locale> = {
  * dos Estados Unidos veria a Home inglesa no endereco da portuguesa, e passava
  * a indexar o site trocado. Cada idioma tem o seu endereco proprio e o
  * `hreflang` a liga-los: o rastreador chega la sozinho.
+ *
+ * Os agentes que os assistentes de IA usam para abrir uma pagina a pedido de
+ * quem pergunta (ChatGPT-User, Claude-User, Perplexity-User e afins), e os da
+ * Meta (meta-externalagent, meta-externalfetcher), nao tem "bot" no nome, por
+ * isso entram pelo nome proprio.
  */
-const CRAWLER = /bot|crawl|spider|slurp|bingpreview|facebookexternalhit|whatsapp|telegram|embedly|quora|pinterest|vkshare|redditbot|applebot|ia_archiver|lighthouse|headlesschrome/i;
+const CRAWLER = /bot|crawl|spider|slurp|bingpreview|facebookexternalhit|whatsapp|telegram|embedly|quora|pinterest|vkshare|redditbot|applebot|ia_archiver|lighthouse|headlesschrome|chatgpt-user|perplexity-user|claude-user|mistralai-user|google-extended|gemini|cohere-ai|youbot|duckassist|meta-external/i;
 
 export function isCrawler(userAgent: string | null): boolean {
   return !!userAgent && CRAWLER.test(userAgent);

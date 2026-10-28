@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { SolutionDetail, findSolution, getSolutions, solutionSlugs } from "@/modules/solutions";
-import { locales, type Locale } from "@/shared/i18n/locales";
+import { JsonLd, alternatesFor, breadcrumbNode, brand, jsonLdGraph, openGraphFor, serviceNode } from "@/modules/seo";
+import type { Locale } from "@/shared/i18n/locales";
 import { getPathname } from "@/shared/i18n/navigation";
 
 type Props = { params: Promise<{ locale: Locale; slug: string }> };
@@ -18,23 +19,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const item = findSolution(slug, locale);
   if (!item) return { title: detail.notFoundTitle };
 
-  const href = { pathname: "/solucoes/[slug]" as const, params: { slug: item.slug } };
-  const canonical = getPathname({ href, locale });
+  const alternates = alternatesFor({ pathname: "/solucoes/[slug]", params: { slug: item.slug } }, locale);
 
   return {
     title: item.name,
     description: item.metaDescription,
-    alternates: {
-      canonical,
-      languages: Object.fromEntries(locales.map((other) => [other, getPathname({ href, locale: other })])),
-    },
+    alternates,
     // Sem isto, as seis paginas herdavam o cartao de partilha da Home.
-    openGraph: {
+    openGraph: openGraphFor({
+      locale,
       title: detail.ogTitle.replace("{solution}", item.name),
       description: item.metaDescription,
-      url: canonical,
+      url: alternates.canonical,
       type: "article",
-    },
+    }),
   };
 }
 
@@ -43,5 +41,19 @@ export default async function SolutionPage({ params }: Props) {
   const item = findSolution(slug, locale);
   if (!item) notFound();
 
-  return <SolutionDetail item={item} />;
+  const path = getPathname({ href: { pathname: "/solucoes/[slug]", params: { slug: item.slug } }, locale });
+  const structuredData = jsonLdGraph([
+    serviceNode({ name: item.name, description: item.metaDescription, path }),
+    breadcrumbNode([
+      { name: brand.name, path: getPathname({ href: "/", locale }) },
+      { name: item.name, path },
+    ]),
+  ]);
+
+  return (
+    <>
+      <JsonLd data={structuredData} />
+      <SolutionDetail item={item} />
+    </>
+  );
 }

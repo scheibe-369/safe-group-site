@@ -3,7 +3,8 @@ main = ".open-next/worker.js"
 compatibility_date = "2026-08-24"
 compatibility_flags = ["nodejs_compat"]
 
-# Dominio de preview (a producao final aponta para safegroup.pt)
+# Dominio de preview, sempre com noindex. A producao e safegroupia.com,
+# publicada com wrangler.safegroupia.toml.
 routes = [
   { pattern = "safe.methodgrowthhub.com.br", custom_domain = true }
 ]
